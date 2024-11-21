@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Nuevo vehiculo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-item>
+    <ion-label position="floating">Placa</ion-label>
+    <ion-input type="text" [(ngModel)]="vehicle.placa"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Marca</ion-label>
+    <ion-input type="text" [(ngModel)]="vehicle.marca"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Fecha de Fabricacion</ion-label>
+    <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="vehicle.fecFabricacion"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Color</ion-label>
+    <ion-select [(ngModel)]="vehicle.color">
+      <ion-select-option value="blanco">Blanco</ion-select-option>
+      <ion-select-option value="negro">Negro</ion-select-option>
+      <ion-select-option value="azul">Azul</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Costo</ion-label>
+    <ion-input type="number" [(ngModel)]="vehicle.costo"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Activo</ion-label>
+    <ion-toggle [(ngModel)]="vehicle.activo"></ion-toggle>
+  </ion-item>
+  <ion-button expand="full" (click)="addVehicle()">Agregar Vehiculo</ion-button>
+</ion-content>
