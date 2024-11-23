@@ -25,7 +25,7 @@
       <ion-item *ngFor="let vehicle of vehicles">
         <ion-label>
           <h2>{{ vehicle.marca }} - {{vehicle.placa}}</h2>
-          <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date}}</p>
+          <p>{{ vehicle.color }} - {{vehicle.fecFabricacion| date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
         </ion-label>
       </ion-item>
     </ion-list>
