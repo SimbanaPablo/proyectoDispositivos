@@ -1,7 +1,8 @@
 {
   "name": "VehicleApp",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
