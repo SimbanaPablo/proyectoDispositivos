@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import * as CryptoJS from 'crypto-js';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -10,39 +10,26 @@ import * as CryptoJS from 'crypto-js';
 export class LoginPage {
   nombre: string | undefined;
   apellido: string | undefined;
-  datos: { nombre: string, apellido: string, hashedApellido: string }[] = [];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private usuarioService: UsuarioService) { }
 
   login() {
-    if (this.nombre && this.apellido) {
-      const hashedApellido = this.hashApellido(this.apellido);
+    if (this.nombre && this.apellido) { 
+      const hashedApellido = this.usuarioService['hashApellido'](this.apellido);
       console.log('Hashed Apellido:', hashedApellido);
-      
-      // Guardar los datos en el array
-      this.datos.push({ nombre: this.nombre, apellido: this.apellido, hashedApellido });
 
       // Verificar el hash del apellido
-      const isValid = this.verifyHash(this.apellido, hashedApellido);
+      const isValid = this.usuarioService.verificarUsuario(this.nombre, this.apellido, hashedApellido);
       if (isValid) {
         console.log('Hash verificado correctamente');
         this.router.navigate(['/vehicles']);
       } else {
-        alert('El hash del apellido no coincide');
+        alert('Las credenciales son incorrectas');
       }
 
     } else {
       alert('Por favor ingrese su nombre y apellido');
     }
-  }
-
-  hashApellido(apellido: string): string {
-    return CryptoJS.SHA256(apellido).toString(CryptoJS.enc.Hex);
-  }
-
-  verifyHash(apellido: string, hashedApellido: string): boolean {
-    const hash = this.hashApellido(apellido);
-    return hash === hashedApellido;
   }
 }
 

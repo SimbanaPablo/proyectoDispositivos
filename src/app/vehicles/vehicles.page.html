@@ -4,9 +4,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="light">
   
-  <ion-list>
+  <ion-list [inset]="true">
     <ion-item *ngFor="let vehicle of vehicles">
       <ion-label>
         <h2>{{ vehicle.marca }} - {{vehicle.placa}}</h2>

@@ -1,0 +1,21 @@
+ion-toolbar {
+    --background: #0a0092;
+    --color: white;
+  
+    --border-color: #505050;
+    --border-width: 4px 0;
+    --border-style: double;
+  
+    --min-height: 50px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+  }
+
+ion-fab-button {
+    --background: #0a0092;
+    --background-activated: #878cda;
+    --background-hover: #57539b;
+    --border-radius: 15px;
+    --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --color: white;
+  }
