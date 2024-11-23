@@ -15,15 +15,15 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./views/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'vehicles',
-    loadChildren: () => import('./vehicles/vehicles.module').then(m => m.VehiclesPageModule)
+    loadChildren: () => import('./views/vehicles/vehicles.module').then(m => m.VehiclesPageModule)
   },
   {
     path: 'new-vehicle',
-    loadChildren: () => import('./new-vehicle/new-vehicle.module').then(m => m.NewVehiclePageModule)
+    loadChildren: () => import('./views/new-vehicle/new-vehicle.module').then(m => m.NewVehiclePageModule)
   },
 ];
 

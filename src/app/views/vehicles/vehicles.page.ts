@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { VehicleService } from '../services/vehicle.service';
-import { Vehicle } from '../models/vehicle.model';
+import { VehicleService } from '../../services/vehicle.service';
+import { Vehicle } from '../../models/vehicle.model';
 
+//este es nuestro controlador de la vista vehicles
 @Component({
   selector: 'app-vehicles',
   templateUrl: './vehicles.page.html',

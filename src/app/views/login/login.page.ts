@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../services/usuario.service';
+import { UsuarioService } from '../../services/usuario.service';
 
+//este es nuestro controlador de la vista login
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
