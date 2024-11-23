@@ -1,4 +1,4 @@
-ion-toolbar {
+  ion-toolbar {
     --background: #0a0092;
     --color: white;
   
@@ -11,7 +11,7 @@ ion-toolbar {
     --padding-bottom: 20px;
   }
 
-ion-fab-button {
+  ion-fab-button {
     --background: #0a0092;
     --background-activated: #878cda;
     --background-hover: #57539b;
@@ -19,3 +19,25 @@ ion-fab-button {
     --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
     --color: white;
   }
+
+  ion-button {
+    --background: #fa4555;
+    --background-hover: #e09cab;
+    --background-activated: #f48888;
+    --background-focused: #f48896;
+  
+    --color: White;
+  
+    --border-radius: 5px;
+    --border-color: #000;
+    --border-style: solid;
+    --border-width: 1px;
+  
+    --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+  
+    --ripple-color: deeppink;
+  
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+  }
+
