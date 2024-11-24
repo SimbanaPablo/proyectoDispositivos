@@ -34,7 +34,9 @@ $button-border-radius: 20px;
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+/***************************************************************************************************/
 /* Estilos globales para el contenido de login */
+/***************************************************************************************************/
 .login-content {
   position: relative;
   height: 100%;
@@ -112,6 +114,7 @@ $button-border-radius: 20px;
   margin-bottom: 8px;
   color: #f44336; /* Color rojo para el mensaje de error */
 }
+
 
 /* Configuraciones globales para ion-toolbar */
 ion-toolbar {

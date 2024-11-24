@@ -75,4 +75,9 @@ export class NewVehiclePage {
       this.vehicle.color !== '' &&
       this.vehicle.costo > 0;
   }
+
+  // Método para regresar a la página anterior
+  goBack() {
+    this.router.navigate(['/vehicles']);
+  }
 }

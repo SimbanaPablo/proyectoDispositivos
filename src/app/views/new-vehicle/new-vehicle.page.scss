@@ -1,14 +1,67 @@
-.fechaEstilo{
-    --width: 90%; /* Ajusta el ancho, puede ser en % o px */
-    --height: 450px; /* Ajusta la altura */
-    --max-width: 400px; /* Ancho máximo */
-    --border-radius: 10px; /* Redondeo de bordes opcional */
-    --background: #ffffff; /* Fondo blanco */
-  }
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
 
-  .button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-  }
+.input-container {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.rounded-item {
+  --background: rgba(255, 255, 255, 0.2);
+  --padding: 10px;
+  --inner-border-width: 0px; /* Eliminar la línea al final de cada input */
+  --border: 1px solid #1719b1; /* Añadir borde a las cajas de input */
+  justify-content: center;
+  align-items: center;
+}
+
+.formularioVehiculoinp {
+  --background: rgba(255, 255, 255, 0.2);
+  --border-radius: 10px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  border: 1px solid #98c5ff; 
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.formularioVehiculo {
+  font-family: 'Arial', sans-serif; /* Cambiar la fuente del label */
+  margin-bottom: 10px; /* Añadir espacio entre el label y el input */
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 5px;
+  width: 100%; /* Asegurar que el contenedor del botón ocupe todo el ancho */
+}
+
+.rounded-button {
+  width: 100%;
+}
+
+.error-message {
+  font-size: 0.8rem;
+  padding-left: 16px;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  text-align: center;
+  width: 100%;
+}
+
+.modal-content {
+  --height: auto;
+  --max-height: 80%;
+  --min-height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
