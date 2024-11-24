@@ -1,22 +1,29 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="login-content" [fullscreen]="true">
+  <div class="background-image"></div>
+  <div class="login-container">
+    <ion-card class="glass-card">
+      <ion-card-content>
+        <h2 class="login-title">Login</h2>
+        <ion-item class="rounded-input">
+          <ion-label position="stacked">Usuario</ion-label>
+          <ion-input [(ngModel)]="usuario" placeholder="Enter Username" type="text"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="usuarioError" class="error-message">
+          Usuario es requerido.
+        </ion-text>
 
-<ion-content>
+        <ion-item class="rounded-input">
+          <ion-label position="stacked">Contrase&ntilde;a</ion-label>
+          <ion-input [(ngModel)]="contrasena" placeholder="Enter Password" type="password"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="contrasenaError" class="error-message">
+          Contrase&ntilde;a es requerida.
+        </ion-text>
 
-    <ion-item>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input [(ngModel)]="nombre"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Apellido</ion-label>
-      <ion-input [(ngModel)]="apellido"></ion-input>
-    </ion-item>
-
-    <ion-button expand="full" (click)="login()">Login</ion-button>
-
-  
+        <ion-button expand="full" shape="round" class="rounded-button" (click)="login()">Login</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
+
+

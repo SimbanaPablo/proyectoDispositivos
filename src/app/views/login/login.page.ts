@@ -2,36 +2,41 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 
-//este es nuestro controlador de la vista login
+// Este es nuestro controlador de la vista login
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  nombre: string | undefined;
-  apellido: string | undefined;
+  usuario: string | undefined;
+  contrasena: string | undefined;
+  usuarioError: boolean = false;
+  contrasenaError: boolean = false;
 
   constructor(private router: Router, private usuarioService: UsuarioService) { }
 
-  login() {
-    if (this.nombre && this.apellido) { 
-      const hashedApellido = this.usuarioService['hashApellido'](this.apellido);
-      console.log('Hashed Apellido:', hashedApellido);
+  validateForm() {
+    this.usuarioError = !this.usuario;
+    this.contrasenaError = !this.contrasena;
+  }
 
-      // Verificar el hash del apellido
-      const isValid = this.usuarioService.verificarUsuario(this.nombre, this.apellido, hashedApellido);
+  login() {
+    this.validateForm();
+    if (!this.usuarioError && !this.contrasenaError && this.usuario && this.contrasena) {
+      const hashContrasenia = this.usuarioService.hashContrasenia(this.contrasena);
+      console.log('Hashed Contraseña:', hashContrasenia);
+
+      // Verificar el hash de la contraseña
+      const isValid = this.usuarioService.verificarUsuario(this.usuario, this.contrasena);
       if (isValid) {
         console.log('Hash verificado correctamente');
         this.router.navigate(['/vehicles']);
       } else {
         alert('Las credenciales son incorrectas');
       }
-
     } else {
-      alert('Por favor ingrese su nombre y apellido');
+      this.validateForm();
     }
   }
 }
-
-//npm install crypto-js -> instalar para encriptar la contraseña

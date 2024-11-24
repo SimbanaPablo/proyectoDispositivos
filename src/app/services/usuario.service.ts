@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { Usuario } from '../models/usuario.model';
@@ -8,44 +9,44 @@ import { Usuario } from '../models/usuario.model';
 export class UsuarioService {
   private usuarios: Usuario[] = [
     {
-      nombreUsuario: 'Fátima',
-      apellido: 'Fiallos',
-      hashedApellido: this.hashApellido('Fiallos')
+      usuario: 'Fátima',
+      contrasenia: 'Fiallos',
+      hashContrasenia: this.hashContrasenia('Fiallos')
     }, 
     {
-        nombreUsuario: 'Leonardo',
-        apellido: 'Ramírez',
-        hashedApellido: this.hashApellido('Ramírez')
+      usuario: 'Leonardo',
+      contrasenia: 'Ramírez',
+      hashContrasenia: this.hashContrasenia('Ramírez')
     },
     {
-        nombreUsuario: 'Pablo',
-        apellido: 'Simbaña',
-        hashedApellido: this.hashApellido('Simbaña')
+      usuario: 'Pablo',
+      contrasenia: 'Simbaña',
+      hashContrasenia: this.hashContrasenia('Simbaña')
     },
     {
-        nombreUsuario: 'Edlith',
-        apellido: 'Vinueza',
-        hashedApellido: this.hashApellido('Vinueza')
+      usuario: 'Edlith',
+      contrasenia: 'Vinueza',
+      hashContrasenia: this.hashContrasenia('Vinueza')
     }
   ];
 
   constructor() { }
 
   // Metodo para crear nuevo usuario de momento no es necesario usarlo por los datos mokeados
-  agregarUsuario(nombre: string, apellido: string): void {
-    const hashedApellido = this.hashApellido(apellido);
-    this.usuarios.push({ nombreUsuario: nombre, apellido, hashedApellido });
+  agregarUsuario(usuario: string, contrasenia: string): void {
+    const hashedContrasenia = this.hashContrasenia(contrasenia);
+    this.usuarios.push({ usuario, contrasenia, hashContrasenia: hashedContrasenia });
   }
 
-  verificarUsuario(nombre: string, apellido: string, hashedApellido: string): boolean {
-    const hash = this.hashApellido(apellido);
-    return this.usuarios.some(usuario => 
-      usuario.nombreUsuario === nombre && 
-      usuario.hashedApellido === hash
+  verificarUsuario(usuario: string, contrasenia: string): boolean {
+    const hash = this.hashContrasenia(contrasenia);
+    return this.usuarios.some(u => 
+      u.usuario === usuario && 
+      u.hashContrasenia === hash
     );
   }
 
-  private hashApellido(apellido: string): string {
-    return CryptoJS.SHA256(apellido).toString(CryptoJS.enc.Hex);
+  public hashContrasenia(contrasenia: string): string {
+    return CryptoJS.SHA256(contrasenia).toString(CryptoJS.enc.Hex);
   }
 }
