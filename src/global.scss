@@ -1,13 +1,22 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+/* src/global.scss */
+
+/* Definición de variables */
+$gradient-background: linear-gradient(135deg, rgba(10, 0, 146, 0.7), rgba(87, 83, 155, 0.7));
+$background-image-url: url('/assets/img/img-tmp-2.jpeg');
+$color-white: white;
+$border-color: #505050;
+$border-width: 4px 0;
+$border-style: double;
+$box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+$border-radius: 5px;
+$padding: 10px;
+
+/* Variables para los colores de los botones */
+$button-background: #3880ff;
+$button-background-hover: #e09cab;
+$button-background-activated: #f48888;
+$button-background-focused: #f48896;
+$button-border-radius: 20px;
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
@@ -25,13 +34,135 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+/* Estilos globales para el contenido de login */
+.login-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #{$gradient-background}, 
+              #{$background-image-url} no-repeat center center/cover;
+}
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-/*@import "@ionic/angular/css/palettes/dark.system.css"; COLOR DEL SISTEMA*/
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #{$gradient-background}, 
+              #{$background-image-url} no-repeat center center/cover;
+  z-index: -1;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.glass-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.rounded-input {
+  --background: rgba(255, 255, 255, 0.2);
+  --border-radius: 20px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  margin-bottom: 15px;
+}
+
+.rounded-button {
+  --border-radius: #{$button-border-radius};
+  --background: #{$button-background};
+  --background-hover: #{$button-background-hover};
+  --background-activated: #{$button-background-activated};
+  --background-focused: #{$button-background-focused};
+  --color: #{$color-white};
+}
+
+.error-message {
+  font-size: 0.8rem;
+  padding-left: 16px;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  color: #f44336; /* Color rojo para el mensaje de error */
+}
+
+/* Configuraciones globales para ion-toolbar */
+ion-toolbar {
+  --background: #{$gradient-background};
+  --color: #{$color-white};
+  --border-color: #{$border-color};
+  --border-width: #{$border-width};
+  --border-style: #{$border-style};
+  --min-height: 50px;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+}
+
+/* Configuraciones globales para ion-fab-button */
+ion-fab-button {
+  --background: #{$gradient-background};
+  --background-activated: #878cda;
+  --background-hover: #57539b;
+  --border-radius: 15px;
+  --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --color: #{$color-white};
+}
+
+/* Configuraciones globales para ion-button */
+ion-button {
+  --background: #{$button-background};
+  --background-hover: #{$button-background-hover};
+  --background-activated: #{$button-background-activated};
+  --background-focused: #{$button-background-focused};
+  --color: #{$color-white};
+  --border-radius: #{$button-border-radius};
+  --border-color: #000;
+  --border-style: solid;
+  --border-width: 1px;
+  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
+  --ripple-color: deeppink;
+  --padding-top: #{$padding};
+  --padding-bottom: #{$padding};
+}
+
+/* Configuraciones globales para ion-input */
+ion-input {
+  --background: rgba(255, 255, 255, 0.2);
+  --border-radius: #{$border-radius};
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
+
+/* Configuraciones globales para ion-modal */
+ion-modal {
+  --background: rgba(255, 255, 255, 0.9);
+  --border-radius: 10px;
+  --box-shadow: #{$box-shadow};
+}

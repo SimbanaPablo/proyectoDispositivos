@@ -11,27 +11,24 @@
     <ion-label class="formularioVehiculo" position="stacked">Placa</ion-label>
     <ion-input class="formularioVehiculoinp" type="text" [(ngModel)]="vehicle.placa"
       placeholder="Ingrese la placa del vehículo: ABC-123" required></ion-input>
-    <ion-note *ngIf="vehicle.placa === ''" color="danger">La placa es obligatoria.</ion-note>
+    <ion-note *ngIf="isFormSubmitted && vehicle.placa === ''" color="danger" class="error-message">La placa es obligatoria.</ion-note>
   </ion-item>
-
 
   <!-- Marca -->
   <ion-item>
     <ion-label class="formularioVehiculo" position="stacked">Marca</ion-label>
     <ion-input class="formularioVehiculoinp" type="text" [(ngModel)]="vehicle.marca"
       placeholder="Ingrese la marca del vehículo: Audi" required></ion-input>
-    <ion-note *ngIf="vehicle.marca === ''" color="danger">La marca es obligatoria.</ion-note>
+    <ion-note *ngIf="isFormSubmitted && vehicle.marca === ''" color="danger" class="error-message">La marca es obligatoria.</ion-note>
   </ion-item>
 
-
-  <!-- Fecha de  fabricación-->
+  <!-- Fecha de fabricación -->
   <ion-item>
     <ion-label class="formularioVehiculo" position="stacked">Fecha de Fabricación</ion-label>
     <ion-input [value]="vehicle.fecFabricacion | date: 'yyyy-MM-dd'" readonly (click)="openCalendarModal()"
       placeholder="Ingrese la fecha de fabricación del vehículo: yyyy-MM-dd" required>
     </ion-input>
-    <ion-note *ngIf="vehicle.fecFabricacion === ''" color="danger">La fecha de fabricación es obligatoria.</ion-note>
-
+    <ion-note *ngIf="isFormSubmitted && vehicle.fecFabricacion === ''" color="danger" class="error-message">La fecha de fabricación es obligatoria.</ion-note>
   </ion-item>
 
   <ion-modal class="fechaEstilo" [isOpen]="isModalOpen" (didDismiss)="closeCalendarModal()">
@@ -60,7 +57,6 @@
     </ng-template>
   </ion-modal>
 
-
   <!-- Color -->
   <ion-item>
     <ion-label class="formularioVehiculo" position="stacked">Color</ion-label>
@@ -69,9 +65,8 @@
       <ion-select-option value="negro">Negro</ion-select-option>
       <ion-select-option value="azul">Azul</ion-select-option>
     </ion-select>
-    <ion-note *ngIf="vehicle.color === ''" color="danger">El color es obligatorio.</ion-note>
+    <ion-note *ngIf="isFormSubmitted && vehicle.color === ''" color="danger" class="error-message">El color es obligatorio.</ion-note>
   </ion-item>
-
 
   <!-- Costo -->
   <ion-item>
@@ -79,11 +74,10 @@
     <ion-input class="formularioVehiculoinp" type="number" [(ngModel)]="vehicle.costo"
       placeholder="Ingrese el costo del vehículo: 99999" required>
     </ion-input>
-    <ion-note *ngIf="vehicle.costo <= 0" color="danger">
+    <ion-note *ngIf="isFormSubmitted && vehicle.costo <= 0" color="danger" class="error-message">
       El costo es obligatorio y debe ser mayor que 0.
     </ion-note>
   </ion-item>
-
 
   <!-- Estado del vehículo -->
   <ion-item>
@@ -92,5 +86,7 @@
       }}</ion-toggle>
   </ion-item>
 
-  <ion-button expand="full" (click)="addVehicle()" [disabled]="!isFormValid()">Agregar Vehiculo</ion-button>
+  <div class="button-container">
+  <ion-button class="rounded-button" (click)="addVehicle()">Agregar Vehiculo</ion-button>
+</div>
 </ion-content>

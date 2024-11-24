@@ -1,25 +1,4 @@
-.login-content {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, rgba(10, 0, 146, 0.7), rgba(87, 83, 155, 0.7)), 
-                url('../../../assets/img/img-tmp-2.jpeg') no-repeat center center/cover;
-  }
-  
-  .background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(10, 0, 146, 0.7), rgba(87, 83, 155, 0.7)), 
-                url('../../../assets/img/img-tmp-2.jpeg') no-repeat center center/cover;
-    z-index: -1;
-  }
-  
+
   .login-container {
     display: flex;
     justify-content: center;
@@ -59,16 +38,5 @@
     margin-bottom: 15px;
   }
   
-  .rounded-button {
-    --border-radius: 20px;
-    --background: #3880ff;
-    --color: #ffffff;
-  }
-  
-  .error-message {
-    font-size: 0.8rem;
-    padding-left: 16px;
-    margin-top: -8px;
-    margin-bottom: 8px;
-  }
+
   

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
 
-//este es nuestro controlador de la vista new-vehicle
+// Este es nuestro controlador de la vista new-vehicle
 @Component({
   selector: 'app-new-vehicle',
   templateUrl: './new-vehicle.page.html',
@@ -12,10 +12,11 @@ import { Vehicle } from '../../models/vehicle.model';
 export class NewVehiclePage {
   isModalOpen = false;
   tempDate: string | null = null; // Temporal para el modal
+  isFormSubmitted = false; // Variable para rastrear si se ha intentado enviar el formulario
   vehicle: Vehicle = {
     placa: '',
     marca: '',
-    fecFabricacion: '',// Fecha final en el formulario
+    fecFabricacion: '', // Fecha final en el formulario
     color: '',
     costo: 0,
     activo: true
@@ -24,8 +25,11 @@ export class NewVehiclePage {
   constructor(private vehicleService: VehicleService, private router: Router) { }
 
   addVehicle() {
-    this.vehicleService.addVehicle(this.vehicle);
-    this.router.navigate(['/vehicles'])
+    this.isFormSubmitted = true; // Marcar el formulario como enviado
+    if (this.isFormValid()) {
+      this.vehicleService.addVehicle(this.vehicle);
+      this.router.navigate(['/vehicles']);
+    }
   }
 
   // Abrir el modal
@@ -45,6 +49,7 @@ export class NewVehiclePage {
     }
     this.closeCalendarModal(); // Cerrar modal
   }
+
   // Método para reiniciar el formulario
   resetForm() {
     this.vehicle = {
@@ -55,12 +60,14 @@ export class NewVehiclePage {
       costo: 0,
       activo: true
     };
+    this.isFormSubmitted = false; // Reiniciar el estado del formulario
   }
 
-  //Manejar cambios en el switch
+  // Manejar cambios en el switch
   onToggleChange() {
     console.log('Estado del vehículo:', this.vehicle.activo ? 'Activo' : 'Inactivo');
   }
+
   isFormValid() {
     return this.vehicle.placa !== '' &&
       this.vehicle.marca !== '' &&
@@ -68,6 +75,4 @@ export class NewVehiclePage {
       this.vehicle.color !== '' &&
       this.vehicle.costo > 0;
   }
-
-
 }

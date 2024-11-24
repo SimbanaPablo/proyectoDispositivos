@@ -1,43 +1,14 @@
-ion-toggle {
-    --handle-background: #878cda; /* No activo */
-    --handle-background-checked: #0a0092; /* Activo*/
-    --track-background: #c1c4e2; /*fondo no activo*/
-    --track-background-checked: #504ba1; /*fondo activo*/
-}
-.formularioVehiculo{
-    font-weight: bold;
-    font-size: 1.3em;
-}
-.formularioVehiculoinp{
-    border: none;
-    border-bottom: 1px solid #504ba1;
-}
-
-ion-toolbar {
-    --background: #0a0092;
-    --color: white;
-  
-    --border-color: #505050;
-    --border-width: 4px 0;
-    --border-style: double;
-  
-    --min-height: 50px;
-    --padding-top: 20px;
-    --padding-bottom: 20px;
-  }
-  ion-button {
-    --background: #0a0092;
-    --background-activated: #878cda;
-    --background-hover: #57539b;
-    --border-radius: 15px;
-    --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-    --color: white;
-    /*text-transform: none;*/
-  }
-  .fechaEstilo{
+.fechaEstilo{
     --width: 90%; /* Ajusta el ancho, puede ser en % o px */
     --height: 450px; /* Ajusta la altura */
     --max-width: 400px; /* Ancho máximo */
     --border-radius: 10px; /* Redondeo de bordes opcional */
     --background: #ffffff; /* Fondo blanco */
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
   }
