@@ -59,61 +59,7 @@ $button-border-radius: 20px;
   z-index: -1;
 }
 
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 
-.glass-card {
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.login-title {
-  text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #ffffff;
-}
-
-.rounded-input {
-  --background: rgba(255, 255, 255, 0.2);
-  --border-radius: 20px;
-  --padding-start: 10px;
-  --padding-end: 10px;
-  margin-bottom: 15px;
-}
-
-.rounded-button {
-  --border-radius: #{$button-border-radius};
-  --background: #{$button-background};
-  --background-hover: #{$button-background-hover};
-  --background-activated: #{$button-background-activated};
-  --background-focused: #{$button-background-focused};
-  --color: #{$color-white};
-}
-
-.error-message {
-  font-size: 0.8rem;
-  padding-left: 16px;
-  margin-top: -8px;
-  margin-bottom: 8px;
-  color: #f44336; /* Color rojo para el mensaje de error */
-}
 
 
 /* Configuraciones globales para ion-toolbar */
@@ -168,4 +114,13 @@ ion-modal {
   --background: rgba(255, 255, 255, 0.9);
   --border-radius: 10px;
   --box-shadow: #{$box-shadow};
+}
+
+/* Configuraciones globales para ion-card */
+ion-card {
+  border: 1px solid #2a11eb; /* Contorno de la carta */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para darle un efecto de elevación */
+  background:  #{$gradient-background};
+  color: #fff; /* Color del texto para contraste */
 }

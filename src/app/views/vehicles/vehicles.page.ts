@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
+import { UsuarioService } from '../../services/usuario.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
 
@@ -11,15 +12,16 @@ import { Platform, ToastController } from '@ionic/angular';
 })
 export class VehiclesPage implements OnInit {
   vehicles: Vehicle[] | undefined;
+  user: { nombre: string, apellido: string, imagen: string } | undefined;
 
   constructor(
     private vehicleService: VehicleService,
+    private usuarioService: UsuarioService,
     private router: Router,
     private platform: Platform,
     private toastController: ToastController
   ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
-      // Evitar que el botón de regresar cierre la aplicación
       if (this.router.url === '/vehicles') {
         console.log('Botón de regresar presionado');
         this.presentToast('Por favor, use el botón "Cerrar Sesión" para salir.');
@@ -30,6 +32,14 @@ export class VehiclesPage implements OnInit {
 
   ngOnInit() {
     this.vehicles = this.vehicleService.getVehicles();
+    this.loadUserData();
+  }
+
+  loadUserData() {
+    const usuarioAutenticado = this.usuarioService.obtenerUsuarioAutenticado();
+    if (usuarioAutenticado) {
+      this.user = { nombre: usuarioAutenticado.nombre, apellido: usuarioAutenticado.apellido, imagen: usuarioAutenticado.imagen };
+    }
   }
 
   goToNewVehicle() {
@@ -37,9 +47,8 @@ export class VehiclesPage implements OnInit {
   }
 
   logout() {
-    // Aquí puedes agregar la lógica para cerrar sesión, por ejemplo, limpiar el almacenamiento local
     console.log('Cerrar sesión');
-    // localStorage.removeItem('userToken'); // Elimina el almacenamiento local
+    this.usuarioService.cerrarSesion();
     this.router.navigate(['/login']);
   }
 

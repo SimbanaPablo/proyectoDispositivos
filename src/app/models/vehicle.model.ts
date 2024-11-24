@@ -3,6 +3,6 @@ export interface Vehicle {
     marca: string;
     fecFabricacion: string;
     color: 'blanco' | 'negro' | 'azul' | '';
-    costo: number;
+    costo: number|null;
     activo: boolean;
 }

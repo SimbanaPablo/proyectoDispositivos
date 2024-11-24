@@ -1,13 +1,21 @@
 <ion-menu contentId="main-content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menú</ion-title>
+      <ion-title>Men&uacute;</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <ion-button (click)="logout()">
-      Cerrar Sesión
-    </ion-button>
+    <div class="user-info">
+      <ion-avatar>
+        <img [src]="user?.imagen" alt="Imagen de usuario">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ user?.nombre }} {{ user?.apellido }}</h2>
+      </ion-label>
+      <ion-button (click)="logout()">
+        Cerrar Sesión
+      </ion-button>
+    </div>
   </ion-content>
 </ion-menu>
 
@@ -17,23 +25,25 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title>Vehículos</ion-title>
+      <ion-title>Veh&iacute;culo</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <ion-list [inset]="true">
-      <ion-item *ngFor="let vehicle of vehicles">
-        <ion-label>
-          <h2>{{ vehicle.marca }} - {{vehicle.placa}}</h2>
-          <p>{{ vehicle.color }} - {{vehicle.fecFabricacion| date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-   
-    <ion-fab vertical="bottom" horizontal="end"  slot="fixed">
-      <ion-fab-button (click)="goToNewVehicle()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+    <div class="card-container">
+      <ion-card *ngFor="let vehicle of vehicles">
+        <ion-card-header>
+          <ion-card-title>{{ vehicle.marca }} - {{vehicle.placa}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </ion-content>
+   
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="goToNewVehicle()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </div>

@@ -1,5 +1,8 @@
 export interface Usuario {
-    usuario : string;
-    contrasenia : string;
-    hashContrasenia : string;
-}
+    usuario: string;
+    nombre: string;
+    apellido: string;
+    contrasenia: string;
+    hashContrasenia: string;
+    imagen: string;
+  }

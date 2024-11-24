@@ -18,7 +18,7 @@ export class NewVehiclePage {
     marca: '',
     fecFabricacion: '', // Fecha final en el formulario
     color: '',
-    costo: 0,
+    costo: null, // Inicializa como null para que el placeholder se muestre
     activo: true
   };
 
@@ -57,7 +57,7 @@ export class NewVehiclePage {
       marca: '',
       fecFabricacion: '',
       color: '',
-      costo: 0,
+      costo: null, // Inicializa como null para que el placeholder se muestre
       activo: true
     };
     this.isFormSubmitted = false; // Reiniciar el estado del formulario
@@ -73,7 +73,7 @@ export class NewVehiclePage {
       this.vehicle.marca !== '' &&
       this.vehicle.fecFabricacion !== '' &&
       this.vehicle.color !== '' &&
-      this.vehicle.costo > 0;
+      this.vehicle.costo !== null && this.vehicle.costo > 0;
   }
 
   // Método para regresar a la página anterior

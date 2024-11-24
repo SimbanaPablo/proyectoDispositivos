@@ -57,11 +57,17 @@
 }
 
 .modal-content {
-  --height: auto;
-  --max-height: 80%;
-  --min-height: 50%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 5px; /* Centra el modal verticalmente */
+  padding-top: 10%;
+}
+
+.date-picker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+ 
 }

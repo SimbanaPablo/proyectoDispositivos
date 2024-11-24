@@ -13,6 +13,7 @@ export class LoginPage {
   contrasena: string | undefined;
   usuarioError: boolean = false;
   contrasenaError: boolean = false;
+  showPassword: boolean = false; // Variable para controlar la visibilidad de la contraseña
 
   constructor(private router: Router, private usuarioService: UsuarioService) { }
 
@@ -38,5 +39,9 @@ export class LoginPage {
     } else {
       this.validateForm();
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword; // Alternar la visibilidad de la contraseña
   }
 }
