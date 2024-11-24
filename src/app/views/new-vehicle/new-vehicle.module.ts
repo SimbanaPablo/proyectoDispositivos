@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { NewVehiclePageRoutingModule } from './new-vehicle-routing.module';
 
-import { NewVehiclePage } from './new-vehicle.page';
+import { NewVehiclePage } from '../../controllers/new-vehicle/new-vehicle.page';
 
 @NgModule({
   imports: [

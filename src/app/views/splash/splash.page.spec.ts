@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SplashPage } from './splash.page';
+import { SplashPage } from '../../controllers/splash/splash.page';
 
 describe('SplashPage', () => {
   let component: SplashPage;

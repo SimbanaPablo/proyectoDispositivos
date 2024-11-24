@@ -7,8 +7,8 @@ import { Platform, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-vehicles',
-  templateUrl: './vehicles.page.html',
-  styleUrls: ['./vehicles.page.scss'],
+  templateUrl: '../../views/vehicles/vehicles.page.html',
+  styleUrls: ['../../views/vehicles/vehicles.page.scss'],
 })
 export class VehiclesPage implements OnInit {
   vehicles: Vehicle[] | undefined;

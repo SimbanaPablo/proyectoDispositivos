@@ -6,8 +6,8 @@ import { Vehicle } from '../../models/vehicle.model';
 // Este es nuestro controlador de la vista new-vehicle
 @Component({
   selector: 'app-new-vehicle',
-  templateUrl: './new-vehicle.page.html',
-  styleUrls: ['./new-vehicle.page.scss'],
+  templateUrl: '../../views/new-vehicle/new-vehicle.page.html',
+  styleUrls: ['../../views/new-vehicle/new-vehicle.page.scss'],
 })
 export class NewVehiclePage {
   isModalOpen = false;

@@ -5,8 +5,8 @@ import { UsuarioService } from '../../services/usuario.service';
 // Este es nuestro controlador de la vista login
 @Component({
   selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  templateUrl: '../../views/login/login.page.html', // Actualiza la ruta según la nueva ubicación
+  styleUrls: ['../../views/login/login.page.scss'], // Actualiza la ruta según la nueva ubicación
 })
 export class LoginPage {
   usuario: string | undefined;
