@@ -1,18 +1,17 @@
 /* src/global.scss */
 
 /* Definición de variables */
-$gradient-background: linear-gradient(135deg, rgba(10, 0, 146, 0.7), rgba(87, 83, 155, 0.7));
-$background-image-url: url('/assets/img/img-tmp-2.jpeg');
+$gradient-background: linear-gradient(125deg, #241570, #1E456E, #316195, #52B2C0, #52B2C0);
+$button-gradient-background: linear-gradient(135deg, #316195, #52B2C0); /* Nuevo gradiente para los botones */
 $color-white: white;
 $border-color: #505050;
 $border-width: 4px 0;
-$border-style: double;
 $box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 $border-radius: 5px;
 $padding: 10px;
 
 /* Variables para los colores de los botones */
-$button-background: #3880ff;
+$button-background: #241570;
 $button-background-hover: #e09cab;
 $button-background-activated: #f48888;
 $button-background-focused: #f48896;
@@ -37,38 +36,11 @@ $button-border-radius: 20px;
 /***************************************************************************************************/
 /* Estilos globales para el contenido de login */
 /***************************************************************************************************/
-.login-content {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #{$gradient-background}, 
-              #{$background-image-url} no-repeat center center/cover;
-}
-
-.background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #{$gradient-background}, 
-              #{$background-image-url} no-repeat center center/cover;
-  z-index: -1;
-}
-
-
-
 
 /* Configuraciones globales para ion-toolbar */
 ion-toolbar {
   --background: #{$gradient-background};
   --color: #{$color-white};
-  --border-color: #{$border-color};
-  --border-width: #{$border-width};
-  --border-style: #{$border-style};
   --min-height: 50px;
   --padding-top: 20px;
   --padding-bottom: 20px;
@@ -86,14 +58,13 @@ ion-fab-button {
 
 /* Configuraciones globales para ion-button */
 ion-button {
-  --background: #{$button-background};
+  --background: #{$button-gradient-background}; /* Aplica el nuevo gradiente */
   --background-hover: #{$button-background-hover};
   --background-activated: #{$button-background-activated};
   --background-focused: #{$button-background-focused};
   --color: #{$color-white};
   --border-radius: #{$button-border-radius};
   --border-color: #000;
-  --border-style: solid;
   --border-width: 1px;
   --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.25);
   --ripple-color: deeppink;
@@ -121,6 +92,5 @@ ion-card {
   border: 1px solid #2a11eb; /* Contorno de la carta */
   border-radius: 8px; /* Bordes redondeados */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para darle un efecto de elevación */
-  background:  #{$gradient-background};
-  color: #fff; /* Color del texto para contraste */
+  color: #000000; /* Color del texto para contraste */
 }
