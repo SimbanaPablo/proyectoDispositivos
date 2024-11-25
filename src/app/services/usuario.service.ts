@@ -45,11 +45,13 @@ export class UsuarioService {
 
   constructor() { }
 
+  // Crear un nuevo usuario
   agregarUsuario(usuario: string, nombre: string, apellido: string, contrasenia: string, imagen: string): void {
     const hashedContrasenia = this.hashContrasenia(contrasenia);
     this.usuarios.push({ usuario, nombre, apellido, contrasenia, hashContrasenia: hashedContrasenia, imagen });
   }
 
+  // Verificar si el usuario y la contraseña son correctos
   verificarUsuario(usuario: string, contrasenia: string): boolean {
     const hash = this.hashContrasenia(contrasenia);
     const usuarioEncontrado = this.usuarios.find(u => 
@@ -63,6 +65,7 @@ export class UsuarioService {
     return false;
   }
 
+  // Obtener el usuario autenticado y existente
   obtenerUsuarioAutenticado(): Usuario | null {
     return this.usuarioAutenticado;
   }
@@ -71,6 +74,7 @@ export class UsuarioService {
     this.usuarioAutenticado = null;
   }
 
+  // Método para encriptar la contraseña usando la librearía crypto-js de JavaScript "npm install crypto-js"
   public hashContrasenia(contrasenia: string): string {
     return CryptoJS.SHA256(contrasenia).toString(CryptoJS.enc.Hex);
   }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
+import { ToastController } from '@ionic/angular';
 
 // Este es nuestro controlador de la vista new-vehicle
 @Component({
@@ -22,14 +23,29 @@ export class NewVehiclePage {
     activo: true
   };
 
-  constructor(private vehicleService: VehicleService, private router: Router) { }
+  constructor(
+    private vehicleService: VehicleService,
+    private router: Router,
+    private toastController: ToastController
+  ) { }
 
-  addVehicle() {
+  async addVehicle() {
     this.isFormSubmitted = true; // Marcar el formulario como enviado
     if (this.isFormValid()) {
       this.vehicleService.addVehicle(this.vehicle);
+      await this.presentToast('Vehículo añadido con éxito');
       this.router.navigate(['/vehicles']);
     }
+  }
+
+  // Método para mostrar el toast
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 
   // Abrir el modal

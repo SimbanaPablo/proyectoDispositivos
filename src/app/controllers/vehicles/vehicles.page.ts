@@ -24,8 +24,8 @@ export class VehiclesPage implements OnInit {
     this.platform.backButton.subscribeWithPriority(10, () => {
       if (this.router.url === '/vehicles') {
         console.log('Botón de regresar presionado');
+        // Evita que el usuario regrese a la página de inicio cuando se presiona el botón de regresar del celular
         this.presentToast('Por favor, use el botón "Cerrar Sesión" para salir.');
-        this.router.navigate(['/login']);
       }
     });
   }
@@ -49,9 +49,11 @@ export class VehiclesPage implements OnInit {
   logout() {
     console.log('Cerrar sesión');
     this.usuarioService.cerrarSesion();
+    this.presentToast('Se cerró la sesión correctamente.');	
     this.router.navigate(['/login']);
   }
 
+  // Configuración del Toast (Mensajes a pantalla para móvil)
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,
