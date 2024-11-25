@@ -9,7 +9,7 @@ const routes: Routes = [
     component: NewVehiclePage
   }
 ];
-
+//Exporta el módulo para que pueda ser utilizado por otros módulos de la aplicación.
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

@@ -28,7 +28,7 @@ export class NewVehiclePage {
     private router: Router,
     private toastController: ToastController
   ) { }
-
+//Metodo para agregar un vehículo
   async addVehicle() {
     this.isFormSubmitted = true; // Marcar el formulario como enviado
     if (this.isFormValid()) {
