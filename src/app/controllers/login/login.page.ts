@@ -27,7 +27,7 @@ export class LoginPage {
     this.usuarioError = !this.usuario;
     this.contrasenaError = !this.contrasena;
   }
-
+//Valida que las credenciales sean correctas
   login() {
     this.validateForm();
     if (!this.usuarioError && !this.contrasenaError && this.usuario && this.contrasena) {

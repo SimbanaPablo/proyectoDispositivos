@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from '../../controllers/login/login.page';
-
+//Configuración para el enrutamiento de la vista Login
 @NgModule({
   imports: [
     CommonModule,

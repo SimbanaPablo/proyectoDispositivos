@@ -5,6 +5,7 @@ import { Usuario } from '../models/usuario.model';
 @Injectable({
   providedIn: 'root'
 })
+//Credenciales de todos los integrantes del equipo
 export class UsuarioService {
   private usuarios: Usuario[] = [
     {

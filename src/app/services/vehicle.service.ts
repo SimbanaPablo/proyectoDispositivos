@@ -4,6 +4,7 @@ import { Vehicle } from '../models/vehicle.model';
     providedIn: "root"
 })
 export class VehicleService {
+    //Array con todos los posibles vehículos en el sistema
     private vehicles: Vehicle[] = [
         {
             placa: 'ABC-1235', 

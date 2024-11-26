@@ -16,7 +16,7 @@ export class AppComponent {
   ) {
     this.initializeApp();
   }
-
+//Se identifica si la aplicación se ejecuta en un dispositivo móvil o en un navegador.
   initializeApp() {
     this.platform.ready().then(() => {
       if (this.platform.is('cordova') || this.platform.is('capacitor')) {

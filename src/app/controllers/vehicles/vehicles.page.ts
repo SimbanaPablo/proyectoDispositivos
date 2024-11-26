@@ -21,6 +21,7 @@ export class VehiclesPage implements OnInit {
     private platform: Platform,
     private toastController: ToastController
   ) {
+    //Manejo de botones regresar y cerrar sesión
     this.platform.backButton.subscribeWithPriority(10, () => {
       if (this.router.url === '/vehicles') {
         console.log('Botón de regresar presionado');
@@ -29,19 +30,19 @@ export class VehiclesPage implements OnInit {
       }
     });
   }
-
+//Enlista los vehículos en el sistema
   ngOnInit() {
     this.vehicles = this.vehicleService.getVehicles();
     this.loadUserData();
   }
-
+//Visualizar la información del usuario
   loadUserData() {
     const usuarioAutenticado = this.usuarioService.obtenerUsuarioAutenticado();
     if (usuarioAutenticado) {
       this.user = { nombre: usuarioAutenticado.nombre, apellido: usuarioAutenticado.apellido, imagen: usuarioAutenticado.imagen };
     }
   }
-
+//Redirecciona a la vista para agregar un nuevo vehículo
   goToNewVehicle() {
     this.router.navigate(['/new-vehicle']);
   }

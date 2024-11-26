@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+//configuración de las rutas de la APP
 const routes: Routes = [
   {
     path: '',
