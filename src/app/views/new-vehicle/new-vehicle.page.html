@@ -58,7 +58,7 @@
         <ion-content class="modal-content">
           <!-- Selector de Fecha -->
           <div class="date-picker-container">
-            <ion-datetime [(ngModel)]="tempDate" presentation="date">
+            <ion-datetime [(ngModel)]="tempDate" [max]="yesterday" presentation="date">
             </ion-datetime>
           </div>
           <!-- Botón Aceptar -->

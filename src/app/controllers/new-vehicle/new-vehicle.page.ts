@@ -13,7 +13,9 @@ import { ToastController } from '@ionic/angular';
 export class NewVehiclePage {
   isModalOpen = false;
   tempDate: string | null = null; // Temporal para el modal
-  isFormSubmitted = false; // Variable para rastrear si se ha intentado enviar el formulario
+  isFormSubmitted = false; // Variable para rastrear si se ha intentado enviar el formulario 
+  today: string = new Date().toISOString().split('T')[0]; // Fecha actual en formato ISO
+  yesterday: string = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
   vehicle: Vehicle = {
     placa: '',
     marca: '',
@@ -59,7 +61,7 @@ export class NewVehiclePage {
     this.isModalOpen = false;
   }
 
-  // Confirmar la fecha seleccionada
+  // Método para aceptar la fecha seleccionada
   acceptDate() {
     if (this.tempDate) {
       this.vehicle.fecFabricacion = this.tempDate; // Guardar fecha seleccionada
