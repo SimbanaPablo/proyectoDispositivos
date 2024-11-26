@@ -6,7 +6,7 @@ import { UsuarioService } from '../../services/usuario.service';
 @Component({
   selector: 'app-login',
   templateUrl: '../../views/login/login.page.html', // Actualiza la ruta según la nueva ubicación
-  styleUrls: ['../../views/login/login.page.scss'], // Actualiza la ruta según la nueva ubicación
+  styleUrls: ['../../views/login/login.page.scss'],
 })
 export class LoginPage {
   usuario: string | undefined;
@@ -17,6 +17,12 @@ export class LoginPage {
 
   constructor(private router: Router, private usuarioService: UsuarioService) { }
 
+  ngOnInit() {
+    // Limpiar los campos de entrada cuando la página se carga
+    this.usuario = '';
+    this.contrasena = '';
+  }
+  
   validateForm() {
     this.usuarioError = !this.usuario;
     this.contrasenaError = !this.contrasena;
@@ -26,7 +32,7 @@ export class LoginPage {
     this.validateForm();
     if (!this.usuarioError && !this.contrasenaError && this.usuario && this.contrasena) {
       const hashContrasenia = this.usuarioService.hashContrasenia(this.contrasena);
-      console.log('Hashed Contraseña:', hashContrasenia);
+      console.log('Hashed Contraseña:', hashContrasenia); // El dato que ingresa el usuario se convierte en un hash
 
       // Verificar el hash de la contraseña
       const isValid = this.usuarioService.verificarUsuario(this.usuario, this.contrasena);

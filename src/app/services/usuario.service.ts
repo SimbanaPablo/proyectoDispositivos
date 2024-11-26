@@ -11,32 +11,28 @@ export class UsuarioService {
       usuario: 'fatima',
       nombre: 'Fátima',
       apellido: 'Fiallos',
-      contrasenia: 'Fiallos',
-      hashContrasenia: this.hashContrasenia('Fiallos'),
+      contrasenia: this.hashContrasenia('Fiallos'),
       imagen: 'assets/img/p-1.png'
     }, 
     {
       usuario: 'leonardo',
       nombre: 'Leonardo',
       apellido: 'Ramírez',
-      contrasenia: 'Ramírez',
-      hashContrasenia: this.hashContrasenia('Ramírez'),
+      contrasenia: this.hashContrasenia('Ramírez'),
       imagen: 'assets/img/p-2.png'
     },
     {
       usuario: 'pablo',
       nombre: 'Pablo',
       apellido: 'Simbaña',
-      contrasenia: 'Simbaña',
-      hashContrasenia: this.hashContrasenia('Simbaña'),
+      contrasenia: this.hashContrasenia('Simbaña'),
       imagen: 'assets/img/p-3.png'
     },
     {
       usuario: 'edlith',
       nombre: 'Edlith',
       apellido: 'Vinueza',
-      contrasenia: 'Vinueza',
-      hashContrasenia: this.hashContrasenia('Vinueza'),
+      contrasenia: this.hashContrasenia('Vinueza'),
       imagen: 'assets/img/p-4.png'
     }
   ];
@@ -48,7 +44,7 @@ export class UsuarioService {
   // Crear un nuevo usuario
   agregarUsuario(usuario: string, nombre: string, apellido: string, contrasenia: string, imagen: string): void {
     const hashedContrasenia = this.hashContrasenia(contrasenia);
-    this.usuarios.push({ usuario, nombre, apellido, contrasenia, hashContrasenia: hashedContrasenia, imagen });
+    this.usuarios.push({ usuario, nombre, apellido, contrasenia: hashedContrasenia, imagen });
   }
 
   // Verificar si el usuario y la contraseña son correctos
@@ -56,7 +52,7 @@ export class UsuarioService {
     const hash = this.hashContrasenia(contrasenia);
     const usuarioEncontrado = this.usuarios.find(u => 
       u.usuario === usuario && 
-      u.hashContrasenia === hash
+      u.contrasenia === hash
     );
     if (usuarioEncontrado) {
       this.usuarioAutenticado = usuarioEncontrado;
@@ -70,6 +66,7 @@ export class UsuarioService {
     return this.usuarioAutenticado;
   }
 
+  // Maneja el cierre de sesión del usuario autenticado
   cerrarSesion(): void {
     this.usuarioAutenticado = null;
   }

@@ -49,6 +49,11 @@ export class VehiclesPage implements OnInit {
   logout() {
     console.log('Cerrar sesión');
     this.usuarioService.cerrarSesion();
+
+    // Limpiar el almacenamiento local y de sesión
+    localStorage.clear();
+    sessionStorage.clear();
+
     this.presentToast('Se cerró la sesión correctamente.');	
     this.router.navigate(['/login']);
   }
@@ -58,7 +63,7 @@ export class VehiclesPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,
-      position: 'bottom'
+      position: 'middle'
     });
     toast.present();
   }

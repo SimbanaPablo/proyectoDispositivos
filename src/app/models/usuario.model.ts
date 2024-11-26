@@ -3,6 +3,5 @@ export interface Usuario {
     nombre: string;
     apellido: string;
     contrasenia: string;
-    hashContrasenia: string;
     imagen: string;
   }
