@@ -43,7 +43,8 @@ export class NewVehiclePage {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,
-      position: 'middle'
+      position: 'bottom',
+      cssClass: 'custom-toast'
     });
     toast.present();
   }

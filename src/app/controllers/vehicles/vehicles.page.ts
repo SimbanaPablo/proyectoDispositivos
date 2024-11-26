@@ -64,8 +64,11 @@ export class VehiclesPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,
-      position: 'middle'
+      position: 'bottom',
+      cssClass: 'custom-toast'
     });
     toast.present();
   }
+
+  
 }

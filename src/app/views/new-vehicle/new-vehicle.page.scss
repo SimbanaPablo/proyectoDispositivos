@@ -71,3 +71,11 @@
   height: 50%;
  
 }
+
+.custom-toast {
+  background: rgb(92, 92, 92);
+  border-radius: 15px;
+  color: beige;
+  min-width: 300px; /* Ajusta el tamaño según tus necesidades */
+  min-height: 200px; /* Ajusta el tamaño según tus necesidades */
+}
