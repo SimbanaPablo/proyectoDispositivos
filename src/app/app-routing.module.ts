@@ -38,7 +38,11 @@ const routes: Routes = [
   {
     path: 'delete-vehicle',
     loadChildren: () => import('./views/delete-vehicle/delete-vehicle.module').then( m => m.DeleteVehiclePageModule)
+  },  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
+
 
 
 
