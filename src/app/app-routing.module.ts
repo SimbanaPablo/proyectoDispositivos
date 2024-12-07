@@ -4,6 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 //configuración de las rutas de la APP
 const routes: Routes = [
+///*
   {
     path: '',
     redirectTo: 'splash',
@@ -17,6 +18,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./views/login/login.module').then(m => m.LoginPageModule)
   },
+//*/
   {
     path: 'vehicles',
     loadChildren: () => import('./views/vehicles/vehicles.module').then(m => m.VehiclesPageModule)
@@ -25,6 +27,21 @@ const routes: Routes = [
     path: 'new-vehicle',
     loadChildren: () => import('./views/new-vehicle/new-vehicle.module').then(m => m.NewVehiclePageModule)
   },
+  {
+    path: 'edit-vehicle',
+    loadChildren: () => import('./views/edit-vehicle/edit-vehicle.module').then( m => m.EditVehiclePageModule)
+  },
+  {
+    path: 'update-vehiculo',
+    loadChildren: () => import('./views/update-vehiculo/update-vehiculo.module').then( m => m.UpdateVehiculoPageModule)
+  },
+  {
+    path: 'delete-vehicle',
+    loadChildren: () => import('./views/delete-vehicle/delete-vehicle.module').then( m => m.DeleteVehiclePageModule)
+  },
+
+
+
 ];
 
 @NgModule({

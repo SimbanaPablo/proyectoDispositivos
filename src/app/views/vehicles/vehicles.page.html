@@ -35,15 +35,28 @@
           <ion-card-title>{{ vehicle.marca }} - {{vehicle.placa}}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
+          <ion-item lines="none">
+            <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
+          </ion-item>
         </ion-card-content>
       </ion-card>
     </div>
   </ion-content>
-   
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="goToNewVehicle()">
-      <ion-icon name="add"></ion-icon>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="grid"></ion-icon>
     </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="goToDeleteVehicle()">
+        <ion-icon name="trash"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="goToEditVehicle()">
+        <ion-icon name="create"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="goToNewVehicle()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
 </div>

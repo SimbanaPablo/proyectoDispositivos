@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
-import { UsuarioService } from '../../services/usuario.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-vehicles',
-  templateUrl: '../../views/vehicles/vehicles.page.html',
-  styleUrls: ['../../views/vehicles/vehicles.page.scss'],
+  selector: 'app-delete-vehicle',
+  templateUrl: '../../views/delete-vehicle/delete-vehicle.page.html',
+  styleUrls: ['../../views/delete-vehicle/delete-vehicle.page.scss'],
 })
-export class VehiclesPage implements OnInit {
+export class DeleteVehiclePage implements OnInit {
   vehicles: Vehicle[] | undefined;
-  user: { nombre: string, apellido: string, imagen: string } | undefined;
+  isAlertOpen = false;
+  placaToDelete: string | null = null;
 
   constructor(
     private vehicleService: VehicleService,
-    private usuarioService: UsuarioService,
     private router: Router,
     private platform: Platform,
     private toastController: ToastController
   ) {
-    // Manejo de botones regresar y cerrar sesión
+    // Manejo de boton regresar
     this.platform.backButton.subscribeWithPriority(10, () => {
       if (this.router.url === '/vehicles') {
         console.log('Botón de regresar presionado');
@@ -33,25 +32,12 @@ export class VehiclesPage implements OnInit {
 
   // Enlista los vehículos en el sistema
   ngOnInit() {
-    this.loadUserData();
-  }
-
-  // Cargar la lista de vehículos cada vez que la vista se va a mostrar
-  ionViewWillEnter() {
     this.loadVehicles();
   }
 
   // Cargar la lista de vehículos
   loadVehicles() {
     this.vehicles = this.vehicleService.getVehicles();
-  }
-
-  // Visualizar la información del usuario
-  loadUserData() {
-    const usuarioAutenticado = this.usuarioService.obtenerUsuarioAutenticado();
-    if (usuarioAutenticado) {
-      this.user = { nombre: usuarioAutenticado.nombre, apellido: usuarioAutenticado.apellido, imagen: usuarioAutenticado.imagen };
-    }
   }
 
   // Redirecciona a la vista para agregar un nuevo vehículo
@@ -64,23 +50,6 @@ export class VehiclesPage implements OnInit {
     this.router.navigate(['/edit-vehicle']);
   }
 
-  // Redirecciona a la vista para eliminar un vehículo
-  goToDeleteVehicle() {
-    this.router.navigate(['/delete-vehicle']);
-  }
-
-  logout() {
-    console.log('Cerrar sesión');
-    this.usuarioService.cerrarSesion();
-
-    // Limpiar el almacenamiento local y de sesión
-    localStorage.clear();
-    sessionStorage.clear();
-
-    this.presentToast('Se cerró la sesión correctamente.');
-    this.router.navigate(['/login']);
-  }
-
   // Configuración del Toast (Mensajes a pantalla para móvil)
   async presentToast(message: string) {
     const toast = await this.toastController.create({
@@ -90,5 +59,48 @@ export class VehiclesPage implements OnInit {
       cssClass: 'custom-toast'
     });
     toast.present();
+  }
+
+  // Redirecciona a la vista para editar un vehículo
+  redirectToEditVehicle(vehicle: Vehicle): void {
+    const navigationExtras: NavigationExtras = {
+      state: {
+        vehicle: vehicle
+      }
+    };
+    this.router.navigate(['/update-vehiculo'], navigationExtras);
+  }
+
+  // Método para regresar a la página anterior
+  goBack() {
+    this.router.navigate(['/vehicles']);
+  }
+
+  // Mostrar alerta de confirmación
+  showConfirmAlert(placa: string) {
+    this.placaToDelete = placa;
+    this.isAlertOpen = true;
+  }
+
+  // Cancelar la alerta de confirmación
+  cancelAlert() {
+    this.isAlertOpen = false;
+    this.placaToDelete = null;
+  }
+
+  // Confirmar y ocultar el vehículo
+  confirmHideVehicle() {
+    if (this.placaToDelete) {
+      this.hideVehicle(this.placaToDelete);
+      this.isAlertOpen = false;
+      this.placaToDelete = null;
+    }
+  }
+
+  // Ocultar un vehículo
+  hideVehicle(placa: string): void {
+    this.vehicleService.deleteVehicle(placa);
+    this.loadVehicles(); // Actualiza la lista de vehículos
+    this.presentToast('Vehículo oculto con éxito');
   }
 }
