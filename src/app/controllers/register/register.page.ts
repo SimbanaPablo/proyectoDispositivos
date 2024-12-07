@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  templateUrl: '../../views/register/register.page.html',
+  styleUrls: ['../../views/register/register.page.scss'],
 })
 export class RegisterPage implements OnInit {
 

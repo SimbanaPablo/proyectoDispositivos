@@ -1,17 +1,36 @@
-
-$gradient-background-loging: linear-gradient(145deg, #1E456E, #1E456E, #316195, #47a3b1, #52B2C0);
-
-.background-image {
+/* Ola SVG */
+.wave-background {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: 
-  url('/assets/img/fondo-1.png') no-repeat center center/cover;
+  height: 100%; /* Ajusta la altura según sea necesario */
   z-index: -1;
+  overflow: hidden;
+  background-image: url('/assets/img/fondo-login.png'); /* Ruta de la imagen de fondo */
+  background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el contenedor */
+  background-position: top right; /* Posiciona la imagen en la esquina superior derecha */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
 }
 
+svg {
+  transform: rotate(180deg); 
+}
+
+/* Contenedor del Welcome */
+.welcome-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.welcome-title {
+  font-size: 28px; /* Tamaño del texto */
+  color: #ffffff; /* Color blanco */
+  font-weight: bold; /* Texto en negrita */
+}
+
+/* Contenedor centrado */
 .login-container {
   display: flex;
   justify-content: center;
@@ -25,30 +44,29 @@ $gradient-background-loging: linear-gradient(145deg, #1E456E, #1E456E, #316195, 
   transform: translate(-50%, -50%);
 }
 
+/* Estilo del card */
 .glass-card {
   border: none;
   width: 100%;
   max-width: 400px;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  background: transparent;
+  
 }
 
-/* Configuraciones del ojo de contraseña*/
 ion-card {
-  color: #ffffff;
+  color: #2a11eb; 
 }
 
 .login-title {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
-  color: #ffffff;
+  color: #000000;
 }
 
+/* Estilos del input */
 .input-container {
   margin-bottom: 15px;
 }
@@ -56,7 +74,7 @@ ion-card {
 .input-label {
   display: block;
   margin-bottom: 5px;
-  color: #ffffff;
+  color: #000000;
   font-size: 16px;
 }
 
@@ -69,45 +87,57 @@ ion-card {
   position: relative;
 }
 
+/* Configuraciones globales para ion-input */
 ion-input {
-  width: 100%;
+  --border-radius: 10px;
   --padding-start: 10px;
   --padding-end: 10px;
-  --background: transparent; /* Elimina el fondo */
-  --border: none; /* Elimina el borde */
-  --box-shadow: none; /* Elimina la sombra */
-  --highlight-background: none; /* Elimina el fondo resaltado */
-  --highlight-border-color: #ff0000; /* Cambia el color del borde resaltado */
-  --placeholder-color: rgba(255, 255, 255, 0.5); /* Color del placeholder */
-  color: #ffffff; /* Color del texto */
-  font-size: 18px; /* Tamaño de la fuente */
+  --color: #000000;
+  border: 1px solid #2a11eb; 
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ajusta el ancho según sea necesario */
+  height: 40px; /* Ajusta la altura según sea necesario */
 }
 
+.password-icon {
+  color: #2a11eb; 
+}
 
 .error-message {
   font-size: 0.8rem;
   padding-left: 16px;
   margin-top: -8px;
   margin-bottom: 8px;
-  color: #f44336; /* Color rojo para el mensaje de error */
+  color: #f44336;
 }
 
+.register-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.register-container span {
+  color: #3b3b3b;
+}
+
+.register-container a {
+  color:  #2a11eb; 
+  font-weight: bold;
+}
+
+/* Botón personalizado */
 .custom-login-button {
-  --background: #{$gradient-background-loging}; /* Degradado de fondo */
-  --border-radius: 20px; /* Bordes redondeados */
-  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
-  --padding: 10px 20px; /* Relleno */
-  --color: #fff; /* Color del texto */
-  --font-size: 18px; /* Tamaño de la fuente */
-  --font-weight: bold; /* Peso de la fuente */
-  --text-transform: uppercase; /* Transformación del texto a mayúsculas */
-  --transition: background 0.3s ease; /* Transición suave para el fondo */
+  background: linear-gradient(145deg, #316195, #47a3b1);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
 
-  &:hover {
-    --background: #{$gradient-background-loging}; /* Degradado de fondo al pasar el ratón */
-  }
-
-  &:active {
-    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra al hacer clic */
-  }
+.custom-login-button:hover {
+  background: #1f4976;
 }

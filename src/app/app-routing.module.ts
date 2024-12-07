@@ -18,6 +18,11 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./views/login/login.module').then(m => m.LoginPageModule)
   },
+
+  {
+    path: 'register',
+    loadChildren: () => import('./views/register/register.module').then(m => m.RegisterPageModule)
+  },
 //*/
   {
     path: 'vehicles',
@@ -38,13 +43,7 @@ const routes: Routes = [
   {
     path: 'delete-vehicle',
     loadChildren: () => import('./views/delete-vehicle/delete-vehicle.module').then( m => m.DeleteVehiclePageModule)
-  },  {
-    path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
-
-
-
 
 ];
 
