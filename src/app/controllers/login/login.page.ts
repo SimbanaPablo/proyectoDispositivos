@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
-
+import { Platform, ToastController } from '@ionic/angular';
+import { App } from '@capacitor/app';
 // Este es nuestro controlador de la vista login
 @Component({
   selector: 'app-login',
@@ -9,6 +10,8 @@ import { UsuarioService } from '../../services/usuario.service';
   styleUrls: ['../../views/login/login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  private lastBackPress = 0; // Almacena el tiempo de la última vez que se presionó el botón de regresar
+  private timePeriodToExit = 2000; // Tiempo en milisegundos para salir de la aplicación
   usuario: string | undefined;
   contrasena: string | undefined;
   usuarioError: boolean = false;
@@ -16,7 +19,28 @@ export class LoginPage implements OnInit {
   showPassword: boolean = false; // Variable para controlar la visibilidad de la contraseña
   mensajeExito: string | null = null; // Variable para almacenar el mensaje de éxito
 
-  constructor(private router: Router, private usuarioService: UsuarioService) { }
+  constructor(
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private platform: Platform,
+    private toastController: ToastController
+  ) {
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      if (this.router.url === '/login') {
+        // Tiempo actual
+        const currentTime = new Date().getTime();
+        // Compara el tiempo actual con el tiempo de la última vez que se presionó el botón de regresar
+        if (currentTime - this.lastBackPress < this.timePeriodToExit) {
+          // Si el tiempo es menor a 2 segundos, se sale de la aplicación si presiono por segunda ocasión
+          App.exitApp();
+        } else {
+          // Si el tiempo es mayor a 2 segundos, se muestra un mensaje para salir de la aplicación
+          this.presentToast('Presione nuevamente para salir de la aplicación');
+          this.lastBackPress = currentTime;
+        }
+      }
+    });
+  }
 
   ngOnInit() {
     // Limpiar los campos de entrada cuando la página se carga
@@ -56,5 +80,16 @@ export class LoginPage implements OnInit {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword; // Alternar la visibilidad de la contraseña
+  }
+
+  // Configuración del Toast (Mensajes a pantalla para móvil)
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+      cssClass: 'custom-toast'
+    });
+    toast.present();
   }
 }

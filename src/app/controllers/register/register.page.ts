@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
+import { Platform, ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 // Este es nuestro controlador de la vista register
 @Component({
@@ -10,6 +12,7 @@ import { Usuario } from '../../models/usuario.model';
   styleUrls: ['../../views/register/register.page.scss'],
 })
 export class RegisterPage {
+  isAlertOpen = false;
   nombreCompleto: string | undefined;
   usuario: string | undefined;
   correo: string | undefined;
@@ -18,8 +21,14 @@ export class RegisterPage {
   correoError: string = '';
   contrasenaError: string = '';
   showPassword: boolean = false; // Variable para controlar la visibilidad de la contraseña
+  backButtonSubscription: Subscription | undefined;
 
-  constructor(private router: Router, private usuarioService: UsuarioService) { }
+  constructor(
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private toastController: ToastController,
+    private platform: Platform
+  ) { }
 
   ngOnInit() {
     // Limpiar los campos de entrada cuando la página se carga
@@ -27,6 +36,18 @@ export class RegisterPage {
     this.usuario = '';
     this.correo = '';
     this.contrasena = '';
+
+    // Suscribirse al evento del botón de regresar del celular
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
+      this.showConfirmAlert();
+    });
+  }
+
+  ngOnDestroy() {
+    // Desuscribirse del evento del botón de regresar del celular
+    if (this.backButtonSubscription) {
+      this.backButtonSubscription.unsubscribe();
+    }
   }
 
   togglePasswordVisibility() {
@@ -76,6 +97,7 @@ export class RegisterPage {
   }
 
   register() {
+    console.log('Intentando registrar usuario...');
     this.validateForm();
     if (!this.usuarioError && !this.correoError && !this.contrasenaError && this.nombreCompleto && this.usuario && this.correo && this.contrasena) {
       const [nombre, apellido] = this.nombreCompleto.split(' ');
@@ -96,8 +118,44 @@ export class RegisterPage {
 
       // Redirigir al usuario a la página de login con un mensaje de éxito
       this.router.navigate(['/login'], { state: { message: 'Registro exitoso' } });
+      this.presentToast('Registro exitoso, bienvendio a la aplicación.');
+      console.log('Usuario registrado con éxito:', nuevoUsuario);
     } else {
       this.validateForm();
+      this.presentToast('Error en el registro. Por favor, verifica los datos ingresados.');
     }
+  }
+
+  // Método para mostrar el toast
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+      cssClass: 'custom-toast'
+    });
+    toast.present();
+  }
+
+  // Método para regresar a la página anterior
+  goBack() {
+    this.showConfirmAlert();
+
+  }
+  // Mostrar alerta de confirmación
+  showConfirmAlert() {
+    this.isAlertOpen = true;
+  }
+
+  // Cancelar la alerta de confirmación
+  cancelAlert() {
+    this.isAlertOpen = false;
+  }
+
+  // Confirmar la alerta
+  backLogin() {
+    this.isAlertOpen = false;
+    this.presentToast('Se cancelo su registro.');
+    this.router.navigate(['/login']);
   }
 }

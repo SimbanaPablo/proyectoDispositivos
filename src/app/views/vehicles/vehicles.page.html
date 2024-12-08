@@ -60,3 +60,13 @@
     </ion-fab-list>
   </ion-fab>
 </div>
+<div *ngIf="isAlertOpen" class="custom-alert">
+  <div class="alert-content">
+    <h2>Confirmar</h2>
+    <p>¿Estás seguro de que deseas salir del modo editar?</p>
+    <div class="alert-buttons">
+      <ion-button (click)="backLogin()" class="accept">Aceptar</ion-button>
+      <ion-button (click)="cancelAlert()" class="cancel">Cancelar</ion-button>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { Router, NavigationExtras } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-vehicle',
@@ -12,26 +13,29 @@ import { Platform, ToastController } from '@ionic/angular';
 export class EditVehiclePage implements OnInit {
   vehicles: Vehicle[] | undefined;
   isAlertOpen = false;
+  backButtonSubscription: Subscription | undefined;
   constructor(
     private vehicleService: VehicleService,
     private router: Router,
     private platform: Platform,
     private toastController: ToastController
-  ) {
-    // Manejo de boton regresar
-    this.platform.backButton.subscribeWithPriority(10, () => {
-      if (this.router.url === '/vehicles') {
-        console.log('Botón de regresar presionado');
-        // Evita que el usuario regrese a la página de inicio cuando se presiona el botón de regresar del celular
-        this.presentToast('Por favor, use el botón "Cerrar Sesión" para salir.');
-      }
-    });
-  }
+  ) {}
   // Enlista los vehículos en el sistema
   ngOnInit() {
     this.vehicles = this.vehicleService.getVehicles();
+
+    // Suscribirse al evento del botón de regresar del celular
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
+      this.showConfirmAlert();
+    });
   }
 
+  ngOnDestroy() {
+    // Desuscribirse del evento del botón de regresar del celular
+    if (this.backButtonSubscription) {
+      this.backButtonSubscription.unsubscribe();
+    }
+  }
 
   // Configuración del Toast (Mensajes a pantalla para móvil)
   async presentToast(message: string) {
@@ -72,6 +76,7 @@ export class EditVehiclePage implements OnInit {
   // Confirmar la alerta
   backVehicles() {
     this.isAlertOpen = false;
+    this.presentToast('Se cancelo la edición del vehículo.');
     this.router.navigate(['/vehicles']);
   }
 

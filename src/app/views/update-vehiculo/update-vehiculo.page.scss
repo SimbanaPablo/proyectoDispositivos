@@ -79,46 +79,9 @@
 
 }
 
-.custom-toast {
-  background: rgb(92, 92, 92);
-  border-radius: 15px;
-  color: beige;
-  min-width: 300px;
-  /* Ajusta el tamaño según tus necesidades */
-  min-height: 200px;
-  /* Ajusta el tamaño según tus necesidades */
-}
-
 // color de los inputs de solo
 .readonly-field {
   background-color: grey;
   /* Color de fondo para campos de solo lectura */
   //color: #888; /* Color del texto para campos de solo lectura */
-}
-
-.custom-alert {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.alert-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-}
-
-.alert-buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
 }

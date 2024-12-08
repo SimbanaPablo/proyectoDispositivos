@@ -30,10 +30,10 @@
   <div *ngIf="isAlertOpen" class="custom-alert">
     <div class="alert-content">
       <h2>Confirmar</h2>
-      <p>¿Estás seguro de que deseas salir del modo edición?</p>
+      <p>¿Estás seguro de que deseas salir del modo edici&oacute;n?</p>
       <div class="alert-buttons">
-        <ion-button (click)="cancelAlert()" color="medium">Cancelar</ion-button>
-        <ion-button (click)="backVehicles()" color="medium">Aceptar</ion-button>
+        <ion-button (click)="backVehicles()" class="accept">Aceptar</ion-button>
+        <ion-button (click)="cancelAlert()" class="cancel">Cancelar</ion-button>
       </div>
     </div>
   </div>

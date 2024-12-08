@@ -4,6 +4,7 @@ import { VehicleService } from '../../services/vehicle.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'app-vehicles',
@@ -11,8 +12,11 @@ import { Platform, ToastController } from '@ionic/angular';
   styleUrls: ['../../views/vehicles/vehicles.page.scss'],
 })
 export class VehiclesPage implements OnInit {
+  private lastBackPress = 0; // Almacena el tiempo de la última vez que se presionó el botón de regresar
+  private timePeriodToExit = 2000; // Tiempo en milisegundos para salir de la aplicación
   vehicles: Vehicle[] | undefined;
   user: { nombre: string, apellido: string, imagen: string } | undefined;
+  isAlertOpen = false;
 
   constructor(
     private vehicleService: VehicleService,
@@ -21,12 +25,19 @@ export class VehiclesPage implements OnInit {
     private platform: Platform,
     private toastController: ToastController
   ) {
-    // Manejo de botones regresar y cerrar sesión
     this.platform.backButton.subscribeWithPriority(10, () => {
       if (this.router.url === '/vehicles') {
-        console.log('Botón de regresar presionado');
-        // Evita que el usuario regrese a la página de inicio cuando se presiona el botón de regresar del celular
-        this.presentToast('Por favor, use el botón "Cerrar Sesión" para salir.');
+        // Tiempo actual
+        const currentTime = new Date().getTime();
+        // Compara el tiempo actual con el tiempo de la última vez que se presionó el botón de regresar
+        if (currentTime - this.lastBackPress < this.timePeriodToExit) {
+          // Si el tiempo es menor a 2 segundos, se sale de la aplicación si presiono por segunda ocasión
+          App.exitApp();
+        } else {
+          // Si el tiempo es mayor a 2 segundos, se muestra un mensaje para salir de la aplicación
+          this.presentToast('Presione nuevamente para salir de la aplicación');
+          this.lastBackPress = currentTime;
+        }
       }
     });
   }
@@ -70,7 +81,22 @@ export class VehiclesPage implements OnInit {
   }
 
   logout() {
-    console.log('Cerrar sesión');
+    this.showConfirmAlert();
+  }
+
+  // Mostrar alerta de confirmación
+  showConfirmAlert() {
+    this.isAlertOpen = true;
+  }
+
+  // Cancelar la alerta de confirmación
+  cancelAlert() {
+    this.isAlertOpen = false;
+  }
+
+  // Confirmar la alerta
+  backLogin() {
+    this.isAlertOpen = false;
     this.usuarioService.cerrarSesion();
 
     // Limpiar el almacenamiento local y de sesión

@@ -94,3 +94,58 @@ ion-card {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para darle un efecto de elevación */
   color: #000000; /* Color del texto para contraste */
 }
+
+/*Configuracion de toast (mensaje a pantalla movil)*/
+.custom-toast {
+  --background: #040042;
+  --border-radius: 15px;
+  --color: #ffffff;
+  --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: medium;
+  font-style: italic;
+}
+
+/*Configuracion de alert (mensaje a pantalla movil)*/
+.custom-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.alert-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.alert-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.button-container {
+  display: block;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.cancel {
+  --background: red;
+  --color: white;
+}
+
+.accept {
+  --background: green;
+  --color: white;
+}

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-update-vehiculo',
@@ -17,6 +18,7 @@ export class UpdateVehiculoPage implements OnInit {
   isFormSubmitted = false;
   today: string = new Date().toISOString().split('T')[0];
   yesterday: string = new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
+  backButtonSubscription: Subscription | undefined;
 
   constructor(
     private vehicleService: VehicleService,
@@ -33,6 +35,18 @@ export class UpdateVehiculoPage implements OnInit {
         // Formatear la fecha para que solo muestre la fecha sin la hora
         this.vehicle.fecFabricacion = this.vehicle.fecFabricacion.split('T')[0];
       }
+    }
+
+    // Suscribirse al evento del botón de regresar del celular
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
+      this.showConfirmAlert();
+    });
+  }
+
+  ngOnDestroy() {
+    // Desuscribirse del evento del botón de regresar del celular
+    if (this.backButtonSubscription) {
+      this.backButtonSubscription.unsubscribe();
     }
   }
 
@@ -102,6 +116,7 @@ export class UpdateVehiculoPage implements OnInit {
   // Confirmar la alerta
   backVehicles() {
     this.isAlertOpen = false;
+    this.presentToast('Se cancelo la actualización del vehículo.');
     this.router.navigate(['/edit-vehicle']);
   }
 }

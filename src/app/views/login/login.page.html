@@ -20,22 +20,22 @@
         <div class="input-container">
           <ion-label class="input-label">Usuario</ion-label>
           <div class="rounded-input">
-            <ion-input [(ngModel)]="usuario" placeholder="Enter your email" type="email"></ion-input>
+            <ion-input [(ngModel)]="usuario" placeholder="Ingrese su usuario" type="text"></ion-input>
           </div>
         </div>
         <ion-text color="danger" *ngIf="usuarioError" class="error-message">
-          Email is required.
+          El usuario es requerido.
         </ion-text>
         <div class="input-container">
           <ion-label class="input-label">Contraseña</ion-label>
           <div class="rounded-input">
-            <ion-input [(ngModel)]="contrasena" [type]="showPassword ? 'text' : 'password'" placeholder="Enter your password">
+            <ion-input [(ngModel)]="contrasena" [type]="showPassword ? 'text' : 'password'" placeholder="Ingrese su contrase&ntilde;a">
               <ion-icon class="password-icon" [name]="showPassword ? 'eye-off' : 'eye'" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
             </ion-input>
           </div>
         </div>
         <ion-text color="danger" *ngIf="contrasenaError" class="error-message">
-          Password is required.
+          La Contrase&ntilde;a es requerido.
         </ion-text>
 
         <div class="register-container">

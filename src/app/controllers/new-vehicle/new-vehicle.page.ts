@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
-import { ToastController } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-new-vehicle',
@@ -25,11 +26,13 @@ export class NewVehiclePage implements OnInit {
     activo: true,
     oculto: false
   };
+  backButtonSubscription: Subscription | undefined;
 
   constructor(
     private vehicleService: VehicleService,
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -40,6 +43,18 @@ export class NewVehiclePage implements OnInit {
         // Formatear la fecha para que solo muestre la fecha sin la hora
         this.vehicle.fecFabricacion = this.vehicle.fecFabricacion.split('T')[0];
       }
+    }
+
+    // Suscribirse al evento del botón de regresar del celular
+    this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
+      this.showConfirmAlert();
+    });
+  }
+
+  ngOnDestroy() {
+    // Desuscribirse del evento del botón de regresar del celular
+    if (this.backButtonSubscription) {
+      this.backButtonSubscription.unsubscribe();
     }
   }
 
@@ -154,6 +169,7 @@ export class NewVehiclePage implements OnInit {
   // Confirmar la alerta
   backVehicles() {
     this.isAlertOpen = false;
+    this.presentToast('Se cancelo la creación del vehículo.');
     this.router.navigate(['/vehicles']);
   }
 }
