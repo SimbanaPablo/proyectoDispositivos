@@ -5,7 +5,6 @@ import { Usuario } from '../models/usuario.model';
 @Injectable({
   providedIn: 'root'
 })
-//Credenciales de todos los integrantes del equipo
 export class UsuarioService {
   private usuarios: Usuario[] = [
     {
@@ -13,28 +12,24 @@ export class UsuarioService {
       nombre: 'Fátima',
       apellido: 'Fiallos',
       contrasenia: this.hashContrasenia('Fiallos'),
-      imagen: 'assets/img/p-1.png'
+      imagen: 'assets/img/p-1.png',
+      correo: 'fatima@example.com'
     }, 
     {
       usuario: 'leonardo',
       nombre: 'Leonardo',
       apellido: 'Ramírez',
       contrasenia: this.hashContrasenia('Ramírez'),
-      imagen: 'assets/img/p-2.png'
+      imagen: 'assets/img/p-2.png',
+      correo: 'leonardo@example.com'
     },
     {
       usuario: 'pablo',
       nombre: 'Pablo',
-      apellido: 'Simbaña',
-      contrasenia: this.hashContrasenia('Simbaña'),
-      imagen: 'assets/img/p-3.png'
-    },
-    {
-      usuario: 'edlith',
-      nombre: 'Edlith',
-      apellido: 'Vinueza',
-      contrasenia: this.hashContrasenia('Vinueza'),
-      imagen: 'assets/img/p-4.png'
+      apellido: 'González',
+      contrasenia: this.hashContrasenia('González'),
+      imagen: 'assets/img/p-3.png',
+      correo: 'pablo@example.com'
     }
   ];
 
@@ -42,19 +37,12 @@ export class UsuarioService {
 
   constructor() { }
 
-  // Crear un nuevo usuario
-  agregarUsuario(usuario: string, nombre: string, apellido: string, contrasenia: string, imagen: string): void {
-    const hashedContrasenia = this.hashContrasenia(contrasenia);
-    this.usuarios.push({ usuario, nombre, apellido, contrasenia: hashedContrasenia, imagen });
+  hashContrasenia(contrasenia: string): string {
+    return CryptoJS.SHA256(contrasenia).toString();
   }
 
-  // Verificar si el usuario y la contraseña son correctos
   verificarUsuario(usuario: string, contrasenia: string): boolean {
-    const hash = this.hashContrasenia(contrasenia);
-    const usuarioEncontrado = this.usuarios.find(u => 
-      u.usuario === usuario && 
-      u.contrasenia === hash
-    );
+    const usuarioEncontrado = this.usuarios.find(u => u.usuario === usuario && u.contrasenia === this.hashContrasenia(contrasenia));
     if (usuarioEncontrado) {
       this.usuarioAutenticado = usuarioEncontrado;
       return true;
@@ -62,18 +50,23 @@ export class UsuarioService {
     return false;
   }
 
-  // Obtener el usuario autenticado y existente
   obtenerUsuarioAutenticado(): Usuario | null {
     return this.usuarioAutenticado;
   }
 
-  // Maneja el cierre de sesión del usuario autenticado
   cerrarSesion(): void {
     this.usuarioAutenticado = null;
   }
 
-  // Método para encriptar la contraseña usando la librearía crypto-js de JavaScript "npm install crypto-js"
-  public hashContrasenia(contrasenia: string): string {
-    return CryptoJS.SHA256(contrasenia).toString(CryptoJS.enc.Hex);
+  getUsuarios(): Usuario[] {
+    return this.usuarios;
+  }
+
+  getUsuario(usuario: string): Usuario | undefined {
+    return this.usuarios.find(u => u.usuario === usuario);
+  }
+
+  agregarUsuario(usuario: Usuario): void {
+    this.usuarios.push(usuario);
   }
 }

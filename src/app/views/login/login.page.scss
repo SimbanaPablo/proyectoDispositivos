@@ -30,6 +30,14 @@ svg {
   font-weight: bold; /* Texto en negrita */
 }
 
+/* Mensaje de éxito */
+.success-message {
+  text-align: center;
+  font-size: 1rem;
+  margin: 20px 0;
+  color: #28a745; /* Color verde para el mensaje de éxito */
+}
+
 /* Contenedor centrado */
 .login-container {
   display: flex;
@@ -52,7 +60,6 @@ svg {
   padding: 20px;
   box-shadow: none;
   background: transparent;
-  
 }
 
 ion-card {

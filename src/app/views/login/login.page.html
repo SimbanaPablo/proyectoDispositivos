@@ -1,13 +1,16 @@
 <ion-content class="login-content" [fullscreen]="true">
   <!-- Ola en la parte superior -->
-  <div class="wave-background">
-  
-  </div>
+  <div class="wave-background"></div>
 
   <!-- Contenedor Welcome -->
   <div class="welcome-container">
     <h1 class="welcome-title">Bienvenido</h1>
   </div>
+
+  <!-- Mensaje de éxito -->
+  <ion-text color="success" *ngIf="mensajeExito" class="success-message">
+    {{ mensajeExito }}
+  </ion-text>
 
   <!-- Contenedor de inicio de sesión -->
   <div class="login-container">
@@ -36,7 +39,7 @@
         </ion-text>
 
         <div class="register-container">
-          <span>¿Eres nuevo? </span><a href="/register">Regístrate</a>
+          <span>¿Eres nuevo? </span><a [routerLink]="['/register']">Regístrate</a>
         </div>
 
         <ion-button expand="block" shape="round" class="rounded-button custom-login-button" (click)="login()">Log in</ion-button>

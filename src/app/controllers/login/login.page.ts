@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 
@@ -8,12 +8,13 @@ import { UsuarioService } from '../../services/usuario.service';
   templateUrl: '../../views/login/login.page.html', // Actualiza la ruta según la nueva ubicación
   styleUrls: ['../../views/login/login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
   usuario: string | undefined;
   contrasena: string | undefined;
   usuarioError: boolean = false;
   contrasenaError: boolean = false;
   showPassword: boolean = false; // Variable para controlar la visibilidad de la contraseña
+  mensajeExito: string | null = null; // Variable para almacenar el mensaje de éxito
 
   constructor(private router: Router, private usuarioService: UsuarioService) { }
 
@@ -21,13 +22,19 @@ export class LoginPage {
     // Limpiar los campos de entrada cuando la página se carga
     this.usuario = '';
     this.contrasena = '';
+
+    // Verificar si hay un mensaje de éxito en el estado de navegación
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state && navigation.extras.state['message']) {
+      this.mensajeExito = navigation.extras.state['message'];
+    }
   }
-  
+
   validateForm() {
     this.usuarioError = !this.usuario;
     this.contrasenaError = !this.contrasena;
   }
-//Valida que las credenciales sean correctas
+
   login() {
     this.validateForm();
     if (!this.usuarioError && !this.contrasenaError && this.usuario && this.contrasena) {
