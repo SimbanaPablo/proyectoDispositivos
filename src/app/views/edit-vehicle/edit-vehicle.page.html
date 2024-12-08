@@ -17,12 +17,25 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item lines="none">
-            <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
-            <ion-button (click)="redirectToEditVehicle(vehicle)">Editar</ion-button>
+            <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' :
+              'Inactivo' }}</p>
+            <div class="button-container"><ion-button (click)="redirectToEditVehicle(vehicle)">Editar</ion-button></div>
           </ion-item>
         </ion-card-content>
       </ion-card>
     </div>
   </ion-content>
+
+  <!-- Alerta de confirmación para volver al menu principal-->
+  <div *ngIf="isAlertOpen" class="custom-alert">
+    <div class="alert-content">
+      <h2>Confirmar</h2>
+      <p>¿Estás seguro de que deseas salir del modo edición?</p>
+      <div class="alert-buttons">
+        <ion-button (click)="cancelAlert()" color="medium">Cancelar</ion-button>
+        <ion-button (click)="backVehicles()" color="medium">Aceptar</ion-button>
+      </div>
+    </div>
+  </div>
 
 </div>

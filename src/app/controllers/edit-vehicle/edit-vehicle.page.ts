@@ -11,6 +11,7 @@ import { Platform, ToastController } from '@ionic/angular';
 })
 export class EditVehiclePage implements OnInit {
   vehicles: Vehicle[] | undefined;
+  isAlertOpen = false;
   constructor(
     private vehicleService: VehicleService,
     private router: Router,
@@ -55,8 +56,23 @@ export class EditVehiclePage implements OnInit {
 
   // Método para regresar a la página anterior
   goBack() {
+    this.showConfirmAlert();
+
+  }
+  // Mostrar alerta de confirmación
+  showConfirmAlert() {
+    this.isAlertOpen = true;
+  }
+
+  // Cancelar la alerta de confirmación
+  cancelAlert() {
+    this.isAlertOpen = false;
+  }
+
+  // Confirmar la alerta
+  backVehicles() {
+    this.isAlertOpen = false;
     this.router.navigate(['/vehicles']);
-    this.vehicles = this.vehicleService.getVehicles();
   }
 
 }

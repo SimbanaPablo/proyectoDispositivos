@@ -13,8 +13,10 @@
 .rounded-item {
   --background: rgba(255, 255, 255, 0.2);
   --padding: 10px;
-  --inner-border-width: 0px; /* Eliminar la línea al final de cada input */
-  --border: 1px solid #1719b1; /* Añadir borde a las cajas de input */
+  --inner-border-width: 0px;
+  /* Eliminar la línea al final de cada input */
+  --border: 1px solid #1719b1;
+  /* Añadir borde a las cajas de input */
   justify-content: center;
   align-items: center;
 }
@@ -24,23 +26,27 @@
   --border-radius: 10px;
   --padding-start: 10px;
   --padding-end: 10px;
-  border: 1px solid #2a11eb; 
+  border: 1px solid #2a11eb;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
 }
 
 .formularioVehiculo {
-  font-family: 'Arial', sans-serif; /* Cambiar la fuente del label */
-  margin-bottom: 10px; /* Añadir espacio entre el label y el input */
+  font-family: 'Arial', sans-serif;
+  /* Cambiar la fuente del label */
+  margin-bottom: 10px;
+  /* Añadir espacio entre el label y el input */
 }
+
 .button-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
   border-radius: 5px;
-  width: 100%; /* Asegurar que el contenedor del botón ocupe todo el ancho */
+  width: 100%;
+  /* Asegurar que el contenedor del botón ocupe todo el ancho */
 }
 
 .rounded-button {
@@ -60,7 +66,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 5px; /* Centra el modal verticalmente */
+  margin: 5px;
+  /* Centra el modal verticalmente */
   padding-top: 10%;
 }
 
@@ -69,13 +76,42 @@
   justify-content: center;
   align-items: center;
   height: 50%;
- 
+
 }
 
 .custom-toast {
   background: rgb(92, 92, 92);
   border-radius: 15px;
   color: beige;
-  min-width: 300px; /* Ajusta el tamaño según tus necesidades */
-  min-height: 200px; /* Ajusta el tamaño según tus necesidades */
+  min-width: 300px;
+  /* Ajusta el tamaño según tus necesidades */
+  min-height: 200px;
+  /* Ajusta el tamaño según tus necesidades */
+}
+
+.custom-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.alert-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.alert-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
 }

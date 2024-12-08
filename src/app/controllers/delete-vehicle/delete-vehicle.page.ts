@@ -12,6 +12,7 @@ import { Platform, ToastController } from '@ionic/angular';
 export class DeleteVehiclePage implements OnInit {
   vehicles: Vehicle[] | undefined;
   isAlertOpen = false;
+  isAlertBackOpen = false;
   placaToDelete: string | null = null;
 
   constructor(
@@ -40,16 +41,6 @@ export class DeleteVehiclePage implements OnInit {
     this.vehicles = this.vehicleService.getVehicles();
   }
 
-  // Redirecciona a la vista para agregar un nuevo vehículo
-  goToNewVehicle() {
-    this.router.navigate(['/new-vehicle']);
-  }
-
-  // Redirecciona a la vista para editar un vehículo
-  goToEditVehicle() {
-    this.router.navigate(['/edit-vehicle']);
-  }
-
   // Configuración del Toast (Mensajes a pantalla para móvil)
   async presentToast(message: string) {
     const toast = await this.toastController.create({
@@ -61,19 +52,9 @@ export class DeleteVehiclePage implements OnInit {
     toast.present();
   }
 
-  // Redirecciona a la vista para editar un vehículo
-  redirectToEditVehicle(vehicle: Vehicle): void {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        vehicle: vehicle
-      }
-    };
-    this.router.navigate(['/update-vehiculo'], navigationExtras);
-  }
-
   // Método para regresar a la página anterior
   goBack() {
-    this.router.navigate(['/vehicles']);
+    this.showConfirmAlertBack();
   }
 
   // Mostrar alerta de confirmación
@@ -101,6 +82,22 @@ export class DeleteVehiclePage implements OnInit {
   hideVehicle(placa: string): void {
     this.vehicleService.deleteVehicle(placa);
     this.loadVehicles(); // Actualiza la lista de vehículos
-    this.presentToast('Vehículo oculto con éxito');
+    this.presentToast('Vehículo eliminado con éxito');
+  }
+
+  // Mostrar alerta de confirmación back
+  showConfirmAlertBack() {
+    this.isAlertBackOpen = true;
+  }
+
+  // Cancelar la alerta de confirmación back
+  cancelBack() {
+    this.isAlertBackOpen = false;
+  }
+
+  // Confirmar la alerta back
+  backVehicles() {
+    this.isAlertBackOpen = false;
+    this.router.navigate(['/vehicles']);
   }
 }

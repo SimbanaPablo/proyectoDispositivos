@@ -12,6 +12,7 @@ import { Platform, ToastController } from '@ionic/angular';
 export class UpdateVehiculoPage implements OnInit {
   vehicle: Vehicle | undefined;
   isModalOpen = false;
+  isAlertOpen = false;
   tempDate: string | null = null;
   isFormSubmitted = false;
   today: string = new Date().toISOString().split('T')[0];
@@ -23,7 +24,7 @@ export class UpdateVehiculoPage implements OnInit {
     private route: ActivatedRoute,
     private platform: Platform,
     private toastController: ToastController
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.router.getCurrentNavigation()?.extras.state) {
@@ -36,7 +37,7 @@ export class UpdateVehiculoPage implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/edit-vehicle']);
+    this.showConfirmAlert();
   }
 
   async updateVehicle() {
@@ -49,7 +50,7 @@ export class UpdateVehiculoPage implements OnInit {
   }
 
   isFormValid() {
-    return this.vehicle && 
+    return this.vehicle &&
       this.vehicle.placa !== '' &&
       this.vehicle.marca !== '' &&
       this.vehicle.fecFabricacion !== '' &&
@@ -86,5 +87,21 @@ export class UpdateVehiculoPage implements OnInit {
 
   onToggleChange() {
     console.log('Estado del vehículo:', this.vehicle?.activo ? 'Activo' : 'Inactivo');
+  }
+
+  // Mostrar alerta de confirmación
+  showConfirmAlert() {
+    this.isAlertOpen = true;
+  }
+
+  // Cancelar la alerta de confirmación
+  cancelAlert() {
+    this.isAlertOpen = false;
+  }
+
+  // Confirmar la alerta
+  backVehicles() {
+    this.isAlertOpen = false;
+    this.router.navigate(['/edit-vehicle']);
   }
 }

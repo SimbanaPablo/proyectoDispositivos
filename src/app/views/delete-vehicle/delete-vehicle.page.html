@@ -17,8 +17,10 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item lines="none">
-            <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
-            <ion-button color="danger" (click)="showConfirmAlert(vehicle.placa)">Eliminar</ion-button>
+            <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' :
+              'Inactivo' }}</p>
+            <div class="button-container"><ion-button color="danger"
+                (click)="showConfirmAlert(vehicle.placa)">Eliminar</ion-button></div>
           </ion-item>
         </ion-card-content>
       </ion-card>
@@ -33,6 +35,18 @@
       <div class="alert-buttons">
         <ion-button (click)="cancelAlert()" color="success">Cancelar</ion-button>
         <ion-button (click)="confirmHideVehicle()" color="danger">Eliminar</ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerta de confirmación para volver al menu principal-->
+  <div *ngIf="isAlertBackOpen" class="custom-alert">
+    <div class="alert-content">
+      <h2>Confirmar</h2>
+      <p>¿Estás seguro de que deseas salir del modo eliminar?</p>
+      <div class="alert-buttons">
+        <ion-button (click)="cancelBack()" color="medium">Cancelar</ion-button>
+        <ion-button (click)="backVehicles()" color="medium">Aceptar</ion-button>
       </div>
     </div>
   </div>

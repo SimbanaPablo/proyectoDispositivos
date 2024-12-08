@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class NewVehiclePage implements OnInit {
   isModalOpen = false;
+  isAlertOpen = false;
   tempDate: string | null = null; // Temporal para el modal
   isFormSubmitted = false; // Variable para rastrear si se ha intentado enviar el formulario 
   today: string = new Date().toISOString().split('T')[0]; // Fecha actual en formato ISO
@@ -137,6 +138,22 @@ export class NewVehiclePage implements OnInit {
 
   // Método para regresar a la página anterior
   goBack() {
+    this.showConfirmAlert();
+  }
+
+  // Mostrar alerta de confirmación
+  showConfirmAlert() {
+    this.isAlertOpen = true;
+  }
+
+  // Cancelar la alerta de confirmación
+  cancelAlert() {
+    this.isAlertOpen = false;
+  }
+
+  // Confirmar la alerta
+  backVehicles() {
+    this.isAlertOpen = false;
     this.router.navigate(['/vehicles']);
   }
 }

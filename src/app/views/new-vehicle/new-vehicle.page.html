@@ -16,27 +16,33 @@
       <div class="input-container">
         <ion-item class="rounded-item">
           <ion-label class="formularioVehiculo" position="stacked">Placa</ion-label>
-          <ion-input class="formularioVehiculoinp" type="text" [(ngModel)]="vehicle.placa" name="placa" placeholder="ABC-123" required></ion-input>
+          <ion-input class="formularioVehiculoinp" type="text" [(ngModel)]="vehicle.placa" name="placa"
+            placeholder="ABC-123" required></ion-input>
         </ion-item>
-        <ion-note *ngIf="isFormSubmitted && (vehicle.placa === '' || !isPlacaValid(vehicle.placa))" color="danger" class="error-message">La placa es obligatoria y debe tener el formato ABC-1234.</ion-note>
+        <ion-note *ngIf="isFormSubmitted && (vehicle.placa === '' || !isPlacaValid(vehicle.placa))" color="danger"
+          class="error-message">La placa es obligatoria y debe tener el formato ABC-1234.</ion-note>
       </div>
 
       <!-- Marca -->
       <div class="input-container">
         <ion-item class="rounded-item">
           <ion-label class="formularioVehiculo" position="stacked">Marca</ion-label>
-          <ion-input class="formularioVehiculoinp" type="text" [(ngModel)]="vehicle.marca" name="marca" placeholder="Ejemplo: Toyota" required></ion-input>
+          <ion-input class="formularioVehiculoinp" type="text" [(ngModel)]="vehicle.marca" name="marca"
+            placeholder="Ejemplo: Toyota" required></ion-input>
         </ion-item>
-        <ion-note *ngIf="isFormSubmitted && vehicle.marca === ''" color="danger" class="error-message">La marca es obligatoria.</ion-note>
+        <ion-note *ngIf="isFormSubmitted && vehicle.marca === ''" color="danger" class="error-message">La marca es
+          obligatoria.</ion-note>
       </div>
 
       <!-- Fecha de fabricación -->
       <div class="input-container">
         <ion-item class="rounded-item">
           <ion-label class="formularioVehiculo" position="stacked">Fecha de Fabricaci&oacute;n</ion-label>
-          <ion-input class="formularioVehiculoinp" type="text" [value]="vehicle.fecFabricacion" readonly (click)="openCalendarModal()" name="fecFabricacion" placeholder="yyyy-mm-dd" required></ion-input>
+          <ion-input class="formularioVehiculoinp" type="text" [value]="vehicle.fecFabricacion" readonly
+            (click)="openCalendarModal()" name="fecFabricacion" placeholder="yyyy-mm-dd" required></ion-input>
         </ion-item>
-        <ion-note *ngIf="isFormSubmitted && vehicle.fecFabricacion === ''" color="danger" class="error-message">La fecha de fabricaci&oacute;n es obligatoria.</ion-note>
+        <ion-note *ngIf="isFormSubmitted && vehicle.fecFabricacion === ''" color="danger" class="error-message">La fecha
+          de fabricaci&oacute;n es obligatoria.</ion-note>
       </div>
 
       <ion-modal class="fechaEstilo" [isOpen]="isModalOpen" (didDismiss)="closeCalendarModal()">
@@ -76,16 +82,19 @@
             <ion-select-option value="azul">Azul</ion-select-option>
           </ion-select>
         </ion-item>
-        <ion-note *ngIf="isFormSubmitted && vehicle.color === ''" color="danger" class="error-message">El color es obligatorio.</ion-note>
+        <ion-note *ngIf="isFormSubmitted && vehicle.color === ''" color="danger" class="error-message">El color es
+          obligatorio.</ion-note>
       </div>
 
       <!-- Costo -->
       <div class="input-container">
         <ion-item class="rounded-item">
           <ion-label class="formularioVehiculo" position="stacked">Costo</ion-label>
-          <ion-input class="formularioVehiculoinp" type="number" [(ngModel)]="vehicle.costo" name="costo" placeholder="99999" required></ion-input>
+          <ion-input class="formularioVehiculoinp" type="number" [(ngModel)]="vehicle.costo" name="costo"
+            placeholder="99999" required></ion-input>
         </ion-item>
-        <ion-note *ngIf="isFormSubmitted && (vehicle.costo === null || vehicle.costo <= 0)" color="danger" class="error-message">
+        <ion-note *ngIf="isFormSubmitted && (vehicle.costo === null || vehicle.costo <= 0)" color="danger"
+          class="error-message">
           El costo es obligatorio y mayor que 0.
         </ion-note>
       </div>
@@ -94,7 +103,8 @@
       <div class="input-container">
         <ion-item class="rounded-item">
           <ion-label class="formularioVehiculo" position="stacked">Estado del vehículo</ion-label>
-          <ion-toggle [(ngModel)]="vehicle.activo" name="activo" (ionChange)="onToggleChange()"> {{ vehicle.activo ? 'Activo' : 'Inactivo' }}</ion-toggle>
+          <ion-toggle [(ngModel)]="vehicle.activo" name="activo" (ionChange)="onToggleChange()"> {{ vehicle.activo ?
+            'Activo' : 'Inactivo' }}</ion-toggle>
         </ion-item>
       </div>
 
@@ -102,5 +112,18 @@
         <ion-button class="rounded-button" type="submit">Agregar Vehiculo</ion-button>
       </div>
     </form>
+
+    <!-- Alerta de confirmación para volver al menu principal-->
+    <div *ngIf="isAlertOpen" class="custom-alert">
+      <div class="alert-content">
+        <h2>Confirmar</h2>
+        <p>¿Estás seguro de que deseas salir del modo agregar?</p>
+        <div class="alert-buttons">
+          <ion-button (click)="cancelAlert()" color="medium">Cancelar</ion-button>
+          <ion-button (click)="backVehicles()" color="medium">Aceptar</ion-button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </ion-content>

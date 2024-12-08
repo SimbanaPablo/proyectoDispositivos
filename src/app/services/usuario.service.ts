@@ -26,8 +26,8 @@ export class UsuarioService {
     {
       usuario: 'pablo',
       nombre: 'Pablo',
-      apellido: 'González',
-      contrasenia: this.hashContrasenia('González'),
+      apellido: 'Simbaña',
+      contrasenia: this.hashContrasenia('Simbaña'),
       imagen: 'assets/img/p-3.png',
       correo: 'pablo@example.com'
     }
