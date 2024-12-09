@@ -50,7 +50,6 @@ svg {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin-top: 20px;
 }
 
 /* Estilo del card */
@@ -79,6 +78,7 @@ ion-card {
 /* Estilos del input */
 .input-container {
   margin-bottom: 10px;
+ 
 }
 
 .input-label {
@@ -87,6 +87,7 @@ ion-card {
   font-size: 16px;
   padding-left: 10px;
   margin-top: 5px;
+  text-align: left;
 }
 
 .rounded-input {
@@ -116,11 +117,9 @@ ion-input {
 }
 
 .error-message {
-  font-size: 0.8rem;
-  padding-left: 16px;
-  margin-top: -8px;
-  margin-bottom: 8px;
-  color: #f44336;
+  text-align: center; /* Centra el texto de los mensajes de error */
+  display: block;
+  margin: 10px 0; /* Añade margen para separar los mensajes de error */
 }
 
 .register-container {

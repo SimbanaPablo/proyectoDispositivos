@@ -17,17 +17,25 @@ svg {
   transform: rotate(180deg); 
 }
 
-/* Contenedor del Welcome */
 .welcome-container {
-  position: absolute;
   top: 20px;
   right: 20px;
+  text-align: right;
+  padding-right: 20px; /* Añade un padding a la derecha para separar el texto de la esquina */
 }
 
 .welcome-title {
   font-size: 28px; /* Tamaño del texto */
   color: #ffffff; /* Color blanco */
   font-weight: bold; /* Texto en negrita */
+}
+
+/* Mensaje de éxito */
+.success-message {
+  text-align: center;
+  font-size: 1rem;
+  margin: 20px 0;
+  color: #28a745; /* Color verde para el mensaje de éxito */
 }
 
 /* Contenedor centrado */
@@ -42,7 +50,6 @@ svg {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin-top: 20px;
 }
 
 /* Estilo del card */
@@ -64,22 +71,23 @@ ion-card {
   text-align: center;
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 5px; /* Aumenta el margen inferior */
-  margin-top: 100px; /* Añade un margen superior */
-  color: #000000;
+  margin-bottom: 1px; /* Aumenta el margen inferior */
+ color: #000000;
 }
 
-
+/* Estilos del input */
 .input-container {
-  margin-bottom: 1px; /* Ajusta el margen inferior para reducir el espaciado entre inputs */
+  margin-bottom: 10px;
+ 
 }
 
 .input-label {
   display: block;
   color: #000000;
   font-size: 16px;
-  padding-left: 5px;
+  padding-left: 10px;
   margin-top: 5px;
+  text-align: left;
 }
 
 .rounded-input {
@@ -105,11 +113,9 @@ ion-input {
 }
 
 .password-icon {
-  position: absolute;
-  right: 20px;
-  cursor: pointer;
-  color: #2a11eb;
+  color: #2a11eb; 
 }
+
 
 .error-message {
   font-size: 0.8rem;
@@ -119,61 +125,43 @@ ion-input {
   color: #f44336;
 }
 
+
+.register-container span {
+  color: #3b3b3b;
+}
+
+.register-container a {
+  color:  #2a11eb; 
+  font-weight: bold;
+}
+
 /* Botón personalizado */
 .custom-register-button {
   display: block;
-  width: 130px; /* Ajusta el ancho según sea necesario */
-  margin: 20px auto; /* Añade un margen superior para separar del input */
+  width: 140px; /* Ajusta el ancho según sea necesario */
+  margin: 0 auto; /* Centra el botón horizontalmente */
   background: linear-gradient(145deg, #316195, #47a3b1);
   border-radius: 20px;
   color: #fff;
   font-size: 18px;
   font-weight: bold;
   text-transform: uppercase;
-  transition: background 0.3s ease;
+  transition: back
+  ground 0.3s ease;
 }
 
-.custom-register-button:hover {
+.error-message {
+  margin-bottom: 16px; // Ajusta el valor según sea necesario
+}
+
+.custom-login-button:hover {
   background: #1f4976;
 }
 
-/* Estilos para la alerta personalizada */
-.custom-alert {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+.custom-input {
+  text-align: left; /* Alinea el texto del input a la derecha */
 }
 
-.alert-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.alert-buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-.alert-buttons ion-button {
-  width: 100px;
-}
-
-.alert-buttons .accept {
-  background: #28a745;
-  color: #fff;
-}
-
-.alert-buttons .cancel {
-  background: #dc3545;
-  color: #fff;
+.custom-input::placeholder {
+  text-align: left; /* Alinea el texto del placeholder a la derecha */
 }
