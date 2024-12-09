@@ -19,7 +19,7 @@
           <ion-item lines="none">
             <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' :
               'Inactivo' }}</p>
-            <div class="button-container"><ion-button color="danger"
+            <div class="button-container"><ion-button
                 (click)="showConfirmAlert(vehicle.placa)">Eliminar</ion-button></div>
           </ion-item>
         </ion-card-content>

@@ -50,6 +50,7 @@ svg {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  margin-top: 20px;
 }
 
 /* Estilo del card */
@@ -57,9 +58,10 @@ svg {
   border: none;
   width: 100%;
   max-width: 400px;
-  padding: 20px;
+  padding: 10px;
   box-shadow: none;
   background: transparent;
+  margin-top: 80px;
 }
 
 ion-card {
@@ -69,24 +71,25 @@ ion-card {
 .login-title {
   text-align: center;
   font-size: 24px;
-  margin-bottom: 20px;
-  color: #000000;
+  font-weight: bold;
+  margin-bottom: 1px; /* Aumenta el margen inferior */
+ color: #000000;
 }
 
 /* Estilos del input */
 .input-container {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .input-label {
   display: block;
-  margin-bottom: 5px;
   color: #000000;
   font-size: 16px;
+  padding-left: 10px;
+  margin-top: 5px;
 }
 
 .rounded-input {
-  background: rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   padding: 3px 7px;
   display: flex;
@@ -136,6 +139,9 @@ ion-input {
 
 /* Botón personalizado */
 .custom-login-button {
+  display: block;
+  width: 130px; /* Ajusta el ancho según sea necesario */
+  margin: 0 auto; /* Centra el botón horizontalmente */
   background: linear-gradient(145deg, #316195, #47a3b1);
   border-radius: 20px;
   color: #fff;

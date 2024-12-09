@@ -3,6 +3,10 @@
 /* Definición de variables */
 $gradient-background: linear-gradient(125deg, #241570, #1E456E, #316195, #52B2C0, #52B2C0);
 $button-gradient-background: linear-gradient(135deg, #316195, #52B2C0); /* Nuevo gradiente para los botones */
+$create-button-gradient: linear-gradient(135deg, #28a745, #218838); /* Gradiente para el botón de crear */
+$delete-button-gradient: linear-gradient(135deg, #dc3545, #c82333); /* Gradiente para el botón de eliminar */
+$add-button-gradient: linear-gradient(135deg, #ffc107, #e0a800); /* Gradiente para el botón de añadir */
+
 $color-white: white;
 $border-color: #505050;
 $border-width: 4px 0;
@@ -141,11 +145,11 @@ ion-card {
 }
 
 .cancel {
-  --background: red;
+  --background: linear-gradient(135deg, #ff0707, #e04b00); 
   --color: white;
 }
 
 .accept {
-  --background: green;
+  --background: linear-gradient(135deg, #048a02, #00e04e); 
   --color: white;
 }

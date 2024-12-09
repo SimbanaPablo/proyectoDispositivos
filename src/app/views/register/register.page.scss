@@ -1,139 +1,179 @@
-.tranpa-head{
-  --background: transparent;
-  --border-color: transparent;
-}
-.tranpa-tool{
-  --background: transparent;
-  --border-color: transparent;
-}
 /* Ola SVG */
 .wave-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%; /* Ajusta la altura según sea necesario */
-    z-index: -1;
-    overflow: hidden;
-    background-image: url('/assets/img/fondo-register.png'); /* Ruta de la imagen de fondo */
-    background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el contenedor */
-    background-position: top right; /* Posiciona la imagen en la esquina superior derecha */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-  }
-  
-  svg {
-    transform: rotate(180deg); 
-  }
-  
-  /* Contenedor del Welcome */
-  .welcome-container {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-  }
-  
-  .welcome-title {
-    font-size: 28px; /* Tamaño del texto */
-    color: #ffffff; /* Color blanco */
-    font-weight: bold; /* Texto en negrita */
-  }
-  
-  /* Contenedor centrado */
-  .register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  /* Estilo del card */
-  .glass-card {
-    border: none;
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-    box-shadow: none;
-    background: transparent;
-  }
-  
-  ion-card {
-    color: #2a11eb; 
-  }
-  
-  .register-title {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #000000;
-  }
-  
-  /* Estilos del input */
-  .input-container {
-    margin-bottom: 15px;
-  }
-  
-  .input-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #000000;
-    font-size: 16px;
-  }
-  
-  .rounded-input {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 3px 7px;
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-  
-  /* Configuraciones globales para ion-input */
-  ion-input {
-    --border-radius: 10px;
-    --padding-start: 10px;
-    --padding-end: 10px;
-    --color: #000000;
-    border: 1px solid #2a11eb; 
-    border-radius: 10px;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* Ajusta el ancho según sea necesario */
-    height: 40px; /* Ajusta la altura según sea necesario */
-  }
-  
-  .password-icon {
-    color: #2a11eb; 
-  }
-  
-  .error-message {
-    font-size: 0.8rem;
-    padding-left: 16px;
-    margin-top: -8px;
-    margin-bottom: 8px;
-    color: #f44336;
-  }
-  
-  /* Botón personalizado */
-  .custom-register-button {
-    background: linear-gradient(145deg, #316195, #47a3b1);
-    border-radius: 20px;
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: background 0.3s ease;
-    width: 100%; /* Asegura que el botón ocupe el ancho del contenedor */
-    max-width: 400px; /* Limita el ancho máximo del botón */
-    margin: 0 auto; /* Centra el botón horizontalmente */
-  }
-  
-  .custom-register-button:hover {
-    background: #1f4976;
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Ajusta la altura según sea necesario */
+  z-index: -1;
+  overflow: hidden;
+  background-image: url('/assets/img/fondo-register.png'); /* Ruta de la imagen de fondo */
+  background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el contenedor */
+  background-position: top right; /* Posiciona la imagen en la esquina superior derecha */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+svg {
+  transform: rotate(180deg); 
+}
+
+/* Contenedor del Welcome */
+.welcome-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.welcome-title {
+  font-size: 28px; /* Tamaño del texto */
+  color: #ffffff; /* Color blanco */
+  font-weight: bold; /* Texto en negrita */
+}
+
+/* Contenedor centrado */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 20px;
+}
+
+/* Estilo del card */
+.glass-card {
+  border: none;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  box-shadow: none;
+  background: transparent;
+  margin-top: 80px;
+}
+
+ion-card {
+  color: #2a11eb; 
+}
+
+.register-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px; /* Aumenta el margen inferior */
+  margin-top: 100px; /* Añade un margen superior */
+  color: #000000;
+}
+
+
+.input-container {
+  margin-bottom: 1px; /* Ajusta el margen inferior para reducir el espaciado entre inputs */
+}
+
+.input-label {
+  display: block;
+  color: #000000;
+  font-size: 16px;
+  padding-left: 5px;
+  margin-top: 5px;
+}
+
+.rounded-input {
+  border-radius: 20px;
+  padding: 3px 7px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Configuraciones globales para ion-input */
+ion-input {
+  --border-radius: 10px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --color: #000000;
+  border: 1px solid #2a11eb; 
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ajusta el ancho según sea necesario */
+  height: 40px; /* Ajusta la altura según sea necesario */
+}
+
+.password-icon {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  color: #2a11eb;
+}
+
+.error-message {
+  font-size: 0.8rem;
+  padding-left: 16px;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  color: #f44336;
+}
+
+/* Botón personalizado */
+.custom-register-button {
+  display: block;
+  width: 130px; /* Ajusta el ancho según sea necesario */
+  margin: 20px auto; /* Añade un margen superior para separar del input */
+  background: linear-gradient(145deg, #316195, #47a3b1);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+
+.custom-register-button:hover {
+  background: #1f4976;
+}
+
+/* Estilos para la alerta personalizada */
+.custom-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.alert-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.alert-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.alert-buttons ion-button {
+  width: 100px;
+}
+
+.alert-buttons .accept {
+  background: #28a745;
+  color: #fff;
+}
+
+.alert-buttons .cancel {
+  background: #dc3545;
+  color: #fff;
+}

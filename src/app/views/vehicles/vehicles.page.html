@@ -47,14 +47,14 @@
     <ion-fab-button>
       <ion-icon name="grid"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button (click)="goToDeleteVehicle()">
+      <ion-fab-list side="top">
+      <ion-fab-button class="delete-button" (click)="goToDeleteVehicle()">
         <ion-icon name="trash"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button (click)="goToEditVehicle()">
+      <ion-fab-button class="edit-button" (click)="goToEditVehicle()">
         <ion-icon name="create"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button (click)="goToNewVehicle()">
+      <ion-fab-button class="new-button" (click)="goToNewVehicle()">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
