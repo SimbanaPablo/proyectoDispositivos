@@ -12,8 +12,10 @@ import { Subscription } from 'rxjs';
 })
 export class UpdateVehiculoPage implements OnInit {
   vehicle: Vehicle | undefined;
+  initialVehicleState: Vehicle | undefined;
   isModalOpen = false;
   isAlertOpen = false;
+  validback  = false;
   tempDate: string | null = null;
   isFormSubmitted = false;
   today: string = new Date().toISOString().split('T')[0];
@@ -29,13 +31,17 @@ export class UpdateVehiculoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.router.getCurrentNavigation()?.extras.state) {
-      this.vehicle = this.router.getCurrentNavigation()?.extras.state?.['vehicle'] ?? undefined;
-      if (this.vehicle) {
-        // Formatear la fecha para que solo muestre la fecha sin la hora
-        this.vehicle.fecFabricacion = this.vehicle.fecFabricacion.split('T')[0];
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.vehicle = this.router.getCurrentNavigation()?.extras.state?.['vehicle'] ?? undefined;
+        if (this.vehicle) {
+          // Formatear la fecha para que solo muestre la fecha sin la hora
+          this.vehicle.fecFabricacion = this.vehicle.fecFabricacion.split('T')[0];
+          // Guardar el estado inicial del vehículo
+          this.initialVehicleState = { ...this.vehicle };
+        }
       }
-    }
+    });
 
     // Suscribirse al evento del botón de regresar del celular
     this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
@@ -56,10 +62,13 @@ export class UpdateVehiculoPage implements OnInit {
 
   async updateVehicle() {
     this.isFormSubmitted = true;
-    if (this.vehicle && this.isFormValid()) {
+    if (this.vehicle && this.isFormValid() && this.hasVehicleChanged()) {
       this.vehicleService.updateVehicle(this.vehicle);
       await this.presentToast('Vehículo actualizado con éxito');
-      this.router.navigate(['/vehicles']);
+      this.isFormSubmitted = false;
+      this.router.navigate(['/edit-vehicle']);
+    } else {
+      await this.presentToast('No se realizaron cambios en el vehículo');
     }
   }
 
@@ -70,6 +79,10 @@ export class UpdateVehiculoPage implements OnInit {
       this.vehicle.fecFabricacion !== '' &&
       this.vehicle.color !== '' &&
       this.vehicle.costo !== null && this.vehicle.costo > 0;
+  }
+
+  hasVehicleChanged() {
+    return JSON.stringify(this.vehicle) !== JSON.stringify(this.initialVehicleState);
   }
 
   async presentToast(message: string) {
@@ -116,7 +129,11 @@ export class UpdateVehiculoPage implements OnInit {
   // Confirmar la alerta
   backVehicles() {
     this.isAlertOpen = false;
-    this.presentToast('Se cancelo la actualización del vehículo.');
-    this.router.navigate(['/edit-vehicle']);
+    if (!this.hasVehicleChanged()) {
+      this.presentToast('Se cancelo la actualización del vehículo.');
+      this.router.navigate(['/edit-vehicle']);
+    } else {
+      this.presentToast('Por favor modificar el vehículo antes de regresar.');
+    }
   }
 }

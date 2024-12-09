@@ -98,11 +98,16 @@ export class DeleteVehiclePage implements OnInit {
   cancelBack() {
     this.isAlertBackOpen = false;
   }
+  confirmBack() {
+    this.isAlertBackOpen = false;
+    this.router.navigate(['/vehicles']); 
+  }
 
   // Confirmar la alerta back
   backVehicles() {
-    this.isAlertBackOpen = false;
-    this.presentToast('Se cancelo la eliminación del vehículo.');
-    this.router.navigate(['/vehicles']);
+    this.isAlertOpen = false;
+    this.presentToast('Se elimino correctamente el automivil.');
+    //this.router.navigate(['/vehicles']);
+    this.confirmHideVehicle();
   }
 }
