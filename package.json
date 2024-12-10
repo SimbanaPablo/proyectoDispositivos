@@ -29,6 +29,7 @@
     "@capacitor/splash-screen": "^6.0.3",
     "@capacitor/status-bar": "6.0.2",
     "@ionic/angular": "^8.0.0",
+    "@ionic/storage-angular": "^4.0.0",
     "cordova-plugin-splashscreen": "^6.0.2",
     "crypto-js": "^4.2.0",
     "ionicons": "^7.0.0",

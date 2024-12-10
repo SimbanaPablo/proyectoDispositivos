@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { Usuario } from '../models/usuario.model';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -43,16 +44,24 @@ export class UsuarioService {
 
   private usuarioAutenticado: Usuario | null = null;
 
-  constructor() { }
+  constructor(private storage: Storage) {
+    this.initializeStorage();
+  }
+
+  async initializeStorage() {
+    await this.storage.create();
+    this.usuarioAutenticado = await this.storage.get('usuarioAutenticado');
+  }
 
   hashContrasenia(contrasenia: string): string {
     return CryptoJS.SHA256(contrasenia).toString();
   }
 
-  verificarUsuario(usuario: string, contrasenia: string): boolean {
+  async verificarUsuario(usuario: string, contrasenia: string): Promise<boolean> {
     const usuarioEncontrado = this.usuarios.find(u => u.usuario === usuario && u.contrasenia === this.hashContrasenia(contrasenia));
     if (usuarioEncontrado) {
       this.usuarioAutenticado = usuarioEncontrado;
+      await this.storage.set('usuarioAutenticado', this.usuarioAutenticado);
       return true;
     }
     return false;
@@ -62,8 +71,15 @@ export class UsuarioService {
     return this.usuarioAutenticado;
   }
 
-  cerrarSesion(): void {
+  async cerrarSesion(): Promise<void> {
     this.usuarioAutenticado = null;
+    await this.storage.remove('usuarioAutenticado');
+  }
+
+  async guardarSesion(): Promise<void> {
+    if (this.usuarioAutenticado) {
+      await this.storage.set('usuarioAutenticado', this.usuarioAutenticado);
+    }
   }
 
   getUsuarios(): Usuario[] {

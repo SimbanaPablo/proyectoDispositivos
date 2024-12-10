@@ -60,16 +60,16 @@ export class RegisterPage {
       errores.push('El nombre completo debe contener solo dos palabras (nombre y apellido).');
     }
 
-    if (!palabras[0] || !/^[A-Z][a-z]*$/.test(palabras[0])) {
+    if (!palabras[0] || !/^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*$/.test(palabras[0])) {
       errores.push('El nombre debe comenzar con una letra mayúscula.');
     }
 
-    if (!palabras[1] || !/^[A-Z][a-z]*$/.test(palabras[1])) {
+    if (!palabras[1] || !/^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*$/.test(palabras[1])) {
       errores.push('El apellido debe comenzar con una letra mayúscula.');
-    }
+    }   
 
     return errores;
-  }
+}
 
   validarUsuario(usuario: string): string[] {
     const errores: string[] = [];
