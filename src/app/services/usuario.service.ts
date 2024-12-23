@@ -97,4 +97,5 @@ export class UsuarioService {
   usuarioYaExiste(usuario: string): boolean {
     return this.usuarios.some(u => u.usuario === usuario);
   }
+  
 }
