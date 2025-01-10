@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { Usuario } from '../models/usuario.model';
 import { Storage } from '@ionic/storage-angular';
+import { File } from '@ionic-native/file/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -41,17 +42,53 @@ export class UsuarioService {
       correo: 'edlith@example.com'
     }
   ];
-
   private usuarioAutenticado: Usuario | null = null;
+  private readonly fileName = 'usuarios.json';
 
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage, private file: File) {
     this.initializeStorage();
   }
 
   async initializeStorage() {
     await this.storage.create();
     this.usuarioAutenticado = await this.storage.get('usuarioAutenticado');
+    await this.loadUsuariosFromFile();
   }
+
+  async loadUsuariosFromFile() {
+    try {
+      const path = this.file.dataDirectory;
+      const fileExists = await this.file.checkFile(path, this.fileName);
+      if (fileExists) {
+        const fileContent = await this.file.readAsText(path, this.fileName);
+        this.usuarios = JSON.parse(fileContent) || [];
+      } else {
+        await this.file.writeFile(path, this.fileName, JSON.stringify(this.usuarios), { replace: true });
+      }
+    } catch (error) {
+      console.error('Error loading usuarios from file:', error);
+    }
+  }
+
+  async saveUsuariosToFile() {
+    try {
+      const path = this.file.dataDirectory;
+      await this.file.writeFile(path, this.fileName, JSON.stringify(this.usuarios), { replace: true });
+    } catch (error) {
+      console.error('Error saving usuarios to file:', error);
+    }
+  }
+
+  mergeUsuarios(defaultUsuarios: Usuario[], fileUsuarios: Usuario[]): Usuario[] {
+    const mergedUsuarios = [...defaultUsuarios];
+    fileUsuarios.forEach(fileUsuario => {
+      if (!defaultUsuarios.some(defaultUsuario => defaultUsuario.usuario === fileUsuario.usuario)) {
+        mergedUsuarios.push(fileUsuario);
+      }
+    });
+    return mergedUsuarios;
+  }
+
 
   hashContrasenia(contrasenia: string): string {
     return CryptoJS.SHA256(contrasenia).toString();
@@ -90,12 +127,12 @@ export class UsuarioService {
     return this.usuarios.find(u => u.usuario === usuario);
   }
 
-  agregarUsuario(usuario: Usuario): void {
+  async agregarUsuario(usuario: Usuario): Promise<void> {
     this.usuarios.push(usuario);
+    await this.saveUsuariosToFile();
   }
 
   usuarioYaExiste(usuario: string): boolean {
     return this.usuarios.some(u => u.usuario === usuario);
   }
-  
 }
