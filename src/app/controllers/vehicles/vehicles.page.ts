@@ -32,7 +32,6 @@ export class VehiclesPage implements OnInit {
         // Compara el tiempo actual con el tiempo de la última vez que se presionó el botón de regresar
         if (currentTime - this.lastBackPress < this.timePeriodToExit) {
           // Si el tiempo es menor a 2 segundos, se sale de la aplicación si presiono por segunda ocasión
-          await this.usuarioService.guardarSesion();
           App.exitApp();
         } else {
           // Si el tiempo es mayor a 2 segundos, se muestra un mensaje para salir de la aplicación

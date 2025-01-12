@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
       console.log('Hashed Contraseña:', hashContrasenia); // El dato que ingresa el usuario se convierte en un hash
 
       // Verificar el hash de la contraseña
-      const isValid = await this.usuarioService.verificarUsuario(this.usuario, this.contrasena);
+      const isValid = this.usuarioService.verificarUsuario(this.usuario, this.contrasena);
       if (isValid) {
         console.log('Hash verificado correctamente');
         this.router.navigate(['/vehicles']);

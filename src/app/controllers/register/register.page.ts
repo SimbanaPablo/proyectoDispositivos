@@ -163,7 +163,7 @@ export class RegisterPage {
     }
   }
 
-  register() {
+  async register() {
     console.log('Intentando registrar usuario...');
     this.validateForm();
     if (!this.nombreCompletoError && !this.usuarioError && !this.correoError && !this.contrasenaError && this.nombreCompleto && this.usuario && this.correo && this.contrasena) {
@@ -171,7 +171,7 @@ export class RegisterPage {
       const hashContrasenia = this.usuarioService.hashContrasenia(this.contrasena);
       const imagenes = ['assets/img/p-1.png', 'assets/img/p-2.png', 'assets/img/p-3.png', 'assets/img/p-4.png'];
       const imagen = imagenes[Math.floor(Math.random() * imagenes.length)];
-
+  
       const nuevoUsuario: Usuario = {
         usuario: this.usuario,
         nombre: nombre,
@@ -180,9 +180,9 @@ export class RegisterPage {
         imagen: imagen,
         correo: this.correo
       };
-
-      this.usuarioService.agregarUsuario(nuevoUsuario);
-
+  
+      await this.usuarioService.agregarUsuario(nuevoUsuario);
+  
       this.router.navigate(['/login'], { state: { message: 'Registro exitoso' } });
       this.presentToast('Registro exitoso, bienvendio a la aplicación.');
       this.mensajeExito = 'Registro exitoso, bienvendio a la aplicación.';

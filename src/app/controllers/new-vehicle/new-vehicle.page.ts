@@ -73,7 +73,7 @@ export class NewVehiclePage implements OnInit {
           existingVehicle.costo = this.vehicle.costo;
           existingVehicle.activo = this.vehicle.activo;
           existingVehicle.oculto = false;
-          this.vehicleService.updateVehicle(existingVehicle);
+          await this.vehicleService.updateVehicle(existingVehicle);
           await this.presentToast('Vehículo reactivado con éxito');
           this.resetForm();
           this.router.navigate(['/vehicles']);
@@ -81,7 +81,7 @@ export class NewVehiclePage implements OnInit {
           await this.presentToast('La placa ya existe. Ingrese una placa diferente.');
         }
       } else {
-        this.vehicleService.addVehicle(this.vehicle);
+        await this.vehicleService.addVehicle(this.vehicle);
         await this.presentToast('Vehículo añadido con éxito');
         this.resetForm();
         this.router.navigate(['/vehicles']);

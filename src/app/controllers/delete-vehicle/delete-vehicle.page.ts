@@ -74,17 +74,17 @@ export class DeleteVehiclePage implements OnInit {
   }
 
   // Confirmar y ocultar el vehículo
-  confirmHideVehicle() {
+  async confirmHideVehicle() {
     if (this.placaToDelete) {
-      this.hideVehicle(this.placaToDelete);
+      await this.hideVehicle(this.placaToDelete);
       this.isAlertOpen = false;
       this.placaToDelete = null;
     }
   }
 
   // Ocultar un vehículo
-  hideVehicle(placa: string): void {
-    this.vehicleService.deleteVehicle(placa);
+  async hideVehicle(placa: string): Promise<void> {
+    await this.vehicleService.deleteVehicle(placa);
     this.loadVehicles(); // Actualiza la lista de vehículos
     this.presentToast('Vehículo eliminado con éxito');
   }
