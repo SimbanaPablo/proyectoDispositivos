@@ -49,13 +49,15 @@ export class VehiclesPage implements OnInit {
   }
 
   // Cargar la lista de vehículos cada vez que la vista se va a mostrar
+
   ionViewWillEnter() {
     this.loadVehicles();
   }
 
+
   // Cargar la lista de vehículos
-  loadVehicles() {
-    this.vehicles = this.vehicleService.getVehicles();
+  async loadVehicles() {
+    this.vehicles = await this.vehicleService.getVehicles();
   }
 
   // Visualizar la información del usuario

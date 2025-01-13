@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
@@ -25,8 +25,8 @@ export class DeleteVehiclePage implements OnInit {
   ) {}
 
   // Enlista los vehículos en el sistema
-  ngOnInit() {
-    this.loadVehicles();
+  async ngOnInit() {
+    await this.loadVehicles();
 
     // Suscribirse al evento del botón de regresar del celular
     this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
@@ -40,9 +40,10 @@ export class DeleteVehiclePage implements OnInit {
       this.backButtonSubscription.unsubscribe();
     }
   }
+
   // Cargar la lista de vehículos
-  loadVehicles() {
-    this.vehicles = this.vehicleService.getVehicles();
+  async loadVehicles() {
+    this.vehicles = await this.vehicleService.getVehicles();
   }
 
   // Configuración del Toast (Mensajes a pantalla para móvil)
@@ -74,18 +75,18 @@ export class DeleteVehiclePage implements OnInit {
   }
 
   // Confirmar y ocultar el vehículo
-  confirmHideVehicle() {
+  async confirmHideVehicle() {
     if (this.placaToDelete) {
-      this.hideVehicle(this.placaToDelete);
+      await this.hideVehicle(this.placaToDelete);
       this.isAlertOpen = false;
       this.placaToDelete = null;
     }
   }
 
   // Ocultar un vehículo
-  hideVehicle(placa: string): void {
-    this.vehicleService.deleteVehicle(placa);
-    this.loadVehicles(); // Actualiza la lista de vehículos
+  async hideVehicle(placa: string) {
+    await this.vehicleService.deleteVehicle(placa);
+    await this.loadVehicles(); // Actualiza la lista de vehículos
     this.presentToast('Vehículo eliminado con éxito');
   }
 
@@ -98,6 +99,7 @@ export class DeleteVehiclePage implements OnInit {
   cancelBack() {
     this.isAlertBackOpen = false;
   }
+
   confirmBack() {
     this.isAlertBackOpen = false;
     this.router.navigate(['/vehicles']); 
@@ -106,8 +108,7 @@ export class DeleteVehiclePage implements OnInit {
   // Confirmar la alerta back
   backVehicles() {
     this.isAlertOpen = false;
-    this.presentToast('Se elimino correctamente el automivil.');
-    //this.router.navigate(['/vehicles']);
+    this.presentToast('Se elimino correctamente el automovil.');
     this.confirmHideVehicle();
   }
 }

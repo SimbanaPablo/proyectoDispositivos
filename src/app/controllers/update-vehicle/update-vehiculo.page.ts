@@ -63,7 +63,7 @@ export class UpdateVehiculoPage implements OnInit {
   async updateVehicle() {
     this.isFormSubmitted = true;
     if (this.vehicle && this.isFormValid() && this.hasVehicleChanged()) {
-      this.vehicleService.updateVehicle(this.vehicle);
+      await this.vehicleService.updateVehicle(this.vehicle);
       await this.presentToast('Vehículo actualizado con éxito');
       this.isFormSubmitted = false;
       this.router.navigate(['/edit-vehicle']);

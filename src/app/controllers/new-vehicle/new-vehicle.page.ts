@@ -62,7 +62,8 @@ export class NewVehiclePage implements OnInit {
   async addVehicle() {
     this.isFormSubmitted = true; // Marcar el formulario como enviado
     this.vehicle.placa = this.vehicle.placa.toUpperCase(); // Convertir la placa a mayúsculas
-    const existingVehicle = this.vehicleService.getAllVehicles().find(v => v.placa === this.vehicle.placa);
+    const allVehicles = await this.vehicleService.getAllVehicles();
+    const existingVehicle = allVehicles.find(v => v.placa === this.vehicle.placa);
     if (this.isFormValid()) {
       if (existingVehicle) {
         if (existingVehicle.oculto) {
@@ -73,7 +74,7 @@ export class NewVehiclePage implements OnInit {
           existingVehicle.costo = this.vehicle.costo;
           existingVehicle.activo = this.vehicle.activo;
           existingVehicle.oculto = false;
-          this.vehicleService.updateVehicle(existingVehicle);
+          await this.vehicleService.updateVehicle(existingVehicle);
           await this.presentToast('Vehículo reactivado con éxito');
           this.resetForm();
           this.router.navigate(['/vehicles']);
@@ -81,7 +82,7 @@ export class NewVehiclePage implements OnInit {
           await this.presentToast('La placa ya existe. Ingrese una placa diferente.');
         }
       } else {
-        this.vehicleService.addVehicle(this.vehicle);
+        await this.vehicleService.addVehicle(this.vehicle);
         await this.presentToast('Vehículo añadido con éxito');
         this.resetForm();
         this.router.navigate(['/vehicles']);
@@ -92,15 +93,41 @@ export class NewVehiclePage implements OnInit {
   isFormValid() {
     return this.vehicle.placa !== '' &&
       this.isPlacaValid(this.vehicle.placa) &&
+      this.isFormatPlacaValid(this.vehicle.placa) &&
       this.vehicle.marca !== '' &&
       this.vehicle.fecFabricacion !== '' &&
       this.vehicle.color !== '' &&
       this.vehicle.costo !== null && this.vehicle.costo > 0;
   }
 
+  /// Validacion placa formato 3 letras - 4 numeros
   isPlacaValid(placa: string): boolean {
-    const placaRegex = /^[A-Z]{3}-\d{4}$/; // Formato de placa: tres letras seguidas de cuatro números
+    // Formato de placa: tres letras seguidas de cuatro números, sin permitir Q y Z al inicio
+    const placaRegex = /^[A-ZÑ]{3}-\d{4}$/;
     return placaRegex.test(placa);
+  }
+
+  /// Vealidacion placa formato sin Q,Z al inicio
+  isFormatPlacaValid(placa: string): boolean {
+    // Formato de placa: tres letras seguidas de cuatro números, sin permitir Q y Z al inicio
+    const placaRegex = /^[A-PR-Y]{1}[A-ZÑ]{2}-\d{4}$/;
+    return placaRegex.test(placa);
+  }
+
+  // Validacion placa formato sin consecutivos tanto letras como numeros
+  isConsecutiveFormatPlacaValid(placa: string): boolean {
+    // Formato de placa: tres letras seguidas de cuatro números, sin permitir Q y Z al inicio
+    return this.tieneRepetidos(placa);
+  }
+
+  tieneRepetidos(placa: string): boolean {
+    // Verificar si hay letras o números consecutivos
+    for (let i = 0; i < placa.length - 1; i++) {
+      if (placa[i] === placa[i + 1]) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // Método para mostrar el toast
@@ -167,7 +194,7 @@ export class NewVehiclePage implements OnInit {
   }
 
   // Confirmar la alerta
-  backVehicles() {
+  async backVehicles() {
     this.isAlertOpen = false;
     this.presentToast('Se cancelo la creación del vehículo.');
     this.router.navigate(['/vehicles']);

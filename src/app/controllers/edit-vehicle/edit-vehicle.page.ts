@@ -14,20 +14,27 @@ export class EditVehiclePage implements OnInit {
   vehicles: Vehicle[] | undefined;
   isAlertOpen = false;
   backButtonSubscription: Subscription | undefined;
+
   constructor(
     private vehicleService: VehicleService,
     private router: Router,
     private platform: Platform,
     private toastController: ToastController
   ) {}
+
   // Enlista los vehículos en el sistema
-  ngOnInit() {
-    this.vehicles = this.vehicleService.getVehicles();
+  async ngOnInit() {
+    await this.loadVehicles();
 
     // Suscribirse al evento del botón de regresar del celular
     this.backButtonSubscription = this.platform.backButton.subscribeWithPriority(10, () => {
       this.showConfirmAlert();
     });
+  }
+
+  // Cargar la lista de vehículos
+  async loadVehicles() {
+    this.vehicles = await this.vehicleService.getVehicles();
   }
 
   ngOnDestroy() {
@@ -61,8 +68,8 @@ export class EditVehiclePage implements OnInit {
   // Método para regresar a la página anterior
   goBack() {
     this.showConfirmAlert();
-
   }
+
   // Mostrar alerta de confirmación
   showConfirmAlert() {
     this.isAlertOpen = true;
@@ -79,5 +86,4 @@ export class EditVehiclePage implements OnInit {
     this.presentToast('Se cancelo la edición del vehículo.');
     this.router.navigate(['/vehicles']);
   }
-
 }

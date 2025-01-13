@@ -1,58 +1,35 @@
 import { Injectable } from "@angular/core";
 import { Vehicle } from '../models/vehicle.model';
+import { SqliteService } from '../services/sqlite.service';
 
 @Injectable({
     providedIn: "root"
 })
 export class VehicleService {
-    // Array con todos los posibles vehículos en el sistema
-    private vehicles: Vehicle[] = [
-        {
-            placa: 'ABC-1235', 
-            marca: 'Toyota', 
-            fecFabricacion: new Date('2020-01-01').toISOString(), 
-            color: 'blanco', 
-            costo: 20000, 
-            activo: true,
-            oculto: false
-        },
-        {
-            placa: 'DEF-4568', 
-            marca: 'Honda', 
-            fecFabricacion: new Date('2019-05-15').toISOString(), 
-            color: 'negro', 
-            costo: 18000, 
-            activo: true,
-            oculto: false
-        },
-        {
-            placa: 'GHI-7890', 
-            marca: 'Ford', 
-            fecFabricacion: new Date('2020-07-20').toISOString(), 
-            color: 'azul', 
-            costo: 22000, 
-            activo: true,
-            oculto: false
-        }
-    ];
+    private vehicles: Vehicle[] = [];
+
+    constructor(private sqlite: SqliteService) {}
 
     // Obtener la lista de vehículos no ocultos
-    getVehicles(): Vehicle[] {
-        return this.vehicles.filter(vehicle => !vehicle.oculto);
+    async getVehicles(): Promise<Vehicle[]> {
+        const allVehicles = await this.sqlite.read();
+        return allVehicles.filter(vehicle => !vehicle.oculto);
     }
 
     // Obtener la lista de todos los vehículos, incluidos los ocultos
-    getAllVehicles(): Vehicle[] {
-        return this.vehicles;
+    async getAllVehicles(): Promise<Vehicle[]> {
+        return await this.sqlite.read();
     }
 
     // Agregar un nuevo vehículo
-    addVehicle(vehicle: Vehicle): void {
+    async addVehicle(vehicle: Vehicle): Promise<void> {
+        await this.sqlite.create(vehicle);
         this.vehicles.push(vehicle);
     }
 
     // Actualizar un vehículo existente
-    updateVehicle(updatedVehicle: Vehicle): void {
+    async updateVehicle(updatedVehicle: Vehicle): Promise<void> {
+        await this.sqlite.update(updatedVehicle);
         const index = this.vehicles.findIndex(vehicle => vehicle.placa === updatedVehicle.placa);
         if (index !== -1) {
             this.vehicles[index] = updatedVehicle;
@@ -60,7 +37,8 @@ export class VehicleService {
     }
 
     // Ocultar un vehículo (no eliminar)
-    deleteVehicle(placa: string): void {
+    async deleteVehicle(placa: string): Promise<void> {
+        await this.sqlite.delete(placa);
         const index = this.vehicles.findIndex(vehicle => vehicle.placa === placa);
         if (index !== -1) {
             this.vehicles[index].oculto = true;
