@@ -17,19 +17,27 @@
             "name": "users",
             "schema": [
                 {
-                    "column": "id",
-                    "value": "INTEGER PRIMARY KEY AUTOINCREMENT"
+                    "column": "usuario",
+                    "value": "TEXT NOT NULL PRIMARY KEY"
                 },
                 {
-                    "column": "username",
+                    "column": "nombre",
                     "value": "TEXT NOT NULL"
                 },
                 {
-                    "column": "password",
+                    "column": "apellido",
                     "value": "TEXT NOT NULL"
                 },
                 {
-                    "column": "email",
+                    "column": "contrasenia",
+                    "value": "TEXT NOT NULL"
+                },
+                {
+                    "column": "imagen",
+                    "value": "TEXT NOT NULL"
+                },
+                {
+                    "column": "correo",
                     "value": "TEXT NOT NULL"
                 }
             ]
