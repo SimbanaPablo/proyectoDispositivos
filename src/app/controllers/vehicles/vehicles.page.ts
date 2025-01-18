@@ -32,7 +32,6 @@ export class VehiclesPage implements OnInit {
         // Compara el tiempo actual con el tiempo de la última vez que se presionó el botón de regresar
         if (currentTime - this.lastBackPress < this.timePeriodToExit) {
           // Si el tiempo es menor a 2 segundos, se sale de la aplicación si presiono por segunda ocasión
-          await this.usuarioService.guardarSesion();
           App.exitApp();
         } else {
           // Si el tiempo es mayor a 2 segundos, se muestra un mensaje para salir de la aplicación
@@ -61,7 +60,7 @@ export class VehiclesPage implements OnInit {
   }
 
   // Visualizar la información del usuario
-  loadUserData() {
+  async loadUserData() {
     const usuarioAutenticado = this.usuarioService.obtenerUsuarioAutenticado();
     if (usuarioAutenticado) {
       this.user = { nombre: usuarioAutenticado.nombre, apellido: usuarioAutenticado.apellido, imagen: usuarioAutenticado.imagen };
@@ -98,9 +97,9 @@ export class VehiclesPage implements OnInit {
   }
 
   // Confirmar la alerta
-  backLogin() {
+  async backLogin() {
     this.isAlertOpen = false;
-    this.usuarioService.cerrarSesion();
+    await this.usuarioService.cerrarSesion();
 
     // Limpiar el almacenamiento local y de sesión
     localStorage.clear();

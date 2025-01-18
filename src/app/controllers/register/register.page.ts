@@ -71,7 +71,7 @@ export class RegisterPage {
     return errores;
 }
 
-  validarUsuario(usuario: string): string[] {
+  async validarUsuario(usuario: string): Promise<string[]> {
     const errores: string[] = [];
     const regexLongitud = /^[A-Za-z0-9]{8,13}$/;
     const regexMinusculas = /^[a-z0-9]+$/;
@@ -88,7 +88,7 @@ export class RegisterPage {
       errores.push('El usuario no debe tener espacios.');
     }
 
-    if (this.usuarioService.getUsuario(usuario)) {
+    if (await this.usuarioService.usuarioYaExiste(usuario)) {
       errores.push('El nombre de usuario ya existe. Por favor, elige otro nombre.');
     }
 
@@ -136,7 +136,7 @@ export class RegisterPage {
     return errores;
   }
 
-  validateForm() {
+  async validateForm() {
     this.nombreCompletoError = '';
     this.usuarioError = '';
     this.correoError = '';
@@ -147,7 +147,7 @@ export class RegisterPage {
       this.nombreCompletoError = nombreErrores.join(' ');
     }
 
-    const usuarioErrores = this.usuario ? this.validarUsuario(this.usuario) : [];
+    const usuarioErrores = this.usuario ? await this.validarUsuario(this.usuario) : [];
     if (usuarioErrores.length > 0) {
       this.usuarioError = usuarioErrores.join(' ');
     }
@@ -163,7 +163,7 @@ export class RegisterPage {
     }
   }
 
-  register() {
+  async register() {
     console.log('Intentando registrar usuario...');
     this.validateForm();
     if (!this.nombreCompletoError && !this.usuarioError && !this.correoError && !this.contrasenaError && this.nombreCompleto && this.usuario && this.correo && this.contrasena) {
@@ -181,7 +181,7 @@ export class RegisterPage {
         correo: this.correo
       };
 
-      this.usuarioService.agregarUsuario(nuevoUsuario);
+      await this.usuarioService.agregarUsuario(nuevoUsuario);
 
       this.router.navigate(['/login'], { state: { message: 'Registro exitoso' } });
       this.presentToast('Registro exitoso, bienvendio a la aplicación.');

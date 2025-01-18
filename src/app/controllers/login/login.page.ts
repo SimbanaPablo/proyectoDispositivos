@@ -63,9 +63,8 @@ export class LoginPage implements OnInit {
     this.validateForm();
     if (!this.usuarioError && !this.contrasenaError && this.usuario && this.contrasena) {
       const hashContrasenia = this.usuarioService.hashContrasenia(this.contrasena);
-      console.log('Hashed Contraseña:', hashContrasenia); // El dato que ingresa el usuario se convierte en un hash
+      console.log('Hashed Contraseña:', hashContrasenia);
 
-      // Verificar el hash de la contraseña
       const isValid = await this.usuarioService.verificarUsuario(this.usuario, this.contrasena);
       if (isValid) {
         console.log('Hash verificado correctamente');

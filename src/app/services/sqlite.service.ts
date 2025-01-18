@@ -5,6 +5,7 @@ import { CapacitorSQLite, capSQLiteChanges, capSQLiteValues, JsonSQLite } from '
 import { Preferences } from '@capacitor/preferences';
 import { HttpClient } from '@angular/common/http';
 import { Vehicle } from '../models/vehicle.model';
+import { Usuario } from '../models/usuario.model'; // Assuming you have a User model
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,40 @@ export class SqliteService {
       oculto: false
     }
   ];
+  private usuarios: Usuario[] = [
+    {
+      usuario: 'fatima',
+      nombre: 'Fátima',
+      apellido: 'Fiallos',
+      contrasenia: 'dfd8e2346c070722311ea41e2a44e29a44dfadb0250651bc8a7e895e3af90948',
+      imagen: 'assets/img/p-1.png',
+      correo: 'fatima@example.com'
+    }, 
+    {
+      usuario: 'leonardo',
+      nombre: 'Leonardo',
+      apellido: 'Ramírez',
+      contrasenia: 'daa1ca90a18bcf94622b29f74c7c4a9baf94d4ebd29163eff0fd1bedd5339d5d',
+      imagen: 'assets/img/p-2.png',
+      correo: 'leonardo@example.com'
+    },
+    {
+      usuario: 'pablo',
+      nombre: 'Pablo',
+      apellido: 'Simbaña',
+      contrasenia: 'b84225cfa8252b533d242cd6ee682739e9e29ee6f5ec9a36f5a7feff2fa95b2d',
+      imagen: 'assets/img/p-3.png',
+      correo: 'pablo@example.com'
+    },
+    {
+      usuario: 'edlith',
+      nombre: 'Edlith',
+      apellido: 'Vinueza',
+      contrasenia: 'd3ca1b6dd2e49bd709bd915568525699441a4245f523fc4af869b9e5771ff300',
+      imagen: 'assets/img/p-4.png',
+      correo: 'edlith@example.com'
+    }
+  ];
 
   constructor(
     private http: HttpClient
@@ -74,6 +109,7 @@ export class SqliteService {
     await this.setupdatabase();
     await this.printTableColumns();
     await this.printVehicles();
+    await this.printUsers();
   }
 
   async setupdatabase(){
@@ -226,6 +262,134 @@ export class SqliteService {
     }
   }
 
+  async createUser(user: Usuario) {
+    let sql = 'INSERT INTO users (usuario, nombre, apellido, contrasenia, imagen, correo) VALUES (?, ?, ?, ?, ?, ?)';
+    const dbName = await this.getDbName();
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: [
+            user.usuario,
+            user.nombre,
+            user.apellido,
+            user.contrasenia,
+            user.imagen,
+            user.correo
+          ]
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      console.log(`User ${user.usuario} inserted`);
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
+      }
+      return changes;
+    }).catch(err => {
+      console.error(`Error inserting user ${user.usuario}:`, err);
+      return Promise.reject(err);
+    });
+  }
+
+  async readUsers() {
+    let sql = 'SELECT * FROM users';
+    const dbName = await this.getDbName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: []
+    }).then((response: capSQLiteValues) => {
+      let users: Usuario[] = [];
+      if (this.isIOS && response.values.length > 0) {
+        response.values.shift();
+      }
+  
+      for (let index = 0; index < response.values.length; index++) {
+        const user = response.values[index];
+        users.push(user);
+      }
+      return users;
+    }).catch(err => Promise.reject(err));
+  }
+
+  async updateUser(updatedUser: Usuario) {
+    let sql = 'UPDATE users SET nombre = ?, apellido = ?, contrasenia = ?, imagen = ?, correo = ? WHERE usuario = ?';
+    const dbName = await this.getDbName();
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: [
+            updatedUser.nombre,
+            updatedUser.apellido,
+            updatedUser.contrasenia,
+            updatedUser.imagen,
+            updatedUser.correo,
+            updatedUser.usuario
+          ]
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
+      }
+      return changes;
+    }).catch(err => Promise.reject(err));
+  }
+
+  async deleteUser(usuario: string) {
+    let sql = 'DELETE FROM users WHERE usuario = ?';
+    const dbName = await this.getDbName();
+    return CapacitorSQLite.executeSet({
+      database: dbName,
+      set: [
+        {
+          statement: sql,
+          values: [usuario]
+        }
+      ]
+    }).then((changes: capSQLiteChanges) => {
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
+      }
+      return changes;
+    }).catch(err => Promise.reject(err));
+  }
+
+  async readUserByCredentials(usuario: string, contrasenia: string) {
+    let sql = 'SELECT * FROM users WHERE usuario = ? AND contrasenia = ?';
+    const dbName = await this.getDbName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: [usuario, contrasenia]
+    }).then((response: capSQLiteValues) => {
+      if (response.values.length > 0) {
+        return response.values[0];
+      } else {
+        return null;
+      }
+    }).catch(err => Promise.reject(err));
+  }
+
+  async readUserByUsuario(usuario: string) {
+    let sql = 'SELECT * FROM users WHERE usuario = ?';
+    const dbName = await this.getDbName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sql,
+      values: [usuario]
+    }).then((response: capSQLiteValues) => {
+      if (response.values.length > 0) {
+        return response.values[0];
+      } else {
+        return null;
+      }
+    }).catch(err => Promise.reject(err));
+  }
+
   async printTableColumns() {
     const dbName = await this.getDbName();
     const tables = await CapacitorSQLite.query({
@@ -251,4 +415,11 @@ export class SqliteService {
     const vehicles = await this.readVehicle();
     console.log('Vehicles:', vehicles);
   }
+
+  async printUsers() {
+    const users = await this.readUsers();
+    console.log('Users:', users);
+  }
+
+  
 }
