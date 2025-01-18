@@ -12,24 +12,24 @@ export class VehicleService {
 
     // Obtener la lista de vehículos no ocultos
     async getVehicles(): Promise<Vehicle[]> {
-        const allVehicles = await this.sqlite.read();
+        const allVehicles = await this.sqlite.readVehicle();
         return allVehicles.filter(vehicle => !vehicle.oculto);
     }
 
     // Obtener la lista de todos los vehículos, incluidos los ocultos
     async getAllVehicles(): Promise<Vehicle[]> {
-        return await this.sqlite.read();
+        return await this.sqlite.readVehicle();
     }
 
     // Agregar un nuevo vehículo
     async addVehicle(vehicle: Vehicle): Promise<void> {
-        await this.sqlite.create(vehicle);
+        await this.sqlite.createVehicle(vehicle);
         this.vehicles.push(vehicle);
     }
 
     // Actualizar un vehículo existente
     async updateVehicle(updatedVehicle: Vehicle): Promise<void> {
-        await this.sqlite.update(updatedVehicle);
+        await this.sqlite.updateVehicle(updatedVehicle);
         const index = this.vehicles.findIndex(vehicle => vehicle.placa === updatedVehicle.placa);
         if (index !== -1) {
             this.vehicles[index] = updatedVehicle;
@@ -38,7 +38,7 @@ export class VehicleService {
 
     // Ocultar un vehículo (no eliminar)
     async deleteVehicle(placa: string): Promise<void> {
-        await this.sqlite.delete(placa);
+        await this.sqlite.deleteVehicle(placa);
         const index = this.vehicles.findIndex(vehicle => vehicle.placa === placa);
         if (index !== -1) {
             this.vehicles[index].oculto = true;
