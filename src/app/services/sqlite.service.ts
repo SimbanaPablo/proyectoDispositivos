@@ -6,7 +6,7 @@ import { Preferences } from '@capacitor/preferences';
 import { HttpClient } from '@angular/common/http';
 import { Vehicle } from '../models/vehicle.model';
 import { Usuario } from '../models/usuario.model'; // Assuming you have a User model
-
+import { first } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -142,6 +142,7 @@ export class SqliteService {
 
         this.dbReady.next(true);
         await this.insertInitialVehicles(); // Ensure vehicles are inserted after database setup
+        await this.insertInitialUsers(); // Ensure users are inserted after database setup
       }
     )
   }
@@ -262,7 +263,14 @@ export class SqliteService {
     }
   }
 
+  async insertInitialUsers() {
+    for (const user of this.usuarios) {
+      await this.createUser(user);
+    }
+  }
+
   async createUser(user: Usuario) {
+    await this.dbReady.pipe(first(isReady => isReady)).toPromise(); // Espera a que la base de datos esté lista
     let sql = 'INSERT INTO users (usuario, nombre, apellido, contrasenia, imagen, correo) VALUES (?, ?, ?, ?, ?, ?)';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
