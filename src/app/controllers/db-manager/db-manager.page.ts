@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SqliteService } from '../../services/sqlite.service';
+import { Platform, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-db-manager',
@@ -13,7 +14,13 @@ export class DbManagerPage {
   queryKeys: string[] = [];
   errorMessage: string = '';
 
-  constructor(private sqliteService: SqliteService, private router: Router) {}
+  constructor(private sqliteService: SqliteService, private router: Router, private platform: Platform) {
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      this.router.navigate(['/vehicles']); 
+    });
+  }
+
+  ngOnInit() {}
 
   async executeQuery() {
     if (this.sqlQuery.trim() === '') {
@@ -37,5 +44,8 @@ export class DbManagerPage {
       this.errorMessage = 'Error ejecutando la consulta: ' + err.message;
       console.error('Error ejecutando la consulta:', err);
     }
+  }
+  goToVehicles() {
+    this.router.navigate(['/vehicles']);
   }
 }
