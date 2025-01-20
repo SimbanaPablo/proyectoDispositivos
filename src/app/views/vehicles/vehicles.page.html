@@ -36,7 +36,8 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item lines="none">
-            <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
+            <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' :
+              'Inactivo' }}</p>
           </ion-item>
         </ion-card-content>
       </ion-card>
@@ -47,7 +48,10 @@
     <ion-fab-button>
       <ion-icon name="grid"></ion-icon>
     </ion-fab-button>
-      <ion-fab-list side="top">
+    <ion-fab-list side="top">
+      <ion-fab-button class="db-button" (click)="gotoDBManagement()">
+        <ion-icon name="server-outline"></ion-icon>
+      </ion-fab-button>
       <ion-fab-button class="delete-button" (click)="goToDeleteVehicle()">
         <ion-icon name="trash"></ion-icon>
       </ion-fab-button>

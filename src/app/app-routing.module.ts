@@ -44,6 +44,11 @@ const routes: Routes = [
     path: 'delete-vehicle',
     loadChildren: () => import('./views/delete-vehicle/delete-vehicle.module').then( m => m.DeleteVehiclePageModule)
   },
+  {
+    path: 'db-manager',
+    loadChildren: () => import('./views/db-manager/db-manager.module').then( m => m.DbManagerPageModule)
+  },
+
 
 ];
 

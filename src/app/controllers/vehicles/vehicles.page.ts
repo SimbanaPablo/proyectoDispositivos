@@ -82,6 +82,11 @@ export class VehiclesPage implements OnInit {
     this.router.navigate(['/delete-vehicle']);
   }
 
+  // Redirecciona a la vista de la Gestion de DB
+  gotoDBManagement() {
+    this.router.navigate(['/db-manager']);
+  }
+
   logout() {
     this.showConfirmAlert();
   }

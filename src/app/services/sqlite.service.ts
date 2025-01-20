@@ -429,5 +429,19 @@ export class SqliteService {
     console.log('Users:', users);
   }
 
+  async executeQuery(sqlQuery: string) {
+    const dbName = await this.getDbName();
+    return CapacitorSQLite.query({
+      database: dbName,
+      statement: sqlQuery,
+      values: []
+    }).then((response: capSQLiteValues) => {
+      return response.values;
+    }).catch(err => {
+      console.error('Error ejecutando la consulta:', err);
+      throw err;
+    });
+  }
+
   
 }
