@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { Vehicle } from '../models/vehicle.model';
 import { Usuario } from '../models/usuario.model'; // Assuming you have a User model
 import { first } from 'rxjs/operators';
+import { lastValueFrom } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -112,39 +114,47 @@ export class SqliteService {
     await this.printUsers();
   }
 
-  async setupdatabase(){
-    const dbSetup = await Preferences.get({key: 'first_setup_key'});      
-    if(!dbSetup.value){
+  async setupdatabase() {
+    const dbSetup = await Preferences.get({ key: 'first_setup_key' });
+    if (!dbSetup.value) {
       await this.downloadDatabase();
-    }else{
-      this.dbName =  await this.getDbName();  
-
-      await CapacitorSQLite.createConnection({database: this.dbName});
-      await CapacitorSQLite.open({database: this.dbName});
+    } else {
+      this.dbName = await this.getDbName();
+  
+      const isDatabase = await CapacitorSQLite.isDatabase({ database: this.dbName });
+      if (!isDatabase.result) {
+        await CapacitorSQLite.createConnection({ database: this.dbName });
+      }
+  
+      const isDBOpen = await CapacitorSQLite.isDBOpen({ database: this.dbName });
+      if (!isDBOpen.result) {
+        await CapacitorSQLite.open({ database: this.dbName });
+      }
+  
       this.dbReady.next(true);
     }
   }
   
-  downloadDatabase(){
+  async downloadDatabase() {
     this.http.get('assets/data/db.json').subscribe(
-      async (jsonExport: JsonSQLite) =>{
+      async (jsonExport: JsonSQLite) => {
         const jsonstring = JSON.stringify(jsonExport);
         const isValid = await CapacitorSQLite.isJsonValid({ jsonstring });
-        if(isValid.result){
+        if (isValid.result) {
           this.dbName = jsonExport.database;
           await CapacitorSQLite.importFromJson({ jsonstring });
           await CapacitorSQLite.createConnection({ database: this.dbName });
           await CapacitorSQLite.open({ database: this.dbName });
         }
-
-        await Preferences.set({ key: 'first_setup_key', value: '1' });  
-        await Preferences.set({ key: 'dbname', value: this.dbName });  
-
+  
+        await Preferences.set({ key: 'first_setup_key', value: '1' });
+        await Preferences.set({ key: 'dbname', value: this.dbName });
+  
         this.dbReady.next(true);
         await this.insertInitialVehicles(); // Ensure vehicles are inserted after database setup
         await this.insertInitialUsers(); // Ensure users are inserted after database setup
       }
-    )
+    );
   }
 
   async getDbName(){
@@ -158,6 +168,7 @@ export class SqliteService {
   }
 
   async createVehicle(vehicle: Vehicle){
+    await lastValueFrom(this.dbReady.pipe(first(isReady => isReady)));
     let sql = 'INSERT INTO vehicles (placa, marca, fecFabricacion, color, costo, activo, oculto) VALUES (?, ?, ?, ?, ?, ?, ?)';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
@@ -189,6 +200,7 @@ export class SqliteService {
   }
 
   async readVehicle(){
+    await lastValueFrom(this.dbReady.pipe(first(isReady => isReady)));
     let sql = 'SELECT * FROM vehicles';
     const dbName = await this.getDbName();
     return CapacitorSQLite.query({
@@ -210,6 +222,7 @@ export class SqliteService {
   }
 
   async updateVehicle(updatedVehicle: Vehicle){
+    await lastValueFrom(this.dbReady.pipe(first(isReady => isReady)));
     let sql = 'UPDATE vehicles SET marca = ?, fecFabricacion = ?, color = ?, costo = ?, activo = ?, oculto = ? WHERE placa = ?';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
@@ -237,6 +250,7 @@ export class SqliteService {
   }
  
   async deleteVehicle(placa: string){
+    await lastValueFrom(this.dbReady.pipe(first(isReady => isReady)));
     let sql = 'DELETE FROM vehicles WHERE placa = ?';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
@@ -270,8 +284,7 @@ export class SqliteService {
   }
 
   async createUser(user: Usuario) {
-    await this.dbReady.pipe(first(isReady => isReady)).toPromise(); // Espera a que la base de datos esté lista
-    let sql = 'INSERT INTO users (usuario, nombre, apellido, contrasenia, imagen, correo) VALUES (?, ?, ?, ?, ?, ?)';
+    await lastValueFrom(this.dbReady.pipe(first(isReady => isReady)));     let sql = 'INSERT INTO users (usuario, nombre, apellido, contrasenia, imagen, correo) VALUES (?, ?, ?, ?, ?, ?)';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
       database: dbName,
@@ -301,6 +314,7 @@ export class SqliteService {
   }
 
   async readUsers() {
+    await lastValueFrom(this.dbReady.pipe(first(isReady => isReady)));
     let sql = 'SELECT * FROM users';
     const dbName = await this.getDbName();
     return CapacitorSQLite.query({
@@ -322,6 +336,7 @@ export class SqliteService {
   }
 
   async updateUser(updatedUser: Usuario) {
+    await lastValueFrom(this.dbReady.pipe(first(isReady => isReady)));
     let sql = 'UPDATE users SET nombre = ?, apellido = ?, contrasenia = ?, imagen = ?, correo = ? WHERE usuario = ?';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
@@ -348,6 +363,7 @@ export class SqliteService {
   }
 
   async deleteUser(usuario: string) {
+    await lastValueFrom(this.dbReady.pipe(first(isReady => isReady)));
     let sql = 'DELETE FROM users WHERE usuario = ?';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
@@ -431,6 +447,13 @@ export class SqliteService {
 
   async executeQuery(sqlQuery: string) {
     const dbName = await this.getDbName();
+    const isDBOpen = await CapacitorSQLite.isDBOpen({ database: dbName });
+  
+    if (!isDBOpen.result) {
+      await CapacitorSQLite.createConnection({ database: dbName });
+      await CapacitorSQLite.open({ database: dbName });
+    }
+  
     return CapacitorSQLite.query({
       database: dbName,
       statement: sqlQuery,
