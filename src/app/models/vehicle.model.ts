@@ -5,5 +5,6 @@ export interface Vehicle {
     color: 'blanco' | 'negro' | 'azul' | '';
     costo: number|null;
     activo: boolean;
-    oculto: boolean
+    oculto: boolean;
+    fotoUrl: string;
 }

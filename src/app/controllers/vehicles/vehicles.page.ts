@@ -48,15 +48,19 @@ export class VehiclesPage implements OnInit {
   }
 
   // Cargar la lista de vehículos cada vez que la vista se va a mostrar
-
   ionViewWillEnter() {
     this.loadVehicles();
   }
 
-
   // Cargar la lista de vehículos
   async loadVehicles() {
     this.vehicles = await this.vehicleService.getVehicles();
+    // Si algún vehículo no tiene fotoUrl, asigna una predeterminada
+    this.vehicles.forEach(vehicle => {
+      if (!vehicle.fotoUrl) {
+        vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
+      }
+    });
   }
 
   // Visualizar la información del usuario
@@ -123,5 +127,11 @@ export class VehiclesPage implements OnInit {
       cssClass: 'custom-toast'
     });
     toast.present();
+  }
+
+  // Método para manejar errores de carga de imágenes
+  onImageError(event: Event) {
+    const element = event.target as HTMLImageElement;
+    element.src = 'assets/img/logo.png'; // Ruta a una imagen por defecto
   }
 }

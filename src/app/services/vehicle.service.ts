@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Vehicle } from '../models/vehicle.model';
 import { SqliteService } from '../services/sqlite.service';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Injectable({
     providedIn: "root"
@@ -43,5 +44,16 @@ export class VehicleService {
         if (index !== -1) {
             this.vehicles[index].oculto = true;
         }
+    }
+
+    // Método para capturar una foto
+    async takePhoto() {
+        const image = await Camera.getPhoto({
+            quality: 90,
+            allowEditing: false,
+            resultType: CameraResultType.Uri,
+            source: CameraSource.Camera
+        });
+        return image;
     }
 }

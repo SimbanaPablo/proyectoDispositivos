@@ -14,7 +14,22 @@
   .card-container {
     display: flex;
     flex-direction: column;
-    gap: 1px; /* Espacio entre las cartas */
+    gap: 10px; /* Espacio entre las cartas */
+    padding: 10px;
+  }
+  ion-card {
+    width: 100%; /* Asegúrate de que las tarjetas ocupen todo el ancho disponible */
+  }
+  
+  ion-thumbnail {
+    width: 80px; /* Ajusta el tamaño de las miniaturas */
+    height: 80px; /* Ajusta el tamaño de las miniaturas */
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Asegúrate de que las imágenes se ajusten correctamente */
+      border-radius: 8px;
+    }
   }
   
     .delete-button {

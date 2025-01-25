@@ -23,7 +23,8 @@ export class SqliteService {
       color: 'blanco',
       costo: 20000,
       activo: true,
-      oculto: false
+      oculto: false,
+      fotoUrl: 'src/assets/img/toyota.png'
     },
     {
       placa: 'DEF456',
@@ -32,7 +33,8 @@ export class SqliteService {
       color: 'negro',
       costo: 18000,
       activo: true,
-      oculto: false
+      oculto: false,
+      fotoUrl: 'src/assets/img/honda.png'
     },
     {
       placa: 'GHI789',
@@ -41,7 +43,8 @@ export class SqliteService {
       color: 'azul',
       costo: 22000,
       activo: true,
-      oculto: false
+      oculto: false,
+      fotoUrl: 'src/assets/img/ford.png'
     }
   ];
   private usuarios: Usuario[] = [

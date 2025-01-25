@@ -4,6 +4,7 @@ import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-update-vehiculo',
@@ -59,6 +60,17 @@ export class UpdateVehiculoPage implements OnInit {
   goBack() {
     this.showConfirmAlert();
   }
+  async selectPhoto() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Prompt // Permite al usuario elegir entre la cámara y la galería
+    });
+    if (this.vehicle) {
+      this.vehicle.fotoUrl = image.webPath || '';
+    }
+  }
 
   async updateVehicle() {
     this.isFormSubmitted = true;
@@ -78,7 +90,8 @@ export class UpdateVehiculoPage implements OnInit {
       this.vehicle.marca !== '' &&
       this.vehicle.fecFabricacion !== '' &&
       this.vehicle.color !== '' &&
-      this.vehicle.costo !== null && this.vehicle.costo > 0;
+      this.vehicle.costo !== null && this.vehicle.costo > 0 &&
+      this.vehicle?.fotoUrl !== '';
   }
 
   hasVehicleChanged() {

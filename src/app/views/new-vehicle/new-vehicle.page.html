@@ -108,6 +108,18 @@
         </ion-item>
       </div>
 
+      <!-- Foto -->
+      <div class="input-container">
+        <ion-item class="rounded-item">
+          <ion-label class="formularioVehiculo" position="stacked">Foto</ion-label>
+          <ion-button (click)="selectPhoto()">Seleccionar Foto</ion-button>
+        </ion-item>
+        <ion-thumbnail *ngIf="vehicle.fotoUrl">
+          <img [src]="vehicle.fotoUrl" />
+        </ion-thumbnail>
+      </div>
+
+
       <div class="button-container">
         <ion-button class="rounded-button" type="submit">Agregar Vehiculo</ion-button>
       </div>
