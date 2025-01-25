@@ -24,7 +24,7 @@ export class SqliteService {
       costo: 20000,
       activo: true,
       oculto: false,
-      fotoUrl: 'src/assets/img/toyota.png'
+      fotoUrl: 'assets/img/toyota.png'
     },
     {
       placa: 'DEF456',
@@ -34,7 +34,7 @@ export class SqliteService {
       costo: 18000,
       activo: true,
       oculto: false,
-      fotoUrl: 'src/assets/img/honda.png'
+      fotoUrl: 'assets/img/honda.png'
     },
     {
       placa: 'GHI789',
@@ -44,7 +44,7 @@ export class SqliteService {
       costo: 22000,
       activo: true,
       oculto: false,
-      fotoUrl: 'src/assets/img/ford.png'
+      fotoUrl: 'assets/img/ford.png'
     }
   ];
   private usuarios: Usuario[] = [
@@ -175,7 +175,8 @@ export class SqliteService {
             vehicle.color,
             vehicle.costo,
             vehicle.activo,
-            vehicle.oculto
+            vehicle.oculto,
+            vehicle.fotoUrl
           ]
         }
       ]
@@ -206,7 +207,16 @@ export class SqliteService {
 
       for(let index = 0; index < response.values.length; index++){
         const vehicle = response.values[index];
-        vehicles.push(vehicle);
+        vehicles.push({
+          placa: vehicle.placa,
+          marca: vehicle.marca,
+          fecFabricacion: vehicle.fecFabricacion,
+          color: vehicle.color,
+          costo: vehicle.costo,
+          activo: vehicle.activo,
+          oculto: vehicle.oculto,
+          fotoUrl: vehicle.fotoUrl // Asegúrate de incluir fotoUrl aquí
+        });
       }
       return vehicles;
     }).catch(err => Promise.reject(err));
@@ -227,6 +237,7 @@ export class SqliteService {
             updatedVehicle.costo,
             updatedVehicle.activo,
             updatedVehicle.oculto,
+            updatedVehicle.fotoUrl,
             updatedVehicle.placa
           ]
         }

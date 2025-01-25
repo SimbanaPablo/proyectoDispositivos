@@ -72,6 +72,10 @@
           {
             "column": "oculto",
             "value": "BOOLEAN NOT NULL"
+          },
+          {
+            "column": "fotoUrl",
+            "value": "TEXT NOT NULL" 
           }
         ]
       }
