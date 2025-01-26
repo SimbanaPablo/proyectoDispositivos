@@ -67,6 +67,8 @@ export class NewVehiclePage implements OnInit {
       source: CameraSource.Prompt // Permite al usuario elegir entre la cámara y la galería
     });
     this.vehicle.fotoUrl = image.webPath || '';
+    console.log('Photo URL:', image.webPath);
+    return image.webPath;
   }
 
   // Método para agregar un vehículo

@@ -60,22 +60,23 @@ export class UpdateVehiculoPage implements OnInit {
   goBack() {
     this.showConfirmAlert();
   }
-  async selectPhoto() {
+  async selectPhoto(): Promise<string | undefined> {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Uri,
       source: CameraSource.Prompt // Permite al usuario elegir entre la cámara y la galería
     });
-    if (this.vehicle) {
-      this.vehicle.fotoUrl = image.webPath || '';
-    }
+    this.vehicle.fotoUrl = image.webPath || '';
+    console.log('Photo URL:', image.webPath);
+    return image.webPath;
   }
 
   async updateVehicle() {
     this.isFormSubmitted = true;
     if (this.vehicle && this.isFormValid() && this.hasVehicleChanged()) {
       await this.vehicleService.updateVehicle(this.vehicle);
+      console.log('Foto del vehículo actualizada con la URL:', this.vehicle.fotoUrl);
       await this.presentToast('Vehículo actualizado con éxito');
       this.isFormSubmitted = false;
       this.router.navigate(['/edit-vehicle']);
