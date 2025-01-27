@@ -153,3 +153,35 @@ ion-card {
   --background: linear-gradient(135deg, #048a02, #00e04e); 
   --color: white;
 }
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacio entre las cartas */
+  padding: 10px;
+}
+
+/* .card-container ion-card {
+  width: 100%; Asegúrate de que las tarjetas ocupen todo el ancho disponible 
+}*/
+
+ion-item {
+  display: flex;
+  align-items: center;
+}
+
+ion-thumbnail {
+  width: 100px; /* Tamaño del contenedor ajustable */
+  height: 100px;
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  overflow: hidden; /* Ocultar contenido desbordado, si aplica */
+  
+  border-radius: 10px;
+  img {
+    width: 100%; /* Ocupar todo el ancho disponible */
+    height: 100%; /* Ocupar todo el alto disponible */
+    object-fit: cover; /* Ajustar sin deformar */
+  }
+}

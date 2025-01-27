@@ -39,7 +39,7 @@
             <p>{{ vehicle.color }} - {{vehicle.fecFabricacion | date: 'yyyy-MM-dd' }} - {{vehicle.activo ? 'Activo' : 'Inactivo' }}</p>
           </ion-item>
           <ion-item lines="none">
-            <ion-thumbnail slot="start">
+            <ion-thumbnail slot="start" class="color-thumbnail">
               <img [src]="vehicle.fotoUrl" (error)="onImageError($event)">
               <ng-template #noImage>
                 <ion-icon name="camera"></ion-icon>

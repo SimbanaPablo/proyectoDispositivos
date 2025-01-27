@@ -35,6 +35,11 @@ export class EditVehiclePage implements OnInit {
   // Cargar la lista de vehículos
   async loadVehicles() {
     this.vehicles = await this.vehicleService.getVehicles();
+    this.vehicles.forEach(vehicle => {
+      if (!vehicle.fotoUrl) {
+        vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -85,5 +90,11 @@ export class EditVehiclePage implements OnInit {
     this.isAlertOpen = false;
     this.presentToast('Se cancelo la edición del vehículo.');
     this.router.navigate(['/vehicles']);
+  }
+
+  // Método para manejar errores de carga de imágenes
+  onImageError(event: Event) {
+    const element = event.target as HTMLImageElement;
+    element.src = 'assets/img/logo.png'; // Ruta a una imagen por defecto
   }
 }

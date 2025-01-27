@@ -44,6 +44,11 @@ export class DeleteVehiclePage implements OnInit {
   // Cargar la lista de vehículos
   async loadVehicles() {
     this.vehicles = await this.vehicleService.getVehicles();
+    this.vehicles.forEach(vehicle => {
+      if (!vehicle.fotoUrl) {
+        vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
+      }
+    });
   }
 
   // Configuración del Toast (Mensajes a pantalla para móvil)
@@ -110,5 +115,11 @@ export class DeleteVehiclePage implements OnInit {
     this.isAlertOpen = false;
     this.presentToast('Se elimino correctamente el automovil.');
     this.confirmHideVehicle();
+  }
+  
+  // Método para manejar errores de carga de imágenes
+  onImageError(event: Event) {
+    const element = event.target as HTMLImageElement;
+    element.src = 'assets/img/logo.png'; // Ruta a una imagen por defecto
   }
 }

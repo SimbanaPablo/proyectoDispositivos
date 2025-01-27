@@ -8,6 +8,7 @@ import { Vehicle } from '../models/vehicle.model';
 import { Usuario } from '../models/usuario.model'; // Assuming you have a User model
 import { first } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,7 +26,7 @@ export class SqliteService {
       costo: 20000,
       activo: true,
       oculto: false,
-      fotoUrl: 'assets/img/toyota.png'
+      fotoUrl: 'assets/img/toyotablanco.jpg'
     },
     {
       placa: 'DEF456',
@@ -35,7 +36,7 @@ export class SqliteService {
       costo: 18000,
       activo: true,
       oculto: false,
-      fotoUrl: 'assets/img/honda.png'
+      fotoUrl: 'assets/img/hondanegro.jpg'
     },
     {
       placa: 'GHI789',
@@ -45,7 +46,7 @@ export class SqliteService {
       costo: 22000,
       activo: true,
       oculto: false,
-      fotoUrl: 'assets/img/ford.png'
+      fotoUrl: 'assets/img/fordazul.jpg'
     }
   ];
   private usuarios: Usuario[] = [
@@ -56,7 +57,7 @@ export class SqliteService {
       contrasenia: 'dfd8e2346c070722311ea41e2a44e29a44dfadb0250651bc8a7e895e3af90948',
       imagen: 'assets/img/p-1.png',
       correo: 'fatima@example.com'
-    }, 
+    },
     {
       usuario: 'leonardo',
       nombre: 'Leonardo',
@@ -85,29 +86,29 @@ export class SqliteService {
 
   constructor(
     private http: HttpClient
-  ) { 
+  ) {
     this.dbReady = new BehaviorSubject(false);
     this.isWeb = false;
     this.isIOS = false;
     this.dbName = '';
   }
 
-  async init(){
-    const info =  await Device.getInfo();
+  async init() {
+    const info = await Device.getInfo();
     const sqlite = CapacitorSQLite as any;
 
-    if(info.platform == 'android'){
-      try{
+    if (info.platform == 'android') {
+      try {
         await sqlite.requestPermissions();
-      }catch (error){
+      } catch (error) {
         console.error("Esta app necesita permisos para funcionar")
       }
 
-    }else if(info.platform == 'web'){
+    } else if (info.platform == 'web') {
       this.isWeb = true;
       await sqlite.initWebStore();
 
-    }else if(info.platform == 'ios'){
+    } else if (info.platform == 'ios') {
       this.isIOS = true;
     }
     await this.setupdatabase();
@@ -116,20 +117,20 @@ export class SqliteService {
     await this.printUsers();
   }
 
-  async setupdatabase(){
-    const dbSetup = await Preferences.get({key: 'first_setup_key'});      
-    if(!dbSetup.value){
+  async setupdatabase() {
+    const dbSetup = await Preferences.get({ key: 'first_setup_key' });
+    if (!dbSetup.value) {
       await this.downloadDatabase();
-    }else{
-      this.dbName =  await this.getDbName();  
+    } else {
+      this.dbName = await this.getDbName();
 
-      await CapacitorSQLite.createConnection({database: this.dbName});
-      await CapacitorSQLite.open({database: this.dbName});
-      console.log(`Database connection opened: ${this.dbName}`);
+      await CapacitorSQLite.createConnection({ database: this.dbName });
+      await CapacitorSQLite.open({ database: this.dbName });
+      console.log(`Database connection opened setupdatabase(): ${this.dbName}`);
       this.dbReady.next(true);
     }
   }
-  
+
   async downloadDatabase() {
     try {
       const jsonExport: JsonSQLite = await firstValueFrom(this.http.get<JsonSQLite>('assets/data/db.json'));
@@ -140,12 +141,12 @@ export class SqliteService {
         await CapacitorSQLite.importFromJson({ jsonstring });
         await CapacitorSQLite.createConnection({ database: this.dbName });
         await CapacitorSQLite.open({ database: this.dbName });
-        console.log(`Database connection opened: ${this.dbName}`);
+        console.log(`Database connection opened downloadDatabase(): ${this.dbName}`);
       }
-  
+
       await Preferences.set({ key: 'first_setup_key', value: '1' });
       await Preferences.set({ key: 'dbname', value: this.dbName });
-  
+
       this.dbReady.next(true);
       await this.insertInitialVehicles(); // Ensure vehicles are inserted after database setup
       await this.insertInitialUsers(); // Ensure users are inserted after database setup
@@ -154,17 +155,17 @@ export class SqliteService {
     }
   }
 
-  async getDbName(){
-    if(!this.dbName){
-      const dbname = await Preferences.get({ key: 'dbname' });  
-      if(dbname.value){
+  async getDbName() {
+    if (!this.dbName) {
+      const dbname = await Preferences.get({ key: 'dbname' });
+      if (dbname.value) {
         this.dbName = dbname.value;
       }
     }
     return this.dbName;
   }
 
-  async createVehicle(vehicle: Vehicle){
+  async createVehicle(vehicle: Vehicle) {
     await firstValueFrom(this.dbReady.pipe(first(isReady => isReady))); // Espera a que la base de datos esté lista
     let sql = 'INSERT INTO vehicles (placa, marca, fecFabricacion, color, costo, activo, oculto, fotoUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     const dbName = await this.getDbName();
@@ -185,10 +186,10 @@ export class SqliteService {
           ]
         }
       ]
-    }).then((changes: capSQLiteChanges) =>{
+    }).then((changes: capSQLiteChanges) => {
       console.log(`Vehicle ${vehicle.placa} inserted`);
-      if(this.isWeb){
-        CapacitorSQLite.saveToStore({database: dbName});
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
       }
       return changes;
     }).catch(err => {
@@ -197,7 +198,7 @@ export class SqliteService {
     });
   }
 
-  async readVehicle(){
+  async readVehicle() {
     await firstValueFrom(this.dbReady.pipe(first(isReady => isReady))); // Espera a que la base de datos esté lista
     let sql = 'SELECT * FROM vehicles';
     const dbName = await this.getDbName();
@@ -205,13 +206,13 @@ export class SqliteService {
       database: dbName,
       statement: sql,
       values: []
-    }).then((response: capSQLiteValues) =>{
+    }).then((response: capSQLiteValues) => {
       let vehicles: Vehicle[] = [];
-      if(this.isIOS && response.values.length > 0){
+      if (this.isIOS && response.values.length > 0) {
         response.values.shift();
       }
 
-      for(let index = 0; index < response.values.length; index++){
+      for (let index = 0; index < response.values.length; index++) {
         const vehicle = response.values[index];
         vehicles.push({
           placa: vehicle.placa,
@@ -232,16 +233,16 @@ export class SqliteService {
     });
   }
 
-  async updateVehicle(updatedVehicle: Vehicle){
+  async updateVehicle(updatedVehicle: Vehicle) {
     await firstValueFrom(this.dbReady.pipe(first(isReady => isReady))); // Espera a que la base de datos esté lista
     let sql = 'UPDATE vehicles SET marca = ?, fecFabricacion = ?, color = ?, costo = ?, activo = ?, oculto = ?, fotoUrl = ? WHERE placa = ?';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
       database: dbName,
-      set:[
+      set: [
         {
           statement: sql,
-          values:[
+          values: [
             updatedVehicle.marca,
             updatedVehicle.fecFabricacion,
             updatedVehicle.color,
@@ -252,11 +253,11 @@ export class SqliteService {
             updatedVehicle.placa
           ]
         }
-      ] 
-    }).then((changes: capSQLiteChanges) =>{
+      ]
+    }).then((changes: capSQLiteChanges) => {
       console.log(`Vehicle ${updatedVehicle.placa} updated`);
-      if(this.isWeb){
-        CapacitorSQLite.saveToStore({database: dbName});
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
       }
       return changes;
     }).catch(err => {
@@ -264,25 +265,25 @@ export class SqliteService {
       return Promise.reject(err);
     });
   }
- 
-  async deleteVehicle(placa: string){
+
+  async deleteVehicle(placa: string) {
     await firstValueFrom(this.dbReady.pipe(first(isReady => isReady))); // Espera a que la base de datos esté lista
     let sql = 'DELETE FROM vehicles WHERE placa = ?';
     const dbName = await this.getDbName();
     return CapacitorSQLite.executeSet({
       database: dbName,
-      set:[
+      set: [
         {
           statement: sql,
-          values:[
+          values: [
             placa
           ]
         }
-      ] 
-    }).then((changes: capSQLiteChanges) =>{
+      ]
+    }).then((changes: capSQLiteChanges) => {
       console.log(`Vehicle ${placa} deleted`);
-      if(this.isWeb){
-        CapacitorSQLite.saveToStore({database: dbName});
+      if (this.isWeb) {
+        CapacitorSQLite.saveToStore({ database: dbName });
       }
       return changes;
     }).catch(err => {
@@ -335,7 +336,7 @@ export class SqliteService {
   }
 
   async readUsers() {
-  await firstValueFrom(this.dbReady.pipe(first(isReady => isReady))); // Espera a que la base de datos esté lista
+    await firstValueFrom(this.dbReady.pipe(first(isReady => isReady))); // Espera a que la base de datos esté lista
     let sql = 'SELECT * FROM users';
     const dbName = await this.getDbName();
     return CapacitorSQLite.query({
@@ -347,7 +348,7 @@ export class SqliteService {
       if (this.isIOS && response.values.length > 0) {
         response.values.shift();
       }
-  
+
       for (let index = 0; index < response.values.length; index++) {
         const user = response.values[index];
         users.push(user);
@@ -504,5 +505,5 @@ export class SqliteService {
       console.error('Error ejecutando la consulta:', err);
       throw err;
     });
-  } 
+  }
 }
