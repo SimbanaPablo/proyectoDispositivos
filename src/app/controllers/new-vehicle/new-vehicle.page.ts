@@ -26,7 +26,7 @@ export class NewVehiclePage implements OnInit {
     costo: null, // Inicializa como null para que el placeholder se muestre
     activo: true,
     oculto: false,
-    fotoUrl:''
+    fotoUrl: ''
   };
   backButtonSubscription: Subscription | undefined;
 
@@ -71,39 +71,44 @@ export class NewVehiclePage implements OnInit {
     return image.webPath;
   }
 
-  // Método para agregar un vehículo
   async addVehicle() {
-  this.isFormSubmitted = true; // Marcar el formulario como enviado
-  this.vehicle.placa = this.vehicle.placa.toUpperCase(); // Convertir la placa a mayúsculas
-  const allVehicles = await this.vehicleService.getAllVehicles();
-  const existingVehicle = allVehicles.find(v => v.placa === this.vehicle.placa);
-
-  if (this.isFormValid()) {
-    if (existingVehicle) {
-      if (existingVehicle.oculto) {
-        // Actualizar todos los campos del vehículo existente
-        existingVehicle.marca = this.vehicle.marca;
-        existingVehicle.fecFabricacion = this.vehicle.fecFabricacion;
-        existingVehicle.color = this.vehicle.color;
-        existingVehicle.costo = this.vehicle.costo;
-        existingVehicle.activo = this.vehicle.activo;
-        existingVehicle.oculto = false;
-        existingVehicle.fotoUrl = this.vehicle.fotoUrl; // Actualizar la foto
-        await this.vehicleService.updateVehicle(existingVehicle);
-        await this.presentToast('Vehículo reactivado con éxito');
+    this.isFormSubmitted = true; // Marcar el formulario como enviado
+    this.vehicle.placa = this.vehicle.placa.toUpperCase(); // Convertir la placa a mayúsculas
+    const allVehicles = await this.vehicleService.getAllVehicles();
+    const existingVehicle = allVehicles.find(v => v.placa === this.vehicle.placa);
+  
+    if (this.isFormValid()) {
+      if (existingVehicle) {
+        if (existingVehicle.oculto) {
+          // Actualizar todos los campos del vehículo existente
+          existingVehicle.marca = this.vehicle.marca;
+          existingVehicle.fecFabricacion = this.vehicle.fecFabricacion;
+          existingVehicle.color = this.vehicle.color;
+          existingVehicle.costo = this.vehicle.costo;
+          existingVehicle.activo = this.vehicle.activo;
+          existingVehicle.oculto = false;
+          existingVehicle.fotoUrl = this.vehicle.fotoUrl; // Actualizar la foto
+          await this.vehicleService.updateVehicle(existingVehicle);
+          await this.presentToast('Vehículo reactivado con éxito');
+          this.resetForm();
+          this.router.navigate(['/vehicles']);
+        } else {
+          await this.presentToast('La placa ya existe. Ingrese una placa diferente.');
+        }
+      } else {
+        await this.vehicleService.addVehicle(this.vehicle);
+        await this.presentToast('Vehículo añadido con éxito');
         this.resetForm();
         this.router.navigate(['/vehicles']);
-      } else {
-        await this.presentToast('La placa ya existe. Ingrese una placa diferente.');
       }
     } else {
-      await this.vehicleService.addVehicle(this.vehicle);
-      await this.presentToast('Vehículo añadido con éxito');
-      this.resetForm();
-      this.router.navigate(['/vehicles']);
+      if (this.vehicle.fotoUrl === '') {
+        await this.presentToast('Debe ingresar una foto para registrar el vehículo.');
+      } else {
+        await this.presentToast('Por favor, complete todos los campos requeridos.');
+      }
     }
   }
-}
 
   isFormValid() {
     return this.vehicle.placa !== '' &&
@@ -113,7 +118,7 @@ export class NewVehiclePage implements OnInit {
       this.vehicle.fecFabricacion !== '' &&
       this.vehicle.color !== '' &&
       this.vehicle.costo !== null && this.vehicle.costo > 0 &&
-      this.vehicle.fotoUrl !== '';
+      this.vehicle.fotoUrl?.trim() !== '';
   }
 
   /// Validacion placa formato 3 letras - 4 numeros
@@ -185,7 +190,7 @@ export class NewVehiclePage implements OnInit {
       costo: null, // Inicializa como null para que el placeholder se muestre
       activo: true,
       oculto: false,
-      fotoUrl:''
+      fotoUrl: ''
     };
     this.isFormSubmitted = false; // Reiniciar el estado del formulario
   }
@@ -217,5 +222,5 @@ export class NewVehiclePage implements OnInit {
     this.router.navigate(['/vehicles']);
   }
 
-  
+
 }

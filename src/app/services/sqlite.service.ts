@@ -19,7 +19,7 @@ export class SqliteService {
   public dbName: string;
   private vehicles: Vehicle[] = [
     {
-      placa: 'ABC123',
+      placa: 'ABC-1237',
       marca: 'Toyota',
       fecFabricacion: '2020-01-01',
       color: 'blanco',
@@ -29,7 +29,7 @@ export class SqliteService {
       fotoUrl: 'assets/img/toyotablanco.jpg'
     },
     {
-      placa: 'DEF456',
+      placa: 'DEF-4568',
       marca: 'Honda',
       fecFabricacion: '2019-05-15',
       color: 'negro',
@@ -39,7 +39,7 @@ export class SqliteService {
       fotoUrl: 'assets/img/hondanegro.jpg'
     },
     {
-      placa: 'GHI789',
+      placa: 'GHI-7890',
       marca: 'Ford',
       fecFabricacion: '2018-08-20',
       color: 'azul',

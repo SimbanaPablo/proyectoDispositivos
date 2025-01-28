@@ -75,6 +75,10 @@ export class UpdateVehiculoPage implements OnInit {
   async updateVehicle() {
     this.isFormSubmitted = true;
     if (this.vehicle && this.isFormValid() && this.hasVehicleChanged()) {
+      if (this.vehicle.fotoUrl === '') {
+        await this.presentToast('Debe ingresar o tomar una foto para actualizar el vehículo.');
+        return;
+      }
       await this.vehicleService.updateVehicle(this.vehicle);
       console.log('Foto del vehículo actualizada con la URL:', this.vehicle.fotoUrl);
       await this.presentToast('Vehículo actualizado con éxito');
