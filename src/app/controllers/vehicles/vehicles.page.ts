@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { VehicleService } from '../../services/vehicle.service';
+import { ApiService } from '../../services/api.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
@@ -19,7 +19,7 @@ export class VehiclesPage implements OnInit {
   isAlertOpen = false;
 
   constructor(
-    private vehicleService: VehicleService,
+    private apiService: ApiService,
     private usuarioService: UsuarioService,
     private router: Router,
     private platform: Platform,
@@ -54,20 +54,30 @@ export class VehiclesPage implements OnInit {
 
   // Cargar la lista de vehículos
   async loadVehicles() {
-    this.vehicles = await this.vehicleService.getVehicles();
-    // Si algún vehículo no tiene fotoUrl, asigna una predeterminada
-    this.vehicles.forEach(vehicle => {
-      if (!vehicle.fotoUrl) {
-        vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
-      }
-    });
+    try {
+      this.vehicles = await this.apiService.getVehicles();
+      // Si algún vehículo no tiene fotoUrl, asigna una predeterminada
+      this.vehicles.forEach(vehicle => {
+        if (!vehicle.fotoUrl) {
+          vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
+        }
+      });
+    } catch (error) {
+      console.error('Error al cargar vehículos:', error);
+      await this.presentToast('Error al cargar vehículos. Por favor, intente nuevamente.');
+    }
   }
 
   // Visualizar la información del usuario
   async loadUserData() {
-    const usuarioAutenticado = this.usuarioService.obtenerUsuarioAutenticado();
-    if (usuarioAutenticado) {
-      this.user = { nombre: usuarioAutenticado.nombre, apellido: usuarioAutenticado.apellido, imagen: usuarioAutenticado.imagen };
+    try {
+      const usuarioAutenticado = await this.usuarioService.obtenerUsuarioAutenticado();
+      if (usuarioAutenticado) {
+        this.user = { nombre: usuarioAutenticado.nombre, apellido: usuarioAutenticado.apellido, imagen: usuarioAutenticado.imagen };
+      }
+    } catch (error) {
+      console.error('Error al cargar datos del usuario:', error);
+      await this.presentToast('Error al cargar datos del usuario. Por favor, intente nuevamente.');
     }
   }
 

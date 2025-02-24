@@ -5,6 +5,7 @@ import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Subscription } from 'rxjs';
+import { ApiService } from '../../services/api.service'
 
 @Component({
   selector: 'app-new-vehicle',
@@ -31,7 +32,7 @@ export class NewVehiclePage implements OnInit {
   backButtonSubscription: Subscription | undefined;
 
   constructor(
-    private vehicleService: VehicleService,
+    private apiService: ApiService,
     private router: Router,
     private toastController: ToastController,
     private platform: Platform
@@ -74,7 +75,7 @@ export class NewVehiclePage implements OnInit {
   async addVehicle() {
     this.isFormSubmitted = true; // Marcar el formulario como enviado
     this.vehicle.placa = this.vehicle.placa.toUpperCase(); // Convertir la placa a mayúsculas
-    const allVehicles = await this.vehicleService.getAllVehicles();
+    const allVehicles = await this.apiService.getVehicles();
     const existingVehicle = allVehicles.find(v => v.placa === this.vehicle.placa);
   
     if (this.isFormValid()) {
@@ -88,18 +89,32 @@ export class NewVehiclePage implements OnInit {
           existingVehicle.activo = this.vehicle.activo;
           existingVehicle.oculto = false;
           existingVehicle.fotoUrl = this.vehicle.fotoUrl; // Actualizar la foto
-          await this.vehicleService.updateVehicle(existingVehicle);
-          await this.presentToast('Vehículo reactivado con éxito');
-          this.resetForm();
-          this.router.navigate(['/vehicles']);
+          try {
+            console.log('Enviando solicitud para actualizar vehículo:', existingVehicle);
+            await this.apiService.updateVehicle(existingVehicle);
+            console.log('Vehículo actualizado con éxito:', existingVehicle);
+            await this.presentToast('Vehículo reactivado con éxito');
+            this.resetForm();
+            this.router.navigate(['/vehicles']);
+          } catch (error) {
+            console.error('Error al actualizar vehículo:', error);
+            await this.presentToast('Error al actualizar el vehículo. Por favor, intente nuevamente.');
+          }
         } else {
           await this.presentToast('La placa ya existe. Ingrese una placa diferente.');
         }
       } else {
-        await this.vehicleService.addVehicle(this.vehicle);
-        await this.presentToast('Vehículo añadido con éxito');
-        this.resetForm();
-        this.router.navigate(['/vehicles']);
+        try {
+          console.log('Enviando solicitud para añadir vehículo:', this.vehicle);
+          await this.apiService.createVehicle(this.vehicle);
+          console.log('Vehículo añadido con éxito:', this.vehicle);
+          await this.presentToast('Vehículo añadido con éxito');
+          this.resetForm();
+          this.router.navigate(['/vehicles']);
+        } catch (error) {
+          console.error('Error al añadir vehículo:', error);
+          await this.presentToast('Error al añadir el vehículo. Por favor, intente nuevamente.');
+        }
       }
     } else {
       if (this.vehicle.fotoUrl === '') {

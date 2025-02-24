@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../../services/usuario.service';
+import { ApiService } from '../../services/api.service';
 import { Usuario } from '../../models/usuario.model';
 import { Platform, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -26,7 +26,7 @@ export class RegisterPage {
 
   constructor(
     private router: Router,
-    private usuarioService: UsuarioService,
+    private apiService: ApiService,
     private toastController: ToastController,
     private platform: Platform
   ) { }
@@ -88,7 +88,7 @@ export class RegisterPage {
       errores.push('El usuario no debe tener espacios.');
     }
 
-    if (await this.usuarioService.usuarioYaExiste(usuario)) {
+    if (await this.apiService.getUserByUsuario(usuario).toPromise()) {
       errores.push('El nombre de usuario ya existe. Por favor, elige otro nombre.');
     }
 
@@ -165,13 +165,16 @@ export class RegisterPage {
 
   async register() {
     console.log('Intentando registrar usuario...');
+    const online = await this.apiService.isOnline();
+    console.log('Estado de la conexión a internet:', online);
+  
     this.validateForm();
     if (!this.nombreCompletoError && !this.usuarioError && !this.correoError && !this.contrasenaError && this.nombreCompleto && this.usuario && this.correo && this.contrasena) {
       const [nombre, apellido] = this.nombreCompleto.split(' ');
-      const hashContrasenia = this.usuarioService.hashContrasenia(this.contrasena);
+      const hashContrasenia = this.apiService.hashContrasenia(this.contrasena);
       const imagenes = ['assets/img/p-1.png', 'assets/img/p-2.png', 'assets/img/p-3.png', 'assets/img/p-4.png'];
       const imagen = imagenes[Math.floor(Math.random() * imagenes.length)];
-
+  
       const nuevoUsuario: Usuario = {
         usuario: this.usuario,
         nombre: nombre,
@@ -180,13 +183,19 @@ export class RegisterPage {
         imagen: imagen,
         correo: this.correo
       };
-
-      await this.usuarioService.agregarUsuario(nuevoUsuario);
-
-      this.router.navigate(['/login'], { state: { message: 'Registro exitoso' } });
-      this.presentToast('Registro exitoso, bienvendio a la aplicación.');
-      this.mensajeExito = 'Registro exitoso, bienvendio a la aplicación.';
-      console.log('Usuario registrado con éxito:', nuevoUsuario);
+  
+      try {
+        console.log('Enviando solicitud para crear usuario:', nuevoUsuario);
+        await this.apiService.createUser(nuevoUsuario).toPromise();
+        console.log('Usuario registrado con éxito:', nuevoUsuario);
+  
+        this.router.navigate(['/login'], { state: { message: 'Registro exitoso' } });
+        this.presentToast('Registro exitoso, bienvenido a la aplicación.');
+        this.mensajeExito = 'Registro exitoso, bienvenido a la aplicación.';
+      } catch (error) {
+        console.error('Error al registrar usuario:', error);
+        this.presentToast('Error en el registro. Por favor, verifica los datos ingresados.');
+      }
     } else {
       this.presentToast('Error en el registro. Por favor, verifica los datos ingresados.');
     }

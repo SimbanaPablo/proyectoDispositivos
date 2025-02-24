@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { VehicleService } from '../../services/vehicle.service';
+import { ApiService } from '../../services/api.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ export class DeleteVehiclePage implements OnInit {
   backButtonSubscription: Subscription | undefined;
 
   constructor(
-    private vehicleService: VehicleService,
+    private apiService: ApiService,
     private router: Router,
     private platform: Platform,
     private toastController: ToastController
@@ -43,12 +43,17 @@ export class DeleteVehiclePage implements OnInit {
 
   // Cargar la lista de vehículos
   async loadVehicles() {
-    this.vehicles = await this.vehicleService.getVehicles();
-    this.vehicles.forEach(vehicle => {
-      if (!vehicle.fotoUrl) {
-        vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
-      }
-    });
+    try {
+      this.vehicles = await this.apiService.getVehicles();
+      this.vehicles.forEach(vehicle => {
+        if (!vehicle.fotoUrl) {
+          vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
+        }
+      });
+    } catch (error) {
+      console.error('Error al cargar vehículos:', error);
+      await this.presentToast('Error al cargar vehículos. Por favor, intente nuevamente.');
+    }
   }
 
   // Configuración del Toast (Mensajes a pantalla para móvil)
@@ -90,9 +95,14 @@ export class DeleteVehiclePage implements OnInit {
 
   // Ocultar un vehículo
   async hideVehicle(placa: string) {
-    await this.vehicleService.deleteVehicle(placa);
-    await this.loadVehicles(); // Actualiza la lista de vehículos
-    this.presentToast('Vehículo eliminado con éxito');
+    try {
+      await this.apiService.deleteVehicle(placa);
+      await this.loadVehicles(); // Actualiza la lista de vehículos
+      this.presentToast('Vehículo eliminado con éxito');
+    } catch (error) {
+      console.error('Error al eliminar vehículo:', error);
+      await this.presentToast('Error al eliminar el vehículo. Por favor, intente nuevamente.');
+    }
   }
 
   // Mostrar alerta de confirmación back

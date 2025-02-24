@@ -5,7 +5,7 @@ import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
+import { ApiService } from '../../services/api.service';
 @Component({
   selector: 'app-update-vehiculo',
   templateUrl: '../../views/update-vehiculo/update-vehiculo.page.html',
@@ -24,7 +24,7 @@ export class UpdateVehiculoPage implements OnInit {
   backButtonSubscription: Subscription | undefined;
 
   constructor(
-    private vehicleService: VehicleService,
+    private apiService: ApiService,
     private router: Router,
     private route: ActivatedRoute,
     private platform: Platform,
@@ -79,11 +79,16 @@ export class UpdateVehiculoPage implements OnInit {
         await this.presentToast('Debe ingresar o tomar una foto para actualizar el vehículo.');
         return;
       }
-      await this.vehicleService.updateVehicle(this.vehicle);
-      console.log('Foto del vehículo actualizada con la URL:', this.vehicle.fotoUrl);
-      await this.presentToast('Vehículo actualizado con éxito');
-      this.isFormSubmitted = false;
-      this.router.navigate(['/edit-vehicle']);
+      try {
+        await this.apiService.updateVehicle(this.vehicle);
+        console.log('Foto del vehículo actualizada con la URL:', this.vehicle.fotoUrl);
+        await this.presentToast('Vehículo actualizado con éxito');
+        this.isFormSubmitted = false;
+        this.router.navigate(['/edit-vehicle']);
+      } catch (error) {
+        console.error('Error al actualizar vehículo:', error);
+        await this.presentToast('Error al actualizar el vehículo. Por favor, intente nuevamente.');
+      }
     } else {
       await this.presentToast('No se realizaron cambios en el vehículo');
     }

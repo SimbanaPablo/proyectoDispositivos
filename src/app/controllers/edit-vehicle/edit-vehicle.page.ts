@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { VehicleService } from '../../services/vehicle.service';
+import { ApiService } from '../../services/api.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ export class EditVehiclePage implements OnInit {
   backButtonSubscription: Subscription | undefined;
 
   constructor(
-    private vehicleService: VehicleService,
+    private apiService: ApiService,
     private router: Router,
     private platform: Platform,
     private toastController: ToastController
@@ -34,12 +34,17 @@ export class EditVehiclePage implements OnInit {
 
   // Cargar la lista de vehículos
   async loadVehicles() {
-    this.vehicles = await this.vehicleService.getVehicles();
-    this.vehicles.forEach(vehicle => {
-      if (!vehicle.fotoUrl) {
-        vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
-      }
-    });
+    try {
+      this.vehicles = await this.apiService.getVehicles();
+      this.vehicles.forEach(vehicle => {
+        if (!vehicle.fotoUrl) {
+          vehicle.fotoUrl = 'assets/img/logo.png'; // Imagen predeterminada
+        }
+      });
+    } catch (error) {
+      console.error('Error al cargar vehículos:', error);
+      await this.presentToast('Error al cargar vehículos. Por favor, intente nuevamente.');
+    }
   }
 
   ngOnDestroy() {
