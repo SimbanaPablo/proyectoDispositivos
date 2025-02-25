@@ -5,6 +5,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Vehicle } from '../../models/vehicle.model';
 import { Platform, ToastController } from '@ionic/angular';
 import { App } from '@capacitor/app';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-vehicles',
@@ -71,7 +72,7 @@ export class VehiclesPage implements OnInit {
   // Visualizar la información del usuario
   async loadUserData() {
     try {
-      const usuarioAutenticado = await this.usuarioService.obtenerUsuarioAutenticado();
+      const usuarioAutenticado = await lastValueFrom(this.apiService.getUserByCredentials(this.user?.nombre, this.user?.apellido));
       if (usuarioAutenticado) {
         this.user = { nombre: usuarioAutenticado.nombre, apellido: usuarioAutenticado.apellido, imagen: usuarioAutenticado.imagen };
       }

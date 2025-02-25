@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UsuarioService } from '../../services/usuario.service';
+import { ApiService } from '../../services/api.service';
 import { Platform, ToastController } from '@ionic/angular';
 import { App } from '@capacitor/app';
-// Este es nuestro controlador de la vista login
+import { lastValueFrom } from 'rxjs';
+
 @Component({
   selector: 'app-login',
   templateUrl: '../../views/login/login.page.html', // Actualiza la ruta según la nueva ubicación
@@ -21,7 +22,7 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router,
-    private usuarioService: UsuarioService,
+    private apiService: ApiService,
     private platform: Platform,
     private toastController: ToastController
   ) {
@@ -62,14 +63,18 @@ export class LoginPage implements OnInit {
   async login() {
     this.validateForm();
     if (!this.usuarioError && !this.contrasenaError && this.usuario && this.contrasena) {
-      const hashContrasenia = this.usuarioService.hashContrasenia(this.contrasena);
+      const hashContrasenia = this.apiService.hashContrasenia(this.contrasena);
       console.log('Hashed Contraseña:', hashContrasenia);
 
-      const isValid = await this.usuarioService.verificarUsuario(this.usuario, this.contrasena);
-      if (isValid) {
-        console.log('Hash verificado correctamente');
-        this.router.navigate(['/vehicles']);
-      } else {
+      try {
+        const usuarioAutenticado = await lastValueFrom(this.apiService.getUserByCredentials(this.usuario, this.contrasena));
+        if (usuarioAutenticado) {
+          console.log('Hash verificado correctamente');
+          this.router.navigate(['/vehicles']);
+        } else {
+          alert('Las credenciales son incorrectas');
+        }
+      } catch (error) {
         alert('Las credenciales son incorrectas');
       }
     } else {
