@@ -5,7 +5,6 @@ const config: CapacitorConfig = {
   appId: 'com.example.app',
   appName: 'MyApp',
   webDir: 'www',
-  bundledWebRuntime: false,
   plugins: {
     SplashScreen: {
       launchShowDuration: 0,
@@ -18,6 +17,9 @@ const config: CapacitorConfig = {
       spinnerColor: "#999999",
       splashFullScreen: true,
       splashImmersive: true
+    },
+    server: {
+      cleartext: true
     }
   }
 };

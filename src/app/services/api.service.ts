@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, from } from 'rxjs';
+import { Observable, from, lastValueFrom } from 'rxjs';
 import { catchError, switchMap, map } from 'rxjs/operators';
 import { Vehicle } from '../models/vehicle.model';
 import { Usuario } from '../models/usuario.model';
@@ -13,7 +13,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class ApiService {
  
-  private apiUrl = 'http://54.236.195.149:8081/api/v1.1'; // Replace with your EC2 instance URL
+  private apiUrl = 'http://54.236.195.149:8081/api/v1.1'; 
 
   constructor(private http: HttpClient, private sqliteService: SqliteService) {}
 
@@ -21,65 +21,66 @@ export class ApiService {
     const status = await Network.getStatus();
     return status.connected;
   }
+
   hashContrasenia(contrasenia: string): string {
     return CryptoJS.SHA256(contrasenia).toString(CryptoJS.enc.Hex);
   }
 
   // Vehicles API
-  getVehicles(): Promise<Vehicle[]> {
-    return from(this.isOnline()).pipe(
-      switchMap(online => {
-        if (online) {
-          return this.http.get<Vehicle[]>(`${this.apiUrl}/vehiculo/todos`).pipe(
-            catchError(() => from(this.sqliteService.readVehicle()))
-          );
-        } else {
-          return from(this.sqliteService.readVehicle());
-        }
-      })
-    ).toPromise();
+  async getVehicles(): Promise<Vehicle[]> {
+    const online = await this.isOnline();
+    if (online) {
+      try {
+        return await lastValueFrom(this.http.get<Vehicle[]>(`${this.apiUrl}/vehiculo/todos`));
+      } catch (error) {
+        return await this.sqliteService.readVehicle();
+      }
+    } else {
+      return await this.sqliteService.readVehicle();
+    }
   }
 
-  createVehicle(vehicle: Vehicle): Promise<Vehicle> {
-    return from(this.isOnline()).pipe(
-      switchMap(online => {
-        if (online) {
-          return this.http.post<Vehicle>(`${this.apiUrl}/vehiculo`, vehicle).pipe(
-            catchError(() => from(this.sqliteService.createVehicle(vehicle)).pipe(map(() => vehicle)))
-          );
-        } else {
-          return from(this.sqliteService.createVehicle(vehicle)).pipe(map(() => vehicle));
-        }
-      })
-    ).toPromise();
+  async createVehicle(vehicle: Vehicle): Promise<Vehicle> {
+    const online = await this.isOnline();
+    if (online) {
+      try {
+        return await lastValueFrom(this.http.post<Vehicle>(`${this.apiUrl}/vehiculo`, vehicle));
+      } catch (error) {
+        await this.sqliteService.createVehicle(vehicle);
+        return vehicle;
+      }
+    } else {
+      await this.sqliteService.createVehicle(vehicle);
+      return vehicle;
+    }
   }
 
-  updateVehicle(vehicle: Vehicle): Promise<Vehicle> {
-    return from(this.isOnline()).pipe(
-      switchMap(online => {
-        if (online) {
-          return this.http.put<Vehicle>(`${this.apiUrl}/vehiculo/${vehicle.placa}`, vehicle).pipe(
-            catchError(() => from(this.sqliteService.updateVehicle(vehicle)).pipe(map(() => vehicle)))
-          );
-        } else {
-          return from(this.sqliteService.updateVehicle(vehicle)).pipe(map(() => vehicle));
-        }
-      })
-    ).toPromise();
+  async updateVehicle(vehicle: Vehicle): Promise<Vehicle> {
+    const online = await this.isOnline();
+    if (online) {
+      try {
+        return await lastValueFrom(this.http.put<Vehicle>(`${this.apiUrl}/vehiculo/${vehicle.placa}`, vehicle));
+      } catch (error) {
+        await this.sqliteService.updateVehicle(vehicle);
+        return vehicle;
+      }
+    } else {
+      await this.sqliteService.updateVehicle(vehicle);
+      return vehicle;
+    }
   }
 
-  deleteVehicle(placa: string): Observable<void> {
-    return from(this.isOnline()).pipe(
-      switchMap(online => {
-        if (online) {
-          return this.http.delete<void>(`${this.apiUrl}/vehiculo/${placa}`).pipe(
-            catchError(() => from(this.sqliteService.deleteVehicle(placa)).pipe(map(() => {})))
-          );
-        } else {
-          return from(this.sqliteService.deleteVehicle(placa)).pipe(map(() => {}));
-        }
-      })
-    );
+  async deleteVehicle(placa: string): Promise<void> {
+    const online = await this.isOnline();
+    if (online) {
+      try {
+        await lastValueFrom(this.http.delete<void>(`${this.apiUrl}/vehiculo/${placa}`));
+      } catch (error) {
+        await this.sqliteService.deleteVehicle(placa);
+      }
+    } else {
+      await this.sqliteService.deleteVehicle(placa);
+    }
   }
 
   // Users API
@@ -166,5 +167,4 @@ export class ApiService {
       })
     );
   }
-  
 }
