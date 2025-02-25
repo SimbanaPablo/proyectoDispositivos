@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { SqliteService } from '../../services/sqlite.service';	
+import { UsuarioService } from '../../services/usuario.service';
 import { Platform, ToastController } from '@ionic/angular';
 import { App } from '@capacitor/app';
 import { lastValueFrom } from 'rxjs';
@@ -23,6 +25,8 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private apiService: ApiService,
+    private sqliteService: SqliteService,
+    private usuarioService: UsuarioService,
     private platform: Platform,
     private toastController: ToastController
   ) {
@@ -63,25 +67,20 @@ export class LoginPage implements OnInit {
   async login() {
     this.validateForm();
     if (!this.usuarioError && !this.contrasenaError && this.usuario && this.contrasena) {
-      const hashContrasenia = this.apiService.hashContrasenia(this.contrasena);
+      const hashContrasenia = this.usuarioService.hashContrasenia(this.contrasena);
       console.log('Hashed Contraseña:', hashContrasenia);
 
-      try {
-        const usuarioAutenticado = await lastValueFrom(this.apiService.getUserByCredentials(this.usuario, this.contrasena));
-        if (usuarioAutenticado) {
-          console.log('Hash verificado correctamente');
-          this.router.navigate(['/vehicles']);
-        } else {
-          alert('Las credenciales son incorrectas');
-        }
-      } catch (error) {
+      const isValid = await this.usuarioService.verificarUsuario(this.usuario, this.contrasena);
+      if (isValid) {
+        console.log('Hash verificado correctamente');
+        this.router.navigate(['/vehicles']);
+      } else {
         alert('Las credenciales son incorrectas');
       }
     } else {
       this.validateForm();
     }
   }
-
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword; // Alternar la visibilidad de la contraseña
   }

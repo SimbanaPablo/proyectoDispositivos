@@ -141,13 +141,20 @@ export class ApiService {
   }
 
   getUserByCredentials(usuario: string, contrasenia: string): Observable<Usuario> {
+    console.log('getUserByCredentials called with:', { usuario, contrasenia });
+  
     return from(this.isOnline()).pipe(
       switchMap(online => {
         if (online) {
+          console.log('Online, sending request to API');
           return this.http.post<Usuario>(`${this.apiUrl}/usuario/login`, { usuario, contrasenia }).pipe(
-            catchError(() => from(this.sqliteService.readUserByCredentials(usuario, contrasenia)))
+            catchError(error => {
+              console.error('Error from API:', error);
+              return from(this.sqliteService.readUserByCredentials(usuario, contrasenia));
+            })
           );
         } else {
+          console.log('Offline, reading from SQLite');
           return from(this.sqliteService.readUserByCredentials(usuario, contrasenia));
         }
       })
